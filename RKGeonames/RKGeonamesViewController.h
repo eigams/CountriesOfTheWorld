@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  RKGeonamesViewController.h
 //  RKGeonames
 //
 //  Created by Stefan Burettea on 21/06/2013.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface RKGeonamesViewController : UITableViewController
 
 @end

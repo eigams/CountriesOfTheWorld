@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
+		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
+		0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */; };
 		0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10917744BB800A48BA0 /* UIKit.framework */; };
 		0C4FA10C17744BB800A48BA0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10B17744BB800A48BA0 /* Foundation.framework */; };
 		0C4FA10E17744BB800A48BA0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */; };
@@ -17,10 +20,27 @@
 		0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA11D17744BB800A48BA0 /* Default@2x.png */; };
 		0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA11F17744BB800A48BA0 /* Default-568h@2x.png */; };
 		0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA12117744BB800A48BA0 /* MainStoryboard.storyboard */; };
-		0C4FA12617744BB800A48BA0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FA12517744BB800A48BA0 /* ViewController.m */; };
+		0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */; };
+		0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */; };
+		0C68AF051775C8FE00A14896 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
+		0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */; };
+		0C69CE2C177C854A00951ADA /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C69CE29177C854A00951ADA /* world-map.png */; };
+		0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */; };
+		0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91B1780335B00A148CB /* RKGDemographicsViewController.m */; };
+		0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */; };
+		0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC921178034A100A148CB /* RKGDetailsViewController.m */; };
+		0CCEC9251780883B00A148CB /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
+		0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC92817808DBD00A148CB /* MappingProvider.m */; };
+		90AE252716E1430C800FD248 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991168A7008649DBB2AF1B8B /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldBankIndicator.h; sourceTree = "<group>"; };
+		0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldBankIndicator.m; sourceTree = "<group>"; };
+		0C376B0917817AA100412F5F /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		0C376B0A17817AA100412F5F /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		0C37DB3E177D79A100F184BE /* RKCountryDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCountryDetailsViewController.h; sourceTree = "<group>"; };
+		0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCountryDetailsViewController.m; sourceTree = "<group>"; };
 		0C4FA10617744BB800A48BA0 /* RKGeonames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKGeonames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C4FA10917744BB800A48BA0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0C4FA10B17744BB800A48BA0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -35,8 +55,29 @@
 		0C4FA11D17744BB800A48BA0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0C4FA11F17744BB800A48BA0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		0C4FA12217744BB800A48BA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		0C4FA12417744BB800A48BA0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		0C4FA12517744BB800A48BA0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0C4FA12C17744D7C00A48BA0 /* RKGeonamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesViewController.h; sourceTree = "<group>"; };
+		0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesViewController.m; sourceTree = "<group>"; };
+		0C68AF001775C84B00A14896 /* RKGeonamesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesTableViewCell.h; sourceTree = "<group>"; };
+		0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesTableViewCell.m; sourceTree = "<group>"; };
+		0C68AF031775C8FE00A14896 /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
+		0C68AF041775C8FE00A14896 /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
+		0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGSplashScreenViewController.h; sourceTree = "<group>"; };
+		0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGSplashScreenViewController.m; sourceTree = "<group>"; };
+		0C69CE29177C854A00951ADA /* world-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "world-map.png"; path = "RKGeonames/world-map.png"; sourceTree = "<group>"; };
+		0CCEC9171780334800A148CB /* RKGAdministrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGAdministrationViewController.h; sourceTree = "<group>"; };
+		0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGAdministrationViewController.m; sourceTree = "<group>"; };
+		0CCEC91A1780335B00A148CB /* RKGDemographicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGDemographicsViewController.h; sourceTree = "<group>"; };
+		0CCEC91B1780335B00A148CB /* RKGDemographicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGDemographicsViewController.m; sourceTree = "<group>"; };
+		0CCEC91D1780336E00A148CB /* RKGEconomicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGEconomicsViewController.h; sourceTree = "<group>"; };
+		0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGEconomicsViewController.m; sourceTree = "<group>"; };
+		0CCEC920178034A100A148CB /* RKGDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGDetailsViewController.h; sourceTree = "<group>"; };
+		0CCEC921178034A100A148CB /* RKGDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGDetailsViewController.m; sourceTree = "<group>"; };
+		0CCEC9231780883B00A148CB /* Timezone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timezone.h; sourceTree = "<group>"; };
+		0CCEC9241780883B00A148CB /* Timezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timezone.m; sourceTree = "<group>"; };
+		0CCEC92717808DBD00A148CB /* MappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MappingProvider.h; path = RKGeonames/MappingProvider.h; sourceTree = "<group>"; };
+		0CCEC92817808DBD00A148CB /* MappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MappingProvider.m; path = RKGeonames/MappingProvider.m; sourceTree = "<group>"; };
+		991168A7008649DBB2AF1B8B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B487009349BE4E35B272E03C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +88,7 @@
 				0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */,
 				0C4FA10C17744BB800A48BA0 /* Foundation.framework in Frameworks */,
 				0C4FA10E17744BB800A48BA0 /* CoreGraphics.framework in Frameworks */,
+				90AE252716E1430C800FD248 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,9 +98,13 @@
 		0C4FA0FD17744BB800A48BA0 = {
 			isa = PBXGroup;
 			children = (
+				0CCEC92717808DBD00A148CB /* MappingProvider.h */,
+				0CCEC92817808DBD00A148CB /* MappingProvider.m */,
+				0C69CE29177C854A00951ADA /* world-map.png */,
 				0C4FA10F17744BB800A48BA0 /* RKGeonames */,
 				0C4FA10817744BB800A48BA0 /* Frameworks */,
 				0C4FA10717744BB800A48BA0 /* Products */,
+				B487009349BE4E35B272E03C /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +122,7 @@
 				0C4FA10917744BB800A48BA0 /* UIKit.framework */,
 				0C4FA10B17744BB800A48BA0 /* Foundation.framework */,
 				0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */,
+				991168A7008649DBB2AF1B8B /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -83,12 +130,21 @@
 		0C4FA10F17744BB800A48BA0 /* RKGeonames */ = {
 			isa = PBXGroup;
 			children = (
+				0CCEC9261780890A00A148CB /* ViewControllers */,
 				0C4FA11817744BB800A48BA0 /* AppDelegate.h */,
 				0C4FA11917744BB800A48BA0 /* AppDelegate.m */,
 				0C4FA12117744BB800A48BA0 /* MainStoryboard.storyboard */,
-				0C4FA12417744BB800A48BA0 /* ViewController.h */,
-				0C4FA12517744BB800A48BA0 /* ViewController.m */,
 				0C4FA11017744BB800A48BA0 /* Supporting Files */,
+				0C68AF001775C84B00A14896 /* RKGeonamesTableViewCell.h */,
+				0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */,
+				0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */,
+				0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */,
+				0C376B0917817AA100412F5F /* City.h */,
+				0C376B0A17817AA100412F5F /* City.m */,
+				0CCEC9231780883B00A148CB /* Timezone.h */,
+				0CCEC9241780883B00A148CB /* Timezone.m */,
+				0C68AF031775C8FE00A14896 /* Country.h */,
+				0C68AF041775C8FE00A14896 /* Country.m */,
 			);
 			path = RKGeonames;
 			sourceTree = "<group>";
@@ -107,6 +163,27 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0CCEC9261780890A00A148CB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0C4FA12C17744D7C00A48BA0 /* RKGeonamesViewController.h */,
+				0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */,
+				0CCEC920178034A100A148CB /* RKGDetailsViewController.h */,
+				0CCEC921178034A100A148CB /* RKGDetailsViewController.m */,
+				0CCEC91D1780336E00A148CB /* RKGEconomicsViewController.h */,
+				0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */,
+				0CCEC91A1780335B00A148CB /* RKGDemographicsViewController.h */,
+				0CCEC91B1780335B00A148CB /* RKGDemographicsViewController.m */,
+				0CCEC9171780334800A148CB /* RKGAdministrationViewController.h */,
+				0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */,
+				0C37DB3E177D79A100F184BE /* RKCountryDetailsViewController.h */,
+				0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */,
+				0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */,
+				0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -114,9 +191,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C4FA12917744BB800A48BA0 /* Build configuration list for PBXNativeTarget "RKGeonames" */;
 			buildPhases = (
+				1D8ED7A005174CC7A40B7FA4 /* Check Pods Manifest.lock */,
 				0C4FA10217744BB800A48BA0 /* Sources */,
 				0C4FA10317744BB800A48BA0 /* Frameworks */,
 				0C4FA10417744BB800A48BA0 /* Resources */,
+				C02B2F909E57470ABA491A2D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -163,10 +242,42 @@
 				0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */,
 				0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */,
 				0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */,
+				0C69CE2C177C854A00951ADA /* world-map.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1D8ED7A005174CC7A40B7FA4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+		};
+		C02B2F909E57470ABA491A2D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0C4FA10217744BB800A48BA0 /* Sources */ = {
@@ -175,7 +286,19 @@
 			files = (
 				0C4FA11617744BB800A48BA0 /* main.m in Sources */,
 				0C4FA11A17744BB800A48BA0 /* AppDelegate.m in Sources */,
-				0C4FA12617744BB800A48BA0 /* ViewController.m in Sources */,
+				0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */,
+				0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */,
+				0C68AF051775C8FE00A14896 /* Country.m in Sources */,
+				0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */,
+				0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */,
+				0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */,
+				0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */,
+				0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */,
+				0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */,
+				0CCEC9251780883B00A148CB /* Timezone.m in Sources */,
+				0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */,
+				0C376B0B17817AA100412F5F /* City.m in Sources */,
+				0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +382,7 @@
 		};
 		0C4FA12A17744BB800A48BA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B487009349BE4E35B272E03C /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RKGeonames/RKGeonames-Prefix.pch";
@@ -270,6 +394,7 @@
 		};
 		0C4FA12B17744BB800A48BA0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B487009349BE4E35B272E03C /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RKGeonames/RKGeonames-Prefix.pch";
@@ -298,6 +423,7 @@
 				0C4FA12B17744BB800A48BA0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
