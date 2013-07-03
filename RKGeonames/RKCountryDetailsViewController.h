@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RKGDetailsViewController.h"
 
-@interface RKCountryDetailsViewController : UIViewController
+@interface RKCountryDetailsViewController : RKGDetailsViewController
+
+@property (nonatomic, strong) IBOutlet UIButton *buttonAdministration;
+@property (nonatomic, strong) IBOutlet UIButton *buttonDemographics;
+@property (nonatomic, strong) IBOutlet UIButton *buttonEconomics;
 
 @end

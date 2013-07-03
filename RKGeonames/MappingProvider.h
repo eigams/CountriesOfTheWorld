@@ -10,4 +10,16 @@
 
 @interface MappingProvider : NSObject
 
++ (RKMapping *) regionMapping;
++ (RKMapping *) adminRegionMapping;
++ (RKMapping *) incomeLevelMapping;
++ (RKMapping *) lendingTypeMapping;
++ (RKMapping *) pageInfoMapping;
++ (RKMapping *) geonamesCountryMapping;
++ (RKMapping *) countryMapping;
++ (RKMapping *) countryInfoMapping;
++ (RKMapping *) timezoneMapping;
++ (RKMapping *) cityMapping;
++ (RKMapping *) worldBankIndicatorArrayMapping;
+
 @end

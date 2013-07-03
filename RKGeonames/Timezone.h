@@ -10,4 +10,15 @@
 
 @interface Timezone : NSObject
 
+@property (nonatomic, copy) NSString *time;
+@property (nonatomic, copy) NSString *countryName;
+@property (nonatomic, copy) NSString *sunset;
+@property (nonatomic, copy) NSString *rawOffset;
+@property (nonatomic, copy) NSString *dstOffset;
+@property (nonatomic, copy) NSString *countryCode;
+@property (nonatomic, copy) NSString *gmtOffset;
+@property (nonatomic, copy) NSString *lng;
+@property (nonatomic, copy) NSString *sunrise;
+@property (nonatomic, copy) NSString *timezoneId;
+
 @end

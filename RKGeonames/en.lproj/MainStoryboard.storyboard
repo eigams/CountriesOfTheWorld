@@ -489,18 +489,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1hw-qK-gSo">
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" none="YES" button="YES" link="YES"/>
-                                </accessibility>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CK-s3-nlQ">
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="135" id="CnM-nH-HeH"/>
+                                    <constraint firstAttribute="width" constant="135" id="IUO-d7-vws"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal">
-                                    <attributedString key="attributedTitle"/>
-                                </state>
-                            </button>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -510,21 +506,20 @@
                             <constraint firstItem="W9W-5m-ByN" firstAttribute="top" secondItem="pqz-6I-1ex" secondAttribute="top" constant="202" id="4DD-R7-fp2"/>
                             <constraint firstItem="rCQ-aC-xrr" firstAttribute="top" secondItem="pqz-6I-1ex" secondAttribute="top" constant="163" id="5bX-xa-H83"/>
                             <constraint firstAttribute="bottom" secondItem="Ukx-yN-iSM" secondAttribute="bottom" constant="116" id="8HG-vk-vBR"/>
-                            <constraint firstItem="1hw-qK-gSo" firstAttribute="leading" secondItem="rCQ-aC-xrr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="9jS-OB-2L9"/>
-                            <constraint firstItem="1hw-qK-gSo" firstAttribute="trailing" secondItem="XFc-oL-Pd2" secondAttribute="trailing" type="default" id="Bvw-tY-n7s"/>
                             <constraint firstItem="dtI-Wi-u1N" firstAttribute="leading" secondItem="Ukx-yN-iSM" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Er2-iJ-6hL"/>
                             <constraint firstItem="KxD-Zz-LGj" firstAttribute="leading" secondItem="dtI-Wi-u1N" secondAttribute="leading" type="default" id="IJL-Sb-6IQ"/>
                             <constraint firstItem="dtI-Wi-u1N" firstAttribute="leading" secondItem="Tca-LY-Bal" secondAttribute="leading" type="default" id="JkQ-2h-xYc"/>
-                            <constraint firstItem="1hw-qK-gSo" firstAttribute="top" secondItem="pqz-6I-1ex" secondAttribute="top" constant="164" id="K9V-kO-6y3"/>
                             <constraint firstItem="ua5-2Y-uSO" firstAttribute="top" secondItem="pqz-6I-1ex" secondAttribute="top" constant="1" id="Nek-Q4-gUT"/>
                             <constraint firstItem="ejo-FT-ooT" firstAttribute="leading" secondItem="W9W-5m-ByN" secondAttribute="leading" type="user" id="OBJ-Jq-WwD"/>
                             <constraint firstItem="KxD-Zz-LGj" firstAttribute="trailing" secondItem="dtI-Wi-u1N" secondAttribute="trailing" type="default" id="SNT-Ph-fVm"/>
+                            <constraint firstItem="8CK-s3-nlQ" firstAttribute="leading" secondItem="XFc-oL-Pd2" secondAttribute="leading" type="default" id="Sj4-iZ-o5U"/>
                             <constraint firstAttribute="bottom" secondItem="2Wd-1j-Qzu" secondAttribute="bottom" constant="37" id="UoC-z4-cEV"/>
+                            <constraint firstItem="XFc-oL-Pd2" firstAttribute="trailing" secondItem="8CK-s3-nlQ" secondAttribute="trailing" type="default" id="VA7-ZA-OPB"/>
                             <constraint firstItem="ejo-FT-ooT" firstAttribute="leading" secondItem="2Wd-1j-Qzu" secondAttribute="leading" type="user" id="XTa-fW-RXF"/>
                             <constraint firstItem="XFc-oL-Pd2" firstAttribute="leading" secondItem="W9W-5m-ByN" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Ybx-bJ-6YL"/>
+                            <constraint firstItem="8CK-s3-nlQ" firstAttribute="baseline" secondItem="rCQ-aC-xrr" secondAttribute="baseline" type="default" id="ZN9-iE-Kvq"/>
                             <constraint firstItem="pKL-gs-6ye" firstAttribute="baseline" secondItem="2Wd-1j-Qzu" secondAttribute="baseline" type="default" id="bdu-gu-R7R"/>
                             <constraint firstItem="rCQ-aC-xrr" firstAttribute="leading" secondItem="pqz-6I-1ex" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="c06-wN-JCY"/>
-                            <constraint firstItem="1hw-qK-gSo" firstAttribute="leading" secondItem="W9W-5m-ByN" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="d4z-8u-1Ya"/>
                             <constraint firstItem="dtI-Wi-u1N" firstAttribute="baseline" secondItem="Ukx-yN-iSM" secondAttribute="baseline" type="default" id="e0x-sk-JVv"/>
                             <constraint firstItem="ua5-2Y-uSO" firstAttribute="trailing" secondItem="pqz-6I-1ex" secondAttribute="trailing" type="default" id="ecR-rf-zev"/>
                             <constraint firstAttribute="bottom" secondItem="ejo-FT-ooT" secondAttribute="bottom" constant="77" id="f9C-TL-SIq"/>
@@ -536,6 +531,7 @@
                             <constraint firstItem="ejo-FT-ooT" firstAttribute="leading" secondItem="Ukx-yN-iSM" secondAttribute="leading" type="user" id="nl7-fz-Gct"/>
                             <constraint firstItem="dtI-Wi-u1N" firstAttribute="trailing" secondItem="Tca-LY-Bal" secondAttribute="trailing" type="default" id="oJt-Op-FUq"/>
                             <constraint firstItem="ua5-2Y-uSO" firstAttribute="leading" secondItem="pqz-6I-1ex" secondAttribute="leading" type="default" id="oP9-Ao-iFg"/>
+                            <constraint firstItem="8CK-s3-nlQ" firstAttribute="leading" secondItem="rCQ-aC-xrr" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="qgH-Ze-o83"/>
                             <constraint firstItem="W9W-5m-ByN" firstAttribute="leading" secondItem="pqz-6I-1ex" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="wbW-ya-dfH"/>
                             <constraint firstItem="Tca-LY-Bal" firstAttribute="trailing" secondItem="XFc-oL-Pd2" secondAttribute="trailing" type="default" id="xSm-gp-sRJ"/>
                             <constraint firstItem="Tca-LY-Bal" firstAttribute="baseline" secondItem="arV-Yu-hiw" secondAttribute="baseline" type="default" id="xkd-nb-KVN"/>
@@ -544,7 +540,7 @@
                     <navigationItem key="navigationItem" id="3XR-7k-6cN"/>
                     <connections>
                         <outlet property="areaLabel" destination="XFc-oL-Pd2" id="gbj-nk-NkT"/>
-                        <outlet property="capitalCityButton" destination="1hw-qK-gSo" id="qJZ-Gy-RDh"/>
+                        <outlet property="capitalCityLabel" destination="8CK-s3-nlQ" id="zqc-gO-tXn"/>
                         <outlet property="currentTimeLabel" destination="Tca-LY-Bal" id="2kk-XK-qCZ"/>
                         <outlet property="mapView" destination="ua5-2Y-uSO" id="lDv-fo-uTL"/>
                         <outlet property="sunriseLabel" destination="KxD-Zz-LGj" id="WEp-Aa-Yw9"/>
@@ -614,7 +610,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RKGAdministrationViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="areaLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="capitalCityButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="capitalCityLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="currentTimeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="sunriseLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="sunsetLabel" candidateClass="UILabel"/>

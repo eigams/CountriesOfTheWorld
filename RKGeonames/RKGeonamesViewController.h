@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RKGeonamesViewController : UITableViewController
+@interface RKGeonamesViewController : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
 
 @end

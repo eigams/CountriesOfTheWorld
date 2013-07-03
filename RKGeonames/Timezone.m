@@ -10,4 +10,15 @@
 
 @implementation Timezone
 
+@synthesize time;
+@synthesize countryName;
+@synthesize sunset;
+@synthesize rawOffset;
+@synthesize dstOffset;
+@synthesize countryCode;
+@synthesize gmtOffset;
+@synthesize lng;
+@synthesize sunrise;
+@synthesize timezoneId;
+
 @end

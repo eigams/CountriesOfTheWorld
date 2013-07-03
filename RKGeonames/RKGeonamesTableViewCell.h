@@ -10,4 +10,8 @@
 
 @interface RKGeonamesTableViewCell : UITableViewCell
 
+@property (nonatomic, strong) IBOutlet UILabel *countryNameLabel;
+@property (nonatomic, strong) IBOutlet UILabel *capitalCityLabel;
+@property (nonatomic, strong) IBOutlet UIImageView *flagImage;
+
 @end
