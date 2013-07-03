@@ -1,4 +1,4 @@
 RKGeonames
 ==========
 
-Consumes webservices to present world's countries statistics
+Consumes webservices (geonames.org & worldbank.org) to present world's countries statistics.
