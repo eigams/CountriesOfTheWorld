@@ -11,11 +11,4 @@
 
 @interface RKGAdministrationViewController : RKGDetailsViewController
 
-@property (nonatomic, strong) IBOutlet UILabel *capitalCityLabel;
-@property (nonatomic, strong) IBOutlet UILabel *areaLabel;
-@property (nonatomic, strong) IBOutlet UILabel *currentTimeLabel;
-@property (nonatomic, strong) IBOutlet UILabel *timeZoneLabel;
-@property (nonatomic, strong) IBOutlet UILabel *sunriseLabel;
-@property (nonatomic, strong) IBOutlet UILabel *sunsetLabel;
-
 @end

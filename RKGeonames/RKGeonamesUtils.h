@@ -10,7 +10,16 @@
 
 @interface RKGeonamesUtils : NSObject
 
-+ (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor withURL:(NSString *)urlString andPathPattern:(NSString *)pathPattern andKeyPath:(NSString *)keyPath;
-+ (void) fetchWorldBankIndicator:(NSString *)indicator forCountryCode:(NSString *)countryCode toLabel:(UILabel *)label withType:(int)type andText:(NSString *)text;
++ (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor
+                                                   withURL:(NSString *)urlString
+                                            andPathPattern:(NSString *)pathPattern
+                                                andKeyPath:(NSString *)keyPath;
+
++ (void) fetchWorldBankIndicator:(NSString *)indicator
+                  forCountryCode:(NSString *)countryCode
+                        withType:(int)type
+                         andText:(NSString *)text
+           withActivityIndicator:(UIActivityIndicatorView *)activityIndicator
+                     withHandler:(void (^)(NSString *Sink))handler;
 
 @end

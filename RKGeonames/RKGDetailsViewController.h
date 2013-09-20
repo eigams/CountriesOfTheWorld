@@ -9,12 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "Country.h"
 
-@interface RKGDetailsViewController : UIViewController
+@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+{
+    NSDictionary *currentData;    
+}
 
 @property (nonatomic, strong) CountryGeonames *country;
 
 @property (nonatomic, strong) IBOutlet UIWebView *mapView;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 - (void) setDetails:(CountryGeonames *)Country;
+- (void) addHomeButton:(id)target selector:(SEL)action;
+- (void) addHomeButton;
 
 @end

@@ -17,19 +17,22 @@
 // |+|    FUNCTION NAME: setupObjectRequestOperation                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:                                   |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    PARAMETERS:                                                    |+|
+// |+|    PARAMETERS:                                                        |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    RETURN VALUE:  success/failure                                     |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-+ (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor withURL:(NSString *)urlString andPathPattern:(NSString *)pathPattern andKeyPath:(NSString *)keyPath
++ (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor
+                                                   withURL:(NSString *)urlString
+                                            andPathPattern:(NSString *)pathPattern
+                                                andKeyPath:(NSString *)keyPath
 {
     if(NO == [MappingProvider respondsToSelector:selctor])
     {
@@ -70,13 +73,74 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-+ (void) fetchWorldBankIndicator:(NSString *)indicator forCountryCode:(NSString *)countryCode toLabel:(UILabel *)label withType:(int)type andText:(NSString *)text
+//+ (void) fetchWorldBankIndicator:(NSString *)indicator forCountryCode:(NSString *)countryCode toLabel:(UILabel *)label withType:(int)type andText:(NSString *)text
+//{
+//    NSString *urlString = [NSString stringWithFormat:@"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=2011:2011", countryCode, indicator];
+//    
+//    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
+//    
+//    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+//        WorldBankIndicatorArray *wbiarray = [mappingResult.array objectAtIndex:0];
+//        WorldBankIndicator *wbi = [wbiarray.indicators objectAtIndex:0];
+//        
+//        if(nil != wbi.value)
+//        {
+//            NSString *additionalText = [NSString stringWithFormat:@"%@%@",
+//                                        [NSNumberFormatter localizedStringFromNumber:((type == 1) ? [NSNumber numberWithFloat:[wbi.value floatValue]] : [NSNumber numberWithInt:[wbi.value intValue]]) numberStyle:NSNumberFormatterDecimalStyle], text];
+//            
+//            label.text = additionalText;
+//        }
+//        
+//    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+//        
+//        NSLog(@"ERROR: %@", error);
+//        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
+//    }];
+//    
+//    [operation start];
+//
+//}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: fetchWorldBankIndicator                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   sends a request for a specific indicator,           |+|
+// |+|                   the worlbank.org can provide                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    NSString - indicator code                           |+|
+// |+|                   NSString - country code                             |+|
+// |+|                   int - type of data to be formatted (int/float)      |+|
+// |+|                   NSString - additional text to add to the UILabel    |+|
+// |+|                   Handler - will return the received text             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+static NSString *WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=2011:2011";
++ (void) fetchWorldBankIndicator:(NSString *)indicator
+                  forCountryCode:(NSString *)countryCode
+                        withType:(int)type
+                         andText:(NSString *)text
+           withActivityIndicator:(UIActivityIndicatorView *)activityIndicator
+                     withHandler:(void (^)(NSString *Sink))handler
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=2011:2011", countryCode, indicator];
+    NSString *urlString = [NSString stringWithFormat:WORLD_BANK_INDICATOR_URL, countryCode, indicator];
     
     RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
     
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1))
+        {
+            [activityIndicator stopAnimating];            
+            
+            return ;
+        }
+        
         WorldBankIndicatorArray *wbiarray = [mappingResult.array objectAtIndex:0];
         WorldBankIndicator *wbi = [wbiarray.indicators objectAtIndex:0];
         
@@ -85,17 +149,21 @@
             NSString *additionalText = [NSString stringWithFormat:@"%@%@",
                                         [NSNumberFormatter localizedStringFromNumber:((type == 1) ? [NSNumber numberWithFloat:[wbi.value floatValue]] : [NSNumber numberWithInt:[wbi.value intValue]]) numberStyle:NSNumberFormatterDecimalStyle], text];
             
-            label.text = additionalText;
+            handler(additionalText);
         }
+        
+        [activityIndicator stopAnimating];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
+        
+        [activityIndicator stopAnimating];
     }];
     
     [operation start];
-
+    [activityIndicator startAnimating];
 }
 
 @end

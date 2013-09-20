@@ -11,8 +11,16 @@
 #import "MappingProvider.h"
 #import "WorldBankIndicator.h"
 #import "RKGeonamesUtils.h"
+#import "DemographicData+TableRepresentation.h"
+
 
 @interface RKGDemographicsViewController ()
+{
+    NSString *totalPopulation;
+    NSString *populationGrowth;
+    NSString *deathRate;
+    NSString *birthRate;
+}
 
 @property (nonatomic, strong) NSArray *items;
 
@@ -25,15 +33,15 @@
 // |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   default implementation                                |+|
+// |+|    DESCRIPTION:   default implementation                              |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    PARAMETERS:                                                    |+|
+// |+|    PARAMETERS:                                                        |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
@@ -46,13 +54,15 @@
     return self;
 }
 
+static int TYPE_FLOAT = 1;
+static const UniChar perThousand = 0x2031;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: loadData                                            |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:                                   |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -64,36 +74,89 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) getWBIndicator:(NSString *)indicator forCountryCode:(NSString *)countryCode toLabel:(UILabel *)label withType:(int)type andText:(NSString *)text
+- (BOOL)loadData
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=2011:2011", countryCode, indicator];
+    DemographicData *demoData = [[DemographicData alloc] initWithTotalPopulation:totalPopulation
+                                                                populationGrowth:populationGrowth
+                                                                       birthRate:birthRate
+                                                                       deathRate:deathRate];
     
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
+    currentData = [demoData tr_tableRepresentation];
     
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        self.items = mappingResult.array;
-        
-        WorldBankIndicatorArray *wbiArray = [self.items objectAtIndex:0];
-        WorldBankIndicator *wbi = [wbiArray.indicators objectAtIndex:0];
-        
-        if(nil != wbi.value)
-        {
-            NSString *additionalText = [NSString stringWithFormat:@"%@%@",
-                                        [NSNumberFormatter localizedStringFromNumber:((type == 1) ? [NSNumber numberWithFloat:[wbi.value floatValue]] : [NSNumber numberWithInt:[wbi.value intValue]]) numberStyle:NSNumberFormatterDecimalStyle], text];
-            
-            label.text = additionalText;
-        }
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
-    }];
+    [self.tableView reloadData];
     
-    [operation start];
+    return YES;
 }
 
-static int TYPE_FLOAT = 1;
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: getData                                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+static NSString *TOTAL_POPULATION_INDICATOR_STRING = @"SP.POP.TOTL";
+static NSString *POPULATION_GROWTH_INDICATOR_STRING = @"SP.POP.GROW";
+static NSString *BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
+static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
+- (void) getData
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [RKGeonamesUtils fetchWorldBankIndicator:TOTAL_POPULATION_INDICATOR_STRING
+                                  forCountryCode:self.country.countryCode
+                                        withType:TYPE_FLOAT
+                                         andText:@""
+                           withActivityIndicator:self.activityIndicator
+                                     withHandler:^(NSString *Data){
+                                         totalPopulation = Data;
+                                         
+                                         [self loadData];
+                                     }];
+        
+        [RKGeonamesUtils fetchWorldBankIndicator:POPULATION_GROWTH_INDICATOR_STRING
+                                  forCountryCode:self.country.countryCode
+                                        withType:TYPE_FLOAT andText:@"%"
+                           withActivityIndicator:self.activityIndicator
+                                     withHandler:^(NSString *Data) {
+                                         populationGrowth = Data;
+                                         
+                                         [self loadData];
+                                     }];
+        
+        [RKGeonamesUtils fetchWorldBankIndicator:BIRTH_RATE_INDICATOR_STRING
+                                  forCountryCode:self.country.countryCode
+                                        withType:TYPE_FLOAT andText:[NSString stringWithFormat:@"%C", per_mille]
+                           withActivityIndicator:self.activityIndicator
+                                     withHandler:^(NSString *Data) {
+                                         birthRate = Data;
+                                         
+                                         [self loadData];
+                                     }];
+        
+        [RKGeonamesUtils fetchWorldBankIndicator:DEATH_RATE_INDICATOR_STRING
+                                  forCountryCode:self.country.countryCode
+                                        withType:TYPE_FLOAT
+                                         andText:[NSString stringWithFormat:@"%C", per_mille]
+                           withActivityIndicator:self.activityIndicator
+                                     withHandler:^(NSString *Data) {
+                                         deathRate = Data;
+                                         
+                                         [self loadData];
+                                     }];
+        
+        [self loadData];
+    });
+}
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -112,27 +175,23 @@ static int TYPE_FLOAT = 1;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static const UniChar per_mille = 0x2030;
+static NSString *NOT_AVAILABLE_STRING = @"Not available";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"SP.POP.TOTL" forCountryCode:self.country.countryCode toLabel:self.totalPopulationLabel withType:TYPE_FLOAT andText:@""];
-    });
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"SP.POP.GROW" forCountryCode:self.country.countryCode toLabel:self.populationGrowthLabel withType:TYPE_FLOAT andText:@"%"];
-    });
+    [self addHomeButton];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"SP.DYN.CBRT.IN" forCountryCode:self.country.countryCode toLabel:self.birthRateLabel withType:TYPE_FLOAT andText:@"/1000"];
-    });
+    totalPopulation  = NOT_AVAILABLE_STRING;
+    populationGrowth = NOT_AVAILABLE_STRING;
+    birthRate        = NOT_AVAILABLE_STRING;
+    deathRate        = NOT_AVAILABLE_STRING;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"SP.DYN.CDRT.IN" forCountryCode:self.country.countryCode toLabel:self.deathRateLabel withType:TYPE_FLOAT andText:@"/1000"];
-    });
-
+    [self.view addSubview:self.activityIndicator];
+    
+    [self getData];
 }
 
 // |+|=======================================================================|+|

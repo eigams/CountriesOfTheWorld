@@ -118,15 +118,20 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static NSString *COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?username=sbpuser";
 - (void) getGeonamesCountries
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://api.geonames.org/countryInfoJSON?username=sbpuser"];
-
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping) withURL:urlString andPathPattern:nil andKeyPath:@"geonames"];
+    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping) withURL:COUNTRY_INFO_URL andPathPattern:nil andKeyPath:@"geonames"];
     
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-        self.items = mappingResult.array;
         
+        //eliminate all countries without a capital city
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+            return [[evaluatedObject capitalCity] length] > 0;
+        }];
+        self.items = [mappingResult.array filteredArrayUsingPredicate:predicate];
+        
+        //array to hold the countries when using the search bar control
         self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
         
         [self.activityIndicator stopAnimating];
@@ -192,6 +197,8 @@ static BOOL firstTime = YES;
         
         [self.searchDisplayController setActive:NO animated:YES];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 // |+|=======================================================================|+|
@@ -230,10 +237,10 @@ static BOOL firstTime = YES;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: viewDidLoad                                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
+// |+|    DESCRIPTION:   Do any additional setup after loading the view      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -249,6 +256,13 @@ static BOOL firstTime = YES;
 {
     [super viewDidLoad];
 
+    // add the "Back" button to the navigation bar
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                             style:UIBarButtonItemStyleBordered
+                                                             target:nil
+                                                             action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+    
     [self setupSearchBar];
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -256,12 +270,6 @@ static BOOL firstTime = YES;
     self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     
     [self getGeonamesCountries];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 // |+|=======================================================================|+|
@@ -308,7 +316,6 @@ static BOOL firstTime = YES;
 // |+|=======================================================================|+|
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
@@ -332,7 +339,6 @@ static BOOL firstTime = YES;
 // |+|=======================================================================|+|
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     if(tableView == self.searchDisplayController.searchResultsTableView)
     {
@@ -345,11 +351,11 @@ static BOOL firstTime = YES;
 }
 
 // |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: gotoSearch                                          |+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: cellForRowAtIndexPath                               |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
+// |+|    DESCRIPTION:   display the country's name, flag and capital        |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -361,6 +367,7 @@ static BOOL firstTime = YES;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -385,7 +392,7 @@ static BOOL firstTime = YES;
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;
         
-        NSString *flagURL = [NSString stringWithFormat:@"http://www.geonames.org/flags/x/%@.gif", [country.countryCode lowercaseString]];
+        NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
         
         cell.flagImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
         
@@ -394,45 +401,6 @@ static BOOL firstTime = YES;
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
@@ -538,39 +506,10 @@ static BOOL firstTime = YES;
 // |+|=======================================================================|+|
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    [self filterContentForSearchText:searchString scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
     
     return YES;
 }
-
-#pragma mark - Table view delegate
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: collect                                             |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // Navigation logic may go here. Create and push another view controller.
-//    /*
-//     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-//     // ...
-//     // Pass the selected object to the new view controller.
-//     [self.navigationController pushViewController:detailViewController animated:YES];
-//     */
-//}
 
 @end

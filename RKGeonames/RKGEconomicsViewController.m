@@ -11,8 +11,15 @@
 #import "MappingProvider.h"
 #import "WorldBankIndicator.h"
 #import "RKGeonamesUtils.h"
+#import "EconomyData+TableRepresentation.h"
 
 @interface RKGEconomicsViewController ()
+{
+    NSString *Currency;
+    NSString *GDP;
+    NSString *GDPPerCapita;
+    NSString *GNIPerCapita;
+}
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, strong) NSDictionary *currencies;
@@ -26,18 +33,18 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: currenciesD                                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   stop collecting data                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
@@ -211,18 +218,18 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: initWithNibName                                     |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   stop collecting data                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
@@ -237,10 +244,68 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: loadData                                            |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   stop collecting data                                |+|
+// |+|    DESCRIPTION:  once the data is collected, it needs to be formatted |+|
+// |+|                  and the uitableview updated                          |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (BOOL)loadData
+{
+    EconomyData *economyData = [[EconomyData alloc] initWithCurrency:Currency
+                                                                 gdp:GDP
+                                                               gdppc:GDPPerCapita
+                                                               gnipc:GNIPerCapita];
+    
+    currentData = [economyData tr_tableRepresentation];
+    
+    [self.tableView reloadData];
+    
+    return YES;
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: getIndicatorData                                    |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION: overload of 'fetchWorldBankIndicator' function        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void) getIndicatorData:(NSString *)indicator withHandler:(void (^)(NSString *Data))handler
+{
+    [RKGeonamesUtils fetchWorldBankIndicator:indicator
+                              forCountryCode:self.country.countryCode
+                                    withType:TYPE_FLOAT
+                                     andText:[NSString stringWithFormat:@" %C", dollar]
+                       withActivityIndicator:self.activityIndicator
+                                 withHandler:handler];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: getData                                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -248,37 +313,42 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) getWBIndicator:(NSString *)indicator forCountryCode:(NSString *)countryCode toLabel:(UILabel *)label withType:(int)type
+static NSString *GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
+static NSString *GDP_PER_CAPITA_INDICATOR_STRING = @"GDPPCKD";
+static NSString *GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
+static UniChar dollar = 0x0024;
+- (void) getData
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=2011:2011", countryCode, indicator];
-    
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
-
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        self.items = mappingResult.array;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        WorldBankIndicatorArray *wbiarray = [self.items objectAtIndex:0];
-        WorldBankIndicator *wbi = [wbiarray.indicators objectAtIndex:0];
-        
-        if(nil != wbi.value)
-        {
-            NSString *additionalText = [NSString stringWithFormat:@"%@ USD",
-                                        [NSNumberFormatter localizedStringFromNumber:((type == 1) ? [NSNumber numberWithFloat:[wbi.value floatValue]] : [NSNumber numberWithInt:[wbi.value intValue]]) numberStyle:NSNumberFormatterDecimalStyle]];
+        [self getIndicatorData:GDP_INDICATOR_STRING withHandler:^(NSString *Data){
             
-            label.text = additionalText;
-        }
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            GDP = Data;
+            
+            [self loadData];
+        }];
 
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
-    }];
+        [self getIndicatorData:GDP_PER_CAPITA_INDICATOR_STRING withHandler:^(NSString *Data){
+            
+            GDPPerCapita = Data;
+            
+            [self loadData];
+        }];
 
-    [operation start];
+        [self getIndicatorData:GNI_PER_CAPITA_INDICATOR_STRING withHandler:^(NSString *Data){
+            
+            GNIPerCapita = Data;
+            
+            [self loadData];
+        }];
+
+    });
+    
+    [self loadData];
 }
 
 static int TYPE_FLOAT = 1;
@@ -286,40 +356,38 @@ static int TYPE_INT = 2;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|    FUNCTION NAME: viewDidLoad                                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   stop collecting data                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static NSString *NOT_AVAILABLE_TEXT = @"Not available";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    [self addHomeButton];
+    
     self.currencies = [self currenciesD];
-    self.currencyLabel.text = self.currencies[self.country.currency];
+    Currency     = [self.currencies valueForKey:self.country.currency];
+    GDP          = NOT_AVAILABLE_TEXT;
+    GDPPerCapita = NOT_AVAILABLE_TEXT;
+    GNIPerCapita = NOT_AVAILABLE_TEXT;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"NY.GDP.MKTP.CD" forCountryCode:self.country.countryCode toLabel:self.gdpLabel withType:TYPE_FLOAT andText:@" USD"];
-    });
+    [self.view addSubview:self.activityIndicator];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"GDPPCKD" forCountryCode:self.country.countryCode toLabel:self.gdppcLabel withType:TYPE_INT andText:@" USD"];
-    });
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:@"NY.GNP.PCAP.CD" forCountryCode:self.country.countryCode toLabel:self.gnipcLabel withType:TYPE_INT andText:@" USD"];
-    });
+    [self getData];
 }
 
 // |+|=======================================================================|+|
@@ -327,7 +395,7 @@ static int TYPE_INT = 2;
 // |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   stop collecting data                                |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -335,7 +403,7 @@ static int TYPE_INT = 2;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|    RETURN VALUE:                                                      |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|

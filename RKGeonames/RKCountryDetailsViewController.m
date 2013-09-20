@@ -42,6 +42,32 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
+// |+|    FUNCTION NAME: addBackButton                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   add a "Back" button to the navigation bar           |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void) addBackButton
+{
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:nil
+                                                                  action:nil];
+    self.navigationItem.backBarButtonItem = backButton;
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
 // |+|    FUNCTION NAME: viewDidLoad                                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -61,7 +87,9 @@
 {
     [super viewDidLoad];
     
-    [self.buttonEconomics setTitle:@"Economics" forState:UIControlStateNormal];
+    [self addBackButton];
+    
+//    [self.buttonEconomics setTitle:@"Economics" forState:UIControlStateNormal];
 }
 
 // |+|=======================================================================|+|
