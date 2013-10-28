@@ -227,7 +227,7 @@ static const int HOME_VIEW_INDEX = 3;
     //create the activity indicator
     //it'll be used later on to mark lenghtly operations
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityIndicator.center = self.view.center;
+    self.activityIndicator.center = self.tableView.center;
     self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     
     [self setBackgroundImage];
