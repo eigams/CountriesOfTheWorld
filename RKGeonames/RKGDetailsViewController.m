@@ -83,12 +83,14 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size=320x120&&sensor=false&path=weight:3|fillcolor:|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f";
+static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size=320x150&&sensor=false&path=weight:3|fillcolor:|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f";
 - (void) setupMapView
 {
     float lah = [self.country.north floatValue] + .5, lal = [self.country.south floatValue] - .5, loh = [self.country.east floatValue] + .5, lol = [self.country.west floatValue] - .5;
     
     NSString *urlString = [NSString stringWithFormat:MAP_VIEW_URL, lah, loh, lah, lol, lal, lol, lal, loh, lah, loh];
+    
+    NSLog(@"urlString: %@", urlString);
     
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
@@ -119,7 +121,7 @@ static NSString *COUNTRY_FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
     NSString *url = [NSString stringWithFormat:COUNTRY_FLAG_URL, [self.country.countryCode lowercaseString]];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]]];
-    imageView.frame = CGRectMake(0, 121, 320, 294);
+    imageView.frame = CGRectMake(0, 211, 320, self.view.frame.size.height - 180);
     imageView.alpha = 0.1;
     imageView.contentMode = UIViewContentModeScaleToFill;
     
@@ -334,6 +336,14 @@ static const int HOME_VIEW_INDEX = 3;
     cell.detailTextLabel.text = currentData[@"values"][indexPath.row];
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.001;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001;
 }
 
 @end

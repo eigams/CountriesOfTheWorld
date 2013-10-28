@@ -1,7 +1,7 @@
-platform :ios, '6.0'
+platform :ios, '7.0'
 
 # Installation via CocoaPods from tagged version
-pod 'RestKit', '~> 0.20'
+pod 'RestKit', '~> 0.21'
 
 # Installation via CocoaPods over Git
 #pod 'RestKit', :git => 'https://github.com/RestKit/RestKit.git', :branch => 'development'
