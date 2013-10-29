@@ -153,6 +153,23 @@ static NSString *COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?us
 
 static BOOL firstTime = YES;
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didSelectRowAtIndexPath                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
 - (void)viewWillAppear:(BOOL)animated
 {
     if(YES == firstTime)
@@ -383,7 +400,6 @@ static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         country = [self.filteredCountries objectAtIndex:indexPath.row];
         
         cell.textLabel.text = country.name;
-        cell.contentView.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:244.0/255.0 blue:248.0/255.0 alpha:1.0];
     }
     else
     {
@@ -395,9 +411,9 @@ static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
         
         cell.flagImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
-        
-        cell.contentView.backgroundColor = [UIColor colorWithRed:240.0/255.0 green:244.0/255.0 blue:248.0/255.0 alpha:1.0];
     }
+    
+    cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
     
     return cell;
 }

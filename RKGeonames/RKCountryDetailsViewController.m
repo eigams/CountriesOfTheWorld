@@ -7,6 +7,7 @@
 //
 
 #import "RKCountryDetailsViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface RKCountryDetailsViewController ()
 
@@ -86,6 +87,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.buttonAdministration.layer.borderWidth=1.0f;
+    self.buttonAdministration.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    self.buttonAdministration.layer.cornerRadius = 8;
+    self.buttonAdministration.layer.masksToBounds = YES;
+    self.buttonAdministration.backgroundColor = [UIColor lightGrayColor];
+
+    self.buttonEconomics.layer.borderWidth=1.0f;
+    self.buttonEconomics.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    self.buttonEconomics.layer.cornerRadius = 8;
+    self.buttonEconomics.layer.masksToBounds = YES;
+
+    self.buttonDemographics.layer.borderWidth=1.0f;
+    self.buttonDemographics.layer.borderColor=[UIColor lightGrayColor].CGColor;
+    self.buttonDemographics.layer.cornerRadius = 8;
+    self.buttonDemographics.layer.masksToBounds = YES;
     
     [self addBackButton];
     

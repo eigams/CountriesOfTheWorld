@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */; };
 		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
 		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
 		0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldBankIndicator.h; sourceTree = "<group>"; };
 		0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldBankIndicator.m; sourceTree = "<group>"; };
 		0C376B0917817AA100412F5F /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */,
 				0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */,
 				0C4FA10C17744BB800A48BA0 /* Foundation.framework in Frameworks */,
 				0C4FA10E17744BB800A48BA0 /* CoreGraphics.framework in Frameworks */,
@@ -142,6 +145,7 @@
 		0C4FA10817744BB800A48BA0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */,
 				0C4FA10917744BB800A48BA0 /* UIKit.framework */,
 				0C4FA10B17744BB800A48BA0 /* Foundation.framework */,
 				0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */,
