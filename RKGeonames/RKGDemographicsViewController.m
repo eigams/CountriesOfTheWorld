@@ -13,6 +13,7 @@
 #import "RKGeonamesUtils.h"
 #import "DemographicData+TableRepresentation.h"
 
+#import "RKGeonamesConstants.h"
 
 @interface RKGDemographicsViewController ()
 {
@@ -111,51 +112,63 @@ static NSString *BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
 static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 - (void) getData
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [RKGeonamesUtils fetchWorldBankIndicator:TOTAL_POPULATION_INDICATOR_STRING
-                                  forCountryCode:self.country.countryCode
-                                        withType:TYPE_FLOAT
-                                         andText:@""
-                           withActivityIndicator:self.activityIndicator
-                                     withHandler:^(NSString *Data){
+    currentData = [[DemographicData emptyDemographicData] tr_tableRepresentation];    
+    
+    [RKGeonamesUtils fetchWorldBankIndicator:TOTAL_POPULATION_INDICATOR_STRING
+                              forCountryCode:self.country.countryCode
+                                    withType:TYPE_FLOAT
+                                     andText:@""
+                                 withCompletion:^(NSString *Data){
                                          totalPopulation = Data;
                                          
                                          [self loadData];
+                                     }
+                                     failure:^(){
+                                         
+                                         [self.tableView reloadData];
                                      }];
-        
-        [RKGeonamesUtils fetchWorldBankIndicator:POPULATION_GROWTH_INDICATOR_STRING
-                                  forCountryCode:self.country.countryCode
-                                        withType:TYPE_FLOAT andText:@"%"
-                           withActivityIndicator:self.activityIndicator
-                                     withHandler:^(NSString *Data) {
+    
+    [RKGeonamesUtils fetchWorldBankIndicator:POPULATION_GROWTH_INDICATOR_STRING
+                              forCountryCode:self.country.countryCode
+                                    withType:TYPE_FLOAT andText:@"%"
+                                 withCompletion:^(NSString *Data) {
                                          populationGrowth = Data;
                                          
                                          [self loadData];
+                                     }
+                                     failure:^(){
+                                         
+                                         [self.tableView reloadData];
                                      }];
-        
-        [RKGeonamesUtils fetchWorldBankIndicator:BIRTH_RATE_INDICATOR_STRING
-                                  forCountryCode:self.country.countryCode
-                                        withType:TYPE_FLOAT andText:[NSString stringWithFormat:@"%C", per_mille]
-                           withActivityIndicator:self.activityIndicator
-                                     withHandler:^(NSString *Data) {
+    
+    [RKGeonamesUtils fetchWorldBankIndicator:BIRTH_RATE_INDICATOR_STRING
+                              forCountryCode:self.country.countryCode
+                                    withType:TYPE_FLOAT andText:[NSString stringWithFormat:@"%C", per_mille]
+                                 withCompletion:^(NSString *Data) {
                                          birthRate = Data;
                                          
                                          [self loadData];
-                                     }];
-        
-        [RKGeonamesUtils fetchWorldBankIndicator:DEATH_RATE_INDICATOR_STRING
-                                  forCountryCode:self.country.countryCode
-                                        withType:TYPE_FLOAT
-                                         andText:[NSString stringWithFormat:@"%C", per_mille]
-                           withActivityIndicator:self.activityIndicator
-                                     withHandler:^(NSString *Data) {
-                                         deathRate = Data;
-                                         
-                                         [self loadData];
-                                     }];
-        
-        [self loadData];
-    });
+                                    }
+                                    failure:^{
+                                        
+                                        [self.tableView reloadData];
+                                    }];
+    
+    [RKGeonamesUtils fetchWorldBankIndicator:DEATH_RATE_INDICATOR_STRING
+                              forCountryCode:self.country.countryCode
+                                    withType:TYPE_FLOAT
+                                     andText:[NSString stringWithFormat:@"%C", per_mille]
+                                 withCompletion:^(NSString *Data) {
+                                        deathRate = Data;
+
+                                        [self loadData];
+                                    }
+                                    failure:^{
+                                        
+//                                        currentData = [[DemographicData emptyDemographicData] tr_tableRepresentation];
+                                        
+                                        [self.tableView reloadData];
+                                    }];
 }
 
 // |+|=======================================================================|+|
@@ -176,7 +189,6 @@ static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 static const UniChar per_mille = 0x2030;
-static NSString *NOT_AVAILABLE_STRING = @"Not available";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -184,12 +196,10 @@ static NSString *NOT_AVAILABLE_STRING = @"Not available";
     
     [self addHomeButton];
     
-    totalPopulation  = NOT_AVAILABLE_STRING;
-    populationGrowth = NOT_AVAILABLE_STRING;
-    birthRate        = NOT_AVAILABLE_STRING;
-    deathRate        = NOT_AVAILABLE_STRING;
-    
-    [self.view addSubview:self.activityIndicator];
+    totalPopulation  = LOADING_STRING;
+    populationGrowth = LOADING_STRING;
+    birthRate        = LOADING_STRING;
+    deathRate        = LOADING_STRING;
     
     [self getData];
 }

@@ -126,8 +126,8 @@ static NSString *WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/countries
                   forCountryCode:(NSString *)countryCode
                         withType:(int)type
                          andText:(NSString *)text
-           withActivityIndicator:(UIActivityIndicatorView *)activityIndicator
-                     withHandler:(void (^)(NSString *Sink))handler
+                     withCompletion:(void (^)(NSString *Sink))handler
+                        failure:(void (^)(void))failure
 {
     NSString *urlString = [NSString stringWithFormat:WORLD_BANK_INDICATOR_URL, countryCode, indicator];
     
@@ -136,7 +136,6 @@ static NSString *WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/countries
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1))
         {
-            [activityIndicator stopAnimating];            
             
             return ;
         }
@@ -152,18 +151,15 @@ static NSString *WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/countries
             handler(additionalText);
         }
         
-        [activityIndicator stopAnimating];
-        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        [activityIndicator stopAnimating];
+        failure();
     }];
     
     [operation start];
-    [activityIndicator startAnimating];
 }
 
 @end

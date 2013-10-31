@@ -13,6 +13,8 @@
 #import "RKGeonamesUtils.h"
 #import "EconomyData+TableRepresentation.h"
 
+#import "RKGeonamesConstants.h"
+
 @interface RKGEconomicsViewController ()
 {
     NSString *Currency;
@@ -290,14 +292,18 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) getIndicatorData:(NSString *)indicator withHandler:(void (^)(NSString *Data))handler
+- (void) getIndicatorData:(NSString *)indicator withCompletion:(void (^)(NSString *Data))completion
 {
     [RKGeonamesUtils fetchWorldBankIndicator:indicator
                               forCountryCode:self.country.countryCode
                                     withType:TYPE_FLOAT
                                      andText:[NSString stringWithFormat:@" %C", dollar]
-                       withActivityIndicator:self.activityIndicator
-                                 withHandler:handler];
+                                 withCompletion:completion
+                                    failure:^{
+                                        currentData = [[EconomyData emptyEconomyData] tr_tableRepresentation];
+                                        
+                                        [self.tableView reloadData];
+                                    }];
 }
 
 // |+|=======================================================================|+|
@@ -323,32 +329,34 @@ static NSString *GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
 static UniChar dollar = 0x0024;
 - (void) getData
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    currentData = [[EconomyData emptyEconomyData] tr_tableRepresentation];
+    
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        [self getIndicatorData:GDP_INDICATOR_STRING withHandler:^(NSString *Data){
+        [self getIndicatorData:GDP_INDICATOR_STRING withCompletion:^(NSString *Data){
             
             GDP = Data;
             
             [self loadData];
         }];
 
-        [self getIndicatorData:GDP_PER_CAPITA_INDICATOR_STRING withHandler:^(NSString *Data){
+        [self getIndicatorData:GDP_PER_CAPITA_INDICATOR_STRING withCompletion:^(NSString *Data){
             
             GDPPerCapita = Data;
             
             [self loadData];
         }];
 
-        [self getIndicatorData:GNI_PER_CAPITA_INDICATOR_STRING withHandler:^(NSString *Data){
+        [self getIndicatorData:GNI_PER_CAPITA_INDICATOR_STRING withCompletion:^(NSString *Data){
             
             GNIPerCapita = Data;
             
             [self loadData];
         }];
 
-    });
+//    });
     
-    [self loadData];
+//    [self loadData];
 }
 
 static int TYPE_FLOAT = 1;
@@ -371,7 +379,6 @@ static int TYPE_INT = 2;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *NOT_AVAILABLE_TEXT = @"Not available";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -381,11 +388,9 @@ static NSString *NOT_AVAILABLE_TEXT = @"Not available";
     
     self.currencies = [self currenciesD];
     Currency     = [self.currencies valueForKey:self.country.currency];
-    GDP          = NOT_AVAILABLE_TEXT;
-    GDPPerCapita = NOT_AVAILABLE_TEXT;
-    GNIPerCapita = NOT_AVAILABLE_TEXT;
-    
-    [self.view addSubview:self.activityIndicator];
+    GDP          = LOADING_STRING;
+    GDPPerCapita = LOADING_STRING;
+    GNIPerCapita = LOADING_STRING;
     
     [self getData];
 }

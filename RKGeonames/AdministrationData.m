@@ -48,4 +48,15 @@
     return self;
 }
 
++ (id)emptyAdministrationData;
+{
+    return [[AdministrationData alloc] initWithCapitalCity:@"N/A"
+                                                   surface:@"N/A"
+                                               currentTime:@"N/A"
+                                                  timeZone:@"N/A"
+                                                   sunrise:@"N/A"
+                                                    sunset:@"N/A"];
+
+}
+
 @end

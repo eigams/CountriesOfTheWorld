@@ -19,4 +19,6 @@
                   sunrise:(NSString *)sunrise
                    sunset:(NSString *)sunset;
 
++ (id)emptyAdministrationData;
+
 @end

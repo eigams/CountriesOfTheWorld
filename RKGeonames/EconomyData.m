@@ -43,4 +43,30 @@
     return self;
 }
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: emptyEconomyData                                    |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
++ (id)emptyEconomyData;
+{
+    return [[EconomyData alloc] initWithCurrency:@"N/A"
+                                             gdp:@"N/A"
+                                           gdppc:@"N/A"
+                                           gnipc:@"N/A"];
+    
+}
+
+
 @end

@@ -19,7 +19,7 @@
                   forCountryCode:(NSString *)countryCode
                         withType:(int)type
                          andText:(NSString *)text
-           withActivityIndicator:(UIActivityIndicatorView *)activityIndicator
-                     withHandler:(void (^)(NSString *Sink))handler;
+                     withCompletion:(void (^)(NSString *Sink))handler
+                         failure:(void (^)(void))failure;
 
 @end

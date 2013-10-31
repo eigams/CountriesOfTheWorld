@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */; };
+		0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C1EB99D182096BF0093453C /* bandanaflag.jpg */; };
 		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
 		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
 		0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */; };
@@ -44,6 +45,8 @@
 
 /* Begin PBXFileReference section */
 		0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0C1EB99D182096BF0093453C /* bandanaflag.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bandanaflag.jpg; sourceTree = "<group>"; };
+		0C1EB99F182099DA0093453C /* RKGeonamesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesConstants.h; sourceTree = "<group>"; };
 		0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldBankIndicator.h; sourceTree = "<group>"; };
 		0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldBankIndicator.m; sourceTree = "<group>"; };
 		0C376B0917817AA100412F5F /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
@@ -157,7 +160,7 @@
 		0C4FA10F17744BB800A48BA0 /* RKGeonames */ = {
 			isa = PBXGroup;
 			children = (
-				0CAA7DCF17E328EC00E5CB22 /* Model */,
+				0CAA7DCF17E328EC00E5CB22 /* Models */,
 				0CCEC9261780890A00A148CB /* Controllers */,
 				0C4FA11817744BB800A48BA0 /* AppDelegate.h */,
 				0C4FA11917744BB800A48BA0 /* AppDelegate.m */,
@@ -165,6 +168,7 @@
 				0C4FA11017744BB800A48BA0 /* Supporting Files */,
 				0C68AF001775C84B00A14896 /* RKGeonamesTableViewCell.h */,
 				0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */,
+				0C1EB99F182099DA0093453C /* RKGeonamesConstants.h */,
 			);
 			path = RKGeonames;
 			sourceTree = "<group>";
@@ -172,6 +176,7 @@
 		0C4FA11017744BB800A48BA0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0C1EB99D182096BF0093453C /* bandanaflag.jpg */,
 				0C4FA11117744BB800A48BA0 /* RKGeonames-Info.plist */,
 				0C4FA11217744BB800A48BA0 /* InfoPlist.strings */,
 				0C4FA11517744BB800A48BA0 /* main.m */,
@@ -183,7 +188,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0CAA7DCF17E328EC00E5CB22 /* Model */ = {
+		0CAA7DCF17E328EC00E5CB22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */,
@@ -207,7 +212,7 @@
 				0CAA7DDF17E3560900E5CB22 /* EconomyData+TableRepresentation.h */,
 				0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		0CCEC9261780890A00A148CB /* Controllers */ = {
@@ -289,6 +294,7 @@
 				0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */,
 				0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */,
 				0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */,
+				0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */,
 				0C69CE2C177C854A00951ADA /* world-map.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

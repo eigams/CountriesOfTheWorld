@@ -14,6 +14,8 @@
 #import "Timezone.h"
 #import "City.h"
 
+#import "RKGeonamesConstants.h"
+
 @interface RKGAdministrationViewController ()
 
 @property (nonatomic, strong) Timezone *timezone;
@@ -21,8 +23,6 @@
 @end
 
 @implementation RKGAdministrationViewController
-
-static NSString *NOT_AVAILABLE_STRING = @"Not available";
 
 @synthesize tableView;
 @synthesize timezone;
@@ -90,19 +90,16 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
             }
         }
         
-        [self.activityIndicator stopAnimating];
-        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        [self.activityIndicator stopAnimating];
+        currentData = [[AdministrationData emptyAdministrationData] tr_tableRepresentation];
+        
+        [self.tableView reloadData];
     }];
     
     [operation start];
-    
-    [self.activityIndicator startAnimating];
-    [self.view addSubview:self.activityIndicator];
 }
 
 // |+|=======================================================================|+|
@@ -154,6 +151,9 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
+        currentData = [[AdministrationData emptyAdministrationData] tr_tableRepresentation];
+        
+        [self.tableView reloadData];
     }];
     
     [operation start];
@@ -183,12 +183,12 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
 
     [self addHomeButton];
     
-    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:NOT_AVAILABLE_STRING
-                                                                            surface:NOT_AVAILABLE_STRING
-                                                                        currentTime:NOT_AVAILABLE_STRING
-                                                                           timeZone:NOT_AVAILABLE_STRING
-                                                                            sunrise:NOT_AVAILABLE_STRING
-                                                                             sunset:NOT_AVAILABLE_STRING];
+    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:LOADING_STRING
+                                                                            surface:LOADING_STRING
+                                                                        currentTime:LOADING_STRING
+                                                                           timeZone:LOADING_STRING
+                                                                            sunrise:LOADING_STRING
+                                                                             sunset:LOADING_STRING];
     currentData = [adminData tr_tableRepresentation];
     
     [self.tableView reloadData];

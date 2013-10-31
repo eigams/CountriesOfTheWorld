@@ -22,6 +22,8 @@
     NSUInteger  totalCountries;
     NSUInteger  totalPages;
     NSUInteger  currentPageIndex;
+    
+    NSMutableSet *_flagImages;
 }
 
 @property (nonatomic, strong) NSArray *items;
@@ -133,6 +135,7 @@ static NSString *COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?us
         
         //array to hold the countries when using the search bar control
         self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
+        _flagImages = [NSMutableSet setWithCapacity:[self.items count]];
         
         [self.activityIndicator stopAnimating];
         [self.tableView reloadData];        
@@ -215,7 +218,7 @@ static BOOL firstTime = YES;
         [self.searchDisplayController setActive:NO animated:YES];
     }
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 // |+|=======================================================================|+|
@@ -247,6 +250,14 @@ static BOOL firstTime = YES;
         }
         
         [segue.destinationViewController setDetails:self.selectedCountry];
+        [_flagImages enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            UIImage *image = [obj objectForKey:[self.selectedCountry.countryCode lowercaseString]];
+            if(nil != image)
+            {
+                [segue.destinationViewController setBackgroundImage:image];
+                *stop = YES;
+            }
+        }];
         
         self.selectedCountry = nil;
     }
@@ -408,9 +419,35 @@ static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;
         
+        UIImage *flagImage;
+        
+        // we cache the flags to improve performance
+        for (NSDictionary *item in _flagImages)
+        {
+            // when a flag has been cached already
+            // we just load it and return
+            if (nil != (flagImage = [item objectForKey:[country.countryCode lowercaseString]]))
+            {
+                cell.flagImage.image = flagImage;
+                cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
+                
+                return cell;
+            }
+        }
+        
+        cell.flagImage.image = [UIImage imageNamed:@"bandanaflag.jpg"];
+        
+        // process flags not cached already
         NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
         
-        cell.flagImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
+            NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
+            [_flagImages addObject:newItem];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                cell.flagImage.image = image;
+            });
+        });
     }
     
     cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];

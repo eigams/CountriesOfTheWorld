@@ -17,4 +17,6 @@
                     birthRate:(NSString *)birthRate
                     deathRate:(NSString *)deathRate;
 
++ (id)emptyDemographicData;
+
 @end

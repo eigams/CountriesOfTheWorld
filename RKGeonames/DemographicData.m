@@ -43,4 +43,30 @@
     return self;
 }
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: emptyDemographicData                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
++ (id)emptyDemographicData;
+{
+    return [[DemographicData alloc] initWithTotalPopulation:@"N/A"
+                                           populationGrowth:@"N/A"
+                                                  birthRate:@"N/A"
+                                                  deathRate:@"N/A"];
+    
+}
+
+
 @end

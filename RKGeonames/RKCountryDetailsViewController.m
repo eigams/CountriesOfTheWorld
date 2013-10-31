@@ -69,6 +69,31 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
+// |+|    FUNCTION NAME: buttonAddBorder                                     |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void) buttonAddBorder:(UIButton *)button
+{
+    button.layer.borderWidth = 1.0f;
+    button.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    button.layer.cornerRadius = 8;
+    button.layer.masksToBounds = YES;
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
 // |+|    FUNCTION NAME: viewDidLoad                                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -88,25 +113,11 @@
 {
     [super viewDidLoad];
     
-    self.buttonAdministration.layer.borderWidth=1.0f;
-    self.buttonAdministration.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    self.buttonAdministration.layer.cornerRadius = 8;
-    self.buttonAdministration.layer.masksToBounds = YES;
-    self.buttonAdministration.backgroundColor = [UIColor lightGrayColor];
-
-    self.buttonEconomics.layer.borderWidth=1.0f;
-    self.buttonEconomics.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    self.buttonEconomics.layer.cornerRadius = 8;
-    self.buttonEconomics.layer.masksToBounds = YES;
-
-    self.buttonDemographics.layer.borderWidth=1.0f;
-    self.buttonDemographics.layer.borderColor=[UIColor lightGrayColor].CGColor;
-    self.buttonDemographics.layer.cornerRadius = 8;
-    self.buttonDemographics.layer.masksToBounds = YES;
+    [self buttonAddBorder:self.buttonAdministration];
+    [self buttonAddBorder:self.buttonEconomics];
+    [self buttonAddBorder:self.buttonDemographics];
     
     [self addBackButton];
-    
-//    [self.buttonEconomics setTitle:@"Economics" forState:UIControlStateNormal];
 }
 
 // |+|=======================================================================|+|

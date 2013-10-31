@@ -17,4 +17,6 @@
                  gdppc:(NSString *)gdppc
                  gnipc:(NSString *)gnipc;
 
++ (id)emptyEconomyData;
+
 @end

@@ -9,8 +9,12 @@
 #import "RKGDetailsViewController.h"
 
 #import "RKGeonamesUtils.h"
+#import "RKGeonamesConstants.h"
 
 @interface RKGDetailsViewController ()
+
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIImage *bgImage;
 
 @end
 
@@ -84,6 +88,8 @@
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size=320x150&&sensor=false&path=weight:3|fillcolor:|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f";
+static const NSUInteger INDICATOR_WIDTH = 30;
+static const NSUInteger INDICATOR_HEGHT = 30;
 - (void) setupMapView
 {
     float lah = [self.country.north floatValue] + .5, lal = [self.country.south floatValue] - .5, loh = [self.country.east floatValue] + .5, lol = [self.country.west floatValue] - .5;
@@ -92,10 +98,22 @@ static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size
     
     NSLog(@"urlString: %@", urlString);
     
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    self.mapView.delegate = self;
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame: CGRectMake(self.mapView.frame.size.width/2 - INDICATOR_WIDTH/2,
+                                                                                        self.mapView.frame.size.height/2 + INDICATOR_HEGHT/2,
+                                                                                        INDICATOR_WIDTH, INDICATOR_HEGHT)];
+    self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     
-    [self.mapView loadRequest:urlRequest];
-    self.mapView.alpha = 1;
+    [self.mapView addSubview:self.activityIndicator];
+    
+    [self.activityIndicator startAnimating];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        
+        [self.mapView loadRequest:urlRequest];
+        self.mapView.alpha = 1;
+    });
 }
 
 // |+|=======================================================================|+|
@@ -116,11 +134,11 @@ static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 static NSString *COUNTRY_FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
-- (void)setBackgroundImage
+- (void)setBackgroundImage:(UIImage *)image
 {
-    NSString *url = [NSString stringWithFormat:COUNTRY_FLAG_URL, [self.country.countryCode lowercaseString]];
+    self.bgImage = image;
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:self.bgImage];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:url]]]];
     imageView.frame = CGRectMake(0, 211, 320, self.view.frame.size.height - 180);
     imageView.alpha = 0.1;
     imageView.contentMode = UIViewContentModeScaleToFill;
@@ -226,15 +244,15 @@ static const int HOME_VIEW_INDEX = 3;
     
     //create the activity indicator
     //it'll be used later on to mark lenghtly operations
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityIndicator.center = self.tableView.center;
-    self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
+//    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    self.activityIndicator.center = self.tableView.center;
+//    self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     
-    [self setBackgroundImage];
+//    [self setBackgroundImage];
     [self setupMapView];
     
     self.title = self.country.name;
-        
+    
 	// Do any additional setup after loading the view.
 }
 
@@ -281,8 +299,10 @@ static const int HOME_VIEW_INDEX = 3;
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     [segue.destinationViewController setDetails:self.country];
+    [segue.destinationViewController setBackgroundImage:self.bgImage];
 }
 
+#pragma mark - UITableView delegates
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -334,6 +354,22 @@ static const int HOME_VIEW_INDEX = 3;
     
     cell.textLabel.text = currentData[@"titles"][indexPath.row];
     cell.detailTextLabel.text = currentData[@"values"][indexPath.row];
+    if(YES == [currentData[@"values"][indexPath.row] isEqualToString:LOADING_STRING])
+    {
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        spinner.frame = CGRectMake(0, 0, 14, 14);
+        
+        cell.accessoryView = spinner;
+        
+        [spinner startAnimating];
+    }
+    else
+    {
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
+        
+        [spinner stopAnimating];
+        cell.accessoryView = nil;
+    }
     
     return cell;
 }
@@ -345,5 +381,30 @@ static const int HOME_VIEW_INDEX = 3;
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.001;
 }
+
+#pragma mark - UIWebViewDelegates
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: webViewDidFinishLoad                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   default implementation                              |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [self.activityIndicator stopAnimating];
+}
+
 
 @end
