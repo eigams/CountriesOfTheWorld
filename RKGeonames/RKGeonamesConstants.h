@@ -9,6 +9,7 @@
 #ifndef RKGeonames_RKGeonamesConstants_h
 #define RKGeonames_RKGeonamesConstants_h
 
-
+static NSString *NOT_AVAILABLE_STRING = @"N/A";
+static NSString *LOADING_STRING = @"loading ...";
 
 #endif
