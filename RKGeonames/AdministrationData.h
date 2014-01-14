@@ -19,6 +19,6 @@
                   sunrise:(NSString *)sunrise
                    sunset:(NSString *)sunset;
 
-+ (id)emptyAdministrationData;
++ (instancetype)data;
 
 @end

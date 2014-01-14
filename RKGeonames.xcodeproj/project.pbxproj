@@ -40,7 +40,23 @@
 		0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC921178034A100A148CB /* RKGDetailsViewController.m */; };
 		0CCEC9251780883B00A148CB /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
 		0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC92817808DBD00A148CB /* MappingProvider.m */; };
-		90AE252716E1430C800FD248 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 991168A7008649DBB2AF1B8B /* libPods.a */; };
+		0CD9783E1856BEBE00838DBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10B17744BB800A48BA0 /* Foundation.framework */; };
+		0CD9783F1856BEBE00838DBF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */; };
+		0CD978401856BEBE00838DBF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10917744BB800A48BA0 /* UIKit.framework */; };
+		0CD978461856BEBE00838DBF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0CD978441856BEBE00838DBF /* InfoPlist.strings */; };
+		0CD978481856BEBE00838DBF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD978471856BEBE00838DBF /* main.m */; };
+		0CD978691856BEE700838DBF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD978681856BEE700838DBF /* libPods.a */; };
+		0CD9786C1856BFD900838DBF /* RKGeonamesAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */; };
+		0CD9786E1856C12700838DBF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD9786D1856C12700838DBF /* libPods.a */; };
+		0CD9786F1856C22100838DBF /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4368A91784298100B61F76 /* RKGeonamesUtils.m */; };
+		0CD978701856C4B700838DBF /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC92817808DBD00A148CB /* MappingProvider.m */; };
+		0CD978711856C4D000838DBF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
+		0CD978721856C4D000838DBF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
+		0CD978731856C4D000838DBF /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
+		0CD978741856C4D000838DBF /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
+		0CD978751856C4D000838DBF /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
+		0CD978761856C4D000838DBF /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
+		0CD978771856C4D000838DBF /* EconomyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDD17E355F100E5CB22 /* EconomyData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,7 +118,14 @@
 		0CCEC9241780883B00A148CB /* Timezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timezone.m; sourceTree = "<group>"; };
 		0CCEC92717808DBD00A148CB /* MappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MappingProvider.h; path = RKGeonames/MappingProvider.h; sourceTree = "<group>"; };
 		0CCEC92817808DBD00A148CB /* MappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MappingProvider.m; path = RKGeonames/MappingProvider.m; sourceTree = "<group>"; };
-		991168A7008649DBB2AF1B8B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CD9783D1856BEBE00838DBF /* RKGeonamesTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKGeonamesTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CD978431856BEBE00838DBF /* RKGeonamesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RKGeonamesTests-Info.plist"; sourceTree = "<group>"; };
+		0CD978451856BEBE00838DBF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0CD978471856BEBE00838DBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0CD978491856BEBE00838DBF /* RKGeonamesTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RKGeonamesTests-Prefix.pch"; sourceTree = "<group>"; };
+		0CD978681856BEE700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesAPITests.m; sourceTree = "<group>"; };
+		0CD9786D1856C12700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		B487009349BE4E35B272E03C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -111,11 +134,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD9786E1856C12700838DBF /* libPods.a in Frameworks */,
 				0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */,
 				0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */,
 				0C4FA10C17744BB800A48BA0 /* Foundation.framework in Frameworks */,
 				0C4FA10E17744BB800A48BA0 /* CoreGraphics.framework in Frameworks */,
-				90AE252716E1430C800FD248 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CD9783A1856BEBE00838DBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CD978691856BEE700838DBF /* libPods.a in Frameworks */,
+				0CD9783F1856BEBE00838DBF /* CoreGraphics.framework in Frameworks */,
+				0CD978401856BEBE00838DBF /* UIKit.framework in Frameworks */,
+				0CD9783E1856BEBE00838DBF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +165,7 @@
 				0CCEC92817808DBD00A148CB /* MappingProvider.m */,
 				0C69CE29177C854A00951ADA /* world-map.png */,
 				0C4FA10F17744BB800A48BA0 /* RKGeonames */,
+				0CD978411856BEBE00838DBF /* RKGeonamesTests */,
 				0C4FA10817744BB800A48BA0 /* Frameworks */,
 				0C4FA10717744BB800A48BA0 /* Products */,
 				B487009349BE4E35B272E03C /* Pods.xcconfig */,
@@ -141,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				0C4FA10617744BB800A48BA0 /* RKGeonames.app */,
+				0CD9783D1856BEBE00838DBF /* RKGeonamesTests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,11 +184,12 @@
 		0C4FA10817744BB800A48BA0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CD9786D1856C12700838DBF /* libPods.a */,
+				0CD978681856BEE700838DBF /* libPods.a */,
 				0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */,
 				0C4FA10917744BB800A48BA0 /* UIKit.framework */,
 				0C4FA10B17744BB800A48BA0 /* Foundation.framework */,
 				0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */,
-				991168A7008649DBB2AF1B8B /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -236,6 +273,26 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		0CD978411856BEBE00838DBF /* RKGeonamesTests */ = {
+			isa = PBXGroup;
+			children = (
+				0CD978421856BEBE00838DBF /* Supporting Files */,
+			);
+			path = RKGeonamesTests;
+			sourceTree = "<group>";
+		};
+		0CD978421856BEBE00838DBF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0CD978431856BEBE00838DBF /* RKGeonamesTests-Info.plist */,
+				0CD978441856BEBE00838DBF /* InfoPlist.strings */,
+				0CD978471856BEBE00838DBF /* main.m */,
+				0CD978491856BEBE00838DBF /* RKGeonamesTests-Prefix.pch */,
+				0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -256,6 +313,23 @@
 			name = RKGeonames;
 			productName = RKGeonames;
 			productReference = 0C4FA10617744BB800A48BA0 /* RKGeonames.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0CD9783C1856BEBE00838DBF /* RKGeonamesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CD978661856BEBF00838DBF /* Build configuration list for PBXNativeTarget "RKGeonamesTests" */;
+			buildPhases = (
+				0CD978391856BEBE00838DBF /* Sources */,
+				0CD9783A1856BEBE00838DBF /* Frameworks */,
+				0CD9783B1856BEBE00838DBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RKGeonamesTests;
+			productName = RKGeonamesTests;
+			productReference = 0CD9783D1856BEBE00838DBF /* RKGeonamesTests.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -280,6 +354,7 @@
 			projectRoot = "";
 			targets = (
 				0C4FA10517744BB800A48BA0 /* RKGeonames */,
+				0CD9783C1856BEBE00838DBF /* RKGeonamesTests */,
 			);
 		};
 /* End PBXProject section */
@@ -296,6 +371,14 @@
 				0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */,
 				0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */,
 				0C69CE2C177C854A00951ADA /* world-map.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CD9783B1856BEBE00838DBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CD978461856BEBE00838DBF /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +445,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0CD978391856BEBE00838DBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CD978741856C4D000838DBF /* Country.m in Sources */,
+				0CD978771856C4D000838DBF /* EconomyData.m in Sources */,
+				0CD9786C1856BFD900838DBF /* RKGeonamesAPITests.m in Sources */,
+				0CD978481856BEBE00838DBF /* main.m in Sources */,
+				0CD978721856C4D000838DBF /* City.m in Sources */,
+				0CD9786F1856C22100838DBF /* RKGeonamesUtils.m in Sources */,
+				0CD978731856C4D000838DBF /* Timezone.m in Sources */,
+				0CD978711856C4D000838DBF /* WorldBankIndicator.m in Sources */,
+				0CD978761856C4D000838DBF /* DemographicData.m in Sources */,
+				0CD978751856C4D000838DBF /* AdministrationData.m in Sources */,
+				0CD978701856C4B700838DBF /* MappingProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -379,6 +480,14 @@
 				0C4FA12217744BB800A48BA0 /* en */,
 			);
 			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		0CD978441856BEBE00838DBF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0CD978451856BEBE00838DBF /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -468,6 +577,56 @@
 			};
 			name = Release;
 		};
+		0CD978621856BEBF00838DBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B487009349BE4E35B272E03C /* Pods.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RKGeonamesTests/RKGeonamesTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "RKGeonamesTests/RKGeonamesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0CD978631856BEBF00838DBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RKGeonamesTests/RKGeonamesTests-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = "RKGeonamesTests/RKGeonamesTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -488,6 +647,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		0CD978661856BEBF00838DBF /* Build configuration list for PBXNativeTarget "RKGeonamesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CD978621856BEBF00838DBF /* Debug */,
+				0CD978631856BEBF00838DBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -94,7 +94,7 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        currentData = [[AdministrationData emptyAdministrationData] tr_tableRepresentation];
+        currentData = [[AdministrationData data] tr_tableRepresentation];
         
         [self.tableView reloadData];
     }];
@@ -151,12 +151,30 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        currentData = [[AdministrationData emptyAdministrationData] tr_tableRepresentation];
+        currentData = [[AdministrationData data] tr_tableRepresentation];
         
         [self.tableView reloadData];
     }];
     
     [operation start];
+}
+
+- (void)getCities
+{
+    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:LOADING_STRING
+                                                                            surface:LOADING_STRING
+                                                                        currentTime:LOADING_STRING
+                                                                           timeZone:LOADING_STRING
+                                                                            sunrise:LOADING_STRING
+                                                                             sunset:LOADING_STRING];
+    currentData = [adminData tr_tableRepresentation];
+    
+    [self.tableView reloadData];
+    
+    [self getCities:self.country.north
+              south:self.country.south
+               west:self.country.west
+               east:self.country.east];
 }
 
 // |+|=======================================================================|+|
@@ -181,7 +199,7 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 
-    [self addHomeButton];
+    [self addBarButtons:@selector(getCities)];
     
     AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:LOADING_STRING
                                                                             surface:LOADING_STRING

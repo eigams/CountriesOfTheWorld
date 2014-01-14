@@ -59,9 +59,9 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-+ (id)emptyEconomyData;
++ (id)data;
 {
-    return [[EconomyData alloc] initWithCurrency:@"N/A"
+    return [[self alloc] initWithCurrency:@"N/A"
                                              gdp:@"N/A"
                                            gdppc:@"N/A"
                                            gnipc:@"N/A"];

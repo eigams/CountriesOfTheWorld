@@ -23,7 +23,7 @@
     NSUInteger  totalPages;
     NSUInteger  currentPageIndex;
     
-    NSMutableSet *_flagImages;
+    NSMutableArray *_flagImages;
 }
 
 @property (nonatomic, strong) NSArray *items;
@@ -38,17 +38,15 @@
 - (IBAction) gotoSearch:(id)sender;
 - (void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
 
-- (void) setupSearchBar:(id)sender;
-
 @end
 
 @implementation RKGeonamesViewController
 
-@synthesize items;
-@synthesize countries;
-@synthesize filteredCountries;
-@synthesize isSearchBarVisible;
-@synthesize selectedCountry;
+//@synthesize items;
+//@synthesize countries;
+//@synthesize filteredCountries;
+//@synthesize isSearchBarVisible;
+//@synthesize selectedCountry;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
@@ -104,6 +102,40 @@
 }
 
 // |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: loadFlagImages                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void) loadFlagImages;
+{
+    [self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        CountryGeonames *country = obj;
+        
+        // process flags not cached already
+        __block NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
+            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
+            NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
+            [_flagImages addObject:newItem];
+        });
+    }];
+}
+
+// |+|=======================================================================|+|
 // |+|                                                                       |+|`
 // |+|    FUNCTION NAME: getGeonamesCountries                                |+|
 // |+|                                                                       |+|
@@ -120,8 +152,8 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?username=sbpuser";
-- (void) getGeonamesCountries
+static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?username=sbpuser";
+- (void) getGeonamesCountries:(id)sender
 {
     RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping) withURL:COUNTRY_INFO_URL andPathPattern:nil andKeyPath:@"geonames"];
     
@@ -135,10 +167,19 @@ static NSString *COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?us
         
         //array to hold the countries when using the search bar control
         self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
-        _flagImages = [NSMutableSet setWithCapacity:[self.items count]];
+        _flagImages = [NSMutableArray arrayWithCapacity:[self.items count]];
+        
+        NSLog(@"Before loading the flags");
+        
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                                  initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
+                                                  target:self
+                                                  action:@selector(gotoSearch:)];
+        
+        [self loadFlagImages];
         
         [self.activityIndicator stopAnimating];
-        [self.tableView reloadData];        
+        [self.tableView reloadData];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"ERROR: %@", error);
@@ -250,7 +291,7 @@ static BOOL firstTime = YES;
         }
         
         [segue.destinationViewController setDetails:self.selectedCountry];
-        [_flagImages enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             UIImage *image = [obj objectForKey:[self.selectedCountry.countryCode lowercaseString]];
             if(nil != image)
             {
@@ -291,13 +332,20 @@ static BOOL firstTime = YES;
                                                              action:nil];
     self.navigationItem.backBarButtonItem = backButton;
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                              target:self
+                                              action:@selector(getGeonamesCountries:)];
+    
     [self setupSearchBar];
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     
-    [self getGeonamesCountries];
+    [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+    
+    [self getGeonamesCountries:nil];
 }
 
 // |+|=======================================================================|+|
@@ -372,10 +420,8 @@ static BOOL firstTime = YES;
     {
         return [self.filteredCountries count];
     }
-    else
-    {
-        return [self.items count];
-    }
+    
+    return [self.items count];
 }
 
 // |+|=======================================================================|+|
@@ -395,11 +441,11 @@ static BOOL firstTime = YES;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
+static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    RKGeonamesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    __block RKGeonamesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(nil == cell)
     {
         cell = [[RKGeonamesTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -419,32 +465,49 @@ static NSString *FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;
         
-        UIImage *flagImage;
+        __block UIImage *flagImage;
         
         // we cache the flags to improve performance
-        for (NSDictionary *item in _flagImages)
-        {
+        [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         
             // when a flag has been cached already
             // we just load it and return
-            if (nil != (flagImage = [item objectForKey:[country.countryCode lowercaseString]]))
+            if (nil != (flagImage = [obj objectForKey:[country.countryCode lowercaseString]]))
             {
                 cell.flagImage.image = flagImage;
                 cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
                 
-                return cell;
+                *stop = YES;
+                
+                return ;
             }
+        }];
+        
+        if(nil != flagImage)
+        {
+            return cell;
         }
         
-        cell.flagImage.image = [UIImage imageNamed:@"bandanaflag.jpg"];
+        NSLog(@"flagImage == nil");
+        
+        static UIImage *bandanaFlag = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            bandanaFlag = [UIImage imageNamed:@"bandanaflag.jpg"];
+        });
+        
+        cell.flagImage.image = bandanaFlag;
         
         // process flags not cached already
         NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
             UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
             NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
             [_flagImages addObject:newItem];
-            dispatch_sync(dispatch_get_main_queue(), ^{
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
                 cell.flagImage.image = image;
             });
         });

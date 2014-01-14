@@ -210,7 +210,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) countryMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[Country class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKCountry class]];
     
     [mapping addAttributeMappingsFromDictionary:@{
      @"id":          @"id",

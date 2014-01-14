@@ -24,14 +24,16 @@
 }
 
 @property (nonatomic, strong) NSArray *items;
-@property (nonatomic, strong) NSDictionary *currencies;
+@property (nonatomic, strong, readonly) NSDictionary *currencies;
+
+@property (nonatomic, strong) IBOutlet UITextField *year;
 
 @end
 
 @implementation RKGEconomicsViewController
 
 @synthesize items;
-@synthesize currencies;
+//@synthesize currencies;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -50,172 +52,179 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (NSDictionary *) currenciesD
+- (NSDictionary *) currencies
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys: @"United Arab Emirates Dirham", @"AED",
-                                @"Afghanistan Afghani", @"AFN",
-                                @"Albania Lek", @"ALL",  
-                                @"Armenia Dram", @"AMD",	
-                                @"Netherlands Antilles Guilder", @"ANG",	
-                                @"Angola Kwanza", @"AOA",	
-                                @"Argentina Peso", @"ARS",	
-                                @"Australia Dollar",  @"AUD",	
-                                @"Aruba Guilder", @"AWG",	
-                                @"Azerbaijan New Manat", @"AZN",	
-                                @"Bosnia and Herzegovina Convertible Marka", @"BAM",	
-                                @"Barbados Dollar", @"BBD",	
-                                @"Bangladesh Taka", @"BDT",	
-                                @"Bulgaria Lev", @"BGN",	
-                                @"Bahrain Dinar", @"BHD",	
-                                @"Burundi Franc", @"BIF",	
-                                @"Bermuda Dollar", @"BMD",	
-                                @"Brunei Darussalam Dollar", @"BND",	
-                                @"Bolivia Boliviano", @"BOB",	
-                                @"Brazil Real", @"BRL",	
-                                @"Bahamas Dollar",@"BSD",	
-                                @"Bhutan Ngultrum",@"BTN",	
-                                @"Botswana Pula",@"BWP",	
-                                @"Belarus Ruble",@"BYR",	
-                                @"Belize Dollar",@"BZD",	
-                                @"Canada Dollar",@"CAD",	
-                                @"Congo/Kinshasa Franc",@"CDF",	
-                                @"Switzerland Franc",@"CHF",	
-                                @"Chile Peso",@"CLP",	
-                                @"China Yuan Renminbi",@"CNY",	
-                                @"Colombia Peso",@"COP",	
-                                @"Costa Rica Colon",@"CRC",	
-                                @"Cuba Convertible Peso",@"CUC",	
-                                @"Cuba Peso",@"CUP",	
-                                @"Cape Verde Escudo",@"CVE",	
-                                @"Czech Republic Koruna",@"CZK",	
-                                @"Djibouti Franc",@"DJF",	
-                                @"Denmark Krone",@"DKK",	
-                                @"Dominican Republic Peso",@"DOP",	
-                                @"Algeria Dinar",@"DZD",	
-                                @"Egypt Pound",@"EGP",	
-                                @"Eritrea Nakfa",@"ERN",	
-                                @"Ethiopia Birr",@"ETB",	
-                                @"Euro Member Countries",@"EUR",	
-                                @"Fiji Dollar",@"FJD",	
-                                @"Falkland Islands (Malvinas) Pound",@"FKP",	
-                                @"United Kingdom Pound",@"GBP",	
-                                @"Georgia Lari",@"GEL",	
-                                @"Guernsey Pound",@"GGP",	
-                                @"Ghana Cedi",@"GHS",	
-                                @"Gibraltar Pound",@"GIP",	
-                                @"Gambia Dalasi",@"GMD",	
-                                @"Guinea Franc",@"GNF",	
-                                @"Guatemala Quetzal",@"GTQ",	
-                                @"Guyana Dollar",@"GYD",	
-                                @"Hong Kong Dollar",@"HKD",	
-                                @"Honduras Lempira",@"HNL",	
-                                @"Croatia Kuna", @"HRK",	
-                                @"Haiti Gourde",@"HTG",	
-                                @"Hungary Forint",@"HUF",	
-                                @"Indonesia Rupiah",@"IDR",	
-                                @"Israel Shekel",@"ILS",	
-                                @"Isle of Man Pound",@"IMP",	
-                                @"India Rupee",@"INR",	
-                                @"Iraq Dinar",@"IQD",	
-                                @"Iran Rial",@"IRR",	
-                                @"Iceland Krona",@"ISK",	
-                                @"Jersey Pound",@"JEP",	
-                                @"Jamaica Dollar",@"JMD",	
-                                @"Jordan Dinar",@"JOD",	
-                                @"Japan Yen",@"JPY",	
-                                @"Kenya Shilling",@"KES",	
-                                @"Kyrgyzstan Som",@"KGS",	
-                                @"Cambodia Riel",@"KHR",	
-                                @"Comoros Franc",@"KMF",	
-                                @"Korea (North) Won",@"KPW",	
-                                @"Korea (South) Won",@"KRW",	
-                                @"Kuwait Dinar",@"KWD",	
-                                @"Cayman Islands Dollar",@"KYD",	
-                                @"Kazakhstan Tenge",@"KZT",	
-                                @"Laos Kip",@"LAK",	
-                                @"Lebanon Pound",@"LBP",	
-                                @"Sri Lanka Rupee",@"LKR",	
-                                @"Liberia Dollar",@"LRD",	
-                                @"Lesotho Loti",@"LSL",	
-                                @"Lithuania Litas",@"LTL",	
-                                @"Latvia Lat",@"LVL",	
-                                @"Libya Dinar",@"LYD",	
-                                @"Morocco Dirham",@"MAD",	
-                                @"Moldova Leu",@"MDL",	
-                                @"Madagascar Ariary",@"MGA",	
-                                @"Macedonia Denar",@"MKD",	
-                                @"Myanmar (Burma) Kyat",@"MMK",	
-                                @"Mongolia Tughrik",@"MNT",	
-                                @"Macau Pataca",@"MOP",	
-                                @"Mauritania Ouguiya",@"MRO",	
-                                @"Mauritius Rupee",@"MUR",	
-                                @"Maldives (Maldive Islands) Rufiyaa",@"MVR",	
-                                @"Malawi Kwacha",@"MWK",	
-                                @"Mexico Peso",@"MXN",	
-                                @"Malaysia Ringgit",@"MYR",	
-                                @"Mozambique Metical",@"MZN",	
-                                @"Namibia Dollar",@"NAD",	
-                                @"Nigeria Naira",@"NGN",	
-                                @"Nicaragua Cordoba",@"NIO",	
-                                @"Norway Krone",@"NOK",	
-                                @"Nepal Rupee",@"NPR",	
-                                @"New Zealand Dollar",@"NZD",	
-                                @"Oman Rial",@"OMR",	
-                                @"Panama Balboa",@"PAB",	
-                                @"Peru Nuevo Sol",@"PEN",	
-                                @"Papua New Guinea Kina",@"PGK",	
-                                @"Philippines Peso",@"PHP",	
-                                @"Pakistan Rupee",@"PKR",	
-                                @"Poland Zloty",@"PLN",	
-                                @"Paraguay Guarani",@"PYG",	
-                                @"Qatar Riyal",@"QAR",	
-                                @"Romania New Leu",@"RON",	
-                                @"Serbia Dinar",@"RSD",	
-                                @"Russia Ruble",@"RUB",	
-                                @"Rwanda Franc",@"RWF",	
-                                @"Saudi Arabia Riyal",@"SAR",	
-                                @"Solomon Islands Dollar",@"SBD",	
-                                @"Seychelles Rupee",@"SCR",	
-                                @"Sudan Pound",@"SDG",	
-                                @"Sweden Krona",@"SEK",	
-                                @"Singapore Dollar",@"SGD",	
-                                @"Saint Helena Pound",@"SHP",	
-                                @"Sierra Leone Leone",@"SLL",	
-                                @"Somalia Shilling",@"SOS",	
-                                @"Seborga Luigino",@"SPL",	
-                                @"Suriname Dollar",@"SRD",	
-                                @"São Tomé and Príncipe Dobra",@"STD",	
-                                @"El Salvador Colon",@"SVC",	
-                                @"Syria Pound",@"SYP",	
-                                @"Swaziland Lilangeni",@"SZL",	
-                                @"Thailand Baht",@"THB",	
-                                @"Tajikistan Somoni",@"TJS",	
-                                @"Turkmenistan Manat",@"TMT",	
-                                @"Tunisia Dinar",@"TND",	
-                                @"Tonga Pa'anga",@"TOP",	
-                                @"TRY",	@"Turkey Lira",
-                                @"Trinidad and Tobago Dollar",@"TTD",	
-                                @"Tuvalu Dollar",@"TVD",	
-                                @"Taiwan New Dollar",@"TWD",	
-                                @"Tanzania Shilling",@"TZS",	
-                                @"Ukraine Hryvna",@"UAH",	
-                                @"Uganda Shilling",@"UGX",	
-                                @"United States Dollar",@"USD",	
-                                @"Uruguay Peso",@"UYU",	
-                                @"Uzbekistan Som",@"UZS",	
-                                @"Venezuela Bolivar",@"VEF",	
-                                @"Viet Nam Dong",@"VND",	
-                                @"Vanuatu Vatu",@"VUV",	
-                                @"Samoa Tala",@"WST",	
-                                @"Communauté Financière Africaine (BEAC) CFA Franc BEAC",@"XAF",	
-                                @"East Caribbean Dollar",@"XCD",	
-                                @"International Monetary Fund (IMF) Special Drawing Rights",@"XDR",	
-                                @"Communauté Financière Africaine (BCEAO) Franc",@"XOF",	
-                                @"Comptoirs Français du Pacifique (CFP) Franc",@"XPF",	
-                                @"Yemen Rial",@"YER",	
-                                @"South Africa Rand",@"ZAR",	
-                                @"Zambia Kwacha",@"ZMW",	
-                                @"Zimbabwe Dollar", @"ZWD",	nil];
+    static NSDictionary *currency = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+
+        currency = @{@"AED": @"United Arab Emirates Dirham",
+                     @"AFN": @"Afghanistan Afghani",
+                     @"ALL": @"Albania Lek",
+                     @"AMD": @"Armenia Dram",
+                     @"ANG": @"Netherlands Antilles Guilder",
+                     @"AOA": @"Angola Kwanza",
+                     @"ARS": @"Argentina Peso",
+                     @"AUD": @"Australia Dollar",
+                     @"AWG": @"Aruba Guilder",
+                     @"AZN": @"Azerbaijan New Manat",
+                     @"BAM": @"Bosnia and Herzegovina Convertible Marka",
+                     @"BBD": @"Barbados Dollar",
+                     @"BDT": @"Bangladesh Taka",
+                     @"BGN": @"Bulgaria Lev",
+                     @"BHD": @"Bahrain Dinar",
+                     @"BIF": @"Burundi Franc",
+                     @"BMD": @"Bermuda Dollar",
+                     @"BND": @"Brunei Darussalam Dollar",
+                     @"BOB": @"Bolivia Boliviano",
+                     @"BRL": @"Brazil Real",
+                     @"BSD": @"Bahamas Dollar",
+                     @"BTN": @"Bhutan Ngultrum",
+                     @"BWP": @"Botswana Pula",
+                     @"BYR": @"Belarus Ruble",
+                     @"BZD": @"Belize Dollar",
+                     @"CAD": @"Canada Dollar",
+                     @"CDF": @"Congo/Kinshasa Franc",
+                     @"CHF": @"Switzerland Franc",
+                     @"CLP": @"Chile Peso",
+                    @"CNY": @"China Yuan Renminbi",
+                    @"COP": @"Colombia Peso",
+                    @"CRC": @"Costa Rica Colon",
+                    @"CUC": @"Cuba Convertible Peso",
+                    @"CUP": @"Cuba Peso",
+                    @"CVE": @"Cape Verde Escudo",
+                    @"CZK": @"Czech Republic Koruna",
+                    @"DJF": @"Djibouti Franc",
+                    @"DKK": @"Denmark Krone",
+                    @"DOP": @"Dominican Republic Peso",
+                    @"DZD": @"Algeria Dinar",
+                    @"EGP": @"Egypt Pound",
+                    @"ERN": @"Eritrea Nakfa",
+                    @"ETB": @"Ethiopia Birr",
+                    @"EUR": @"Euro Member Countries",
+                    @"FJD": @"Fiji Dollar",
+                    @"FKP": @"Falkland Islands (Malvinas) Pound",
+                    @"GBP": @"United Kingdom Pound",
+                    @"GEL": @"Georgia Lari",
+                    @"GGP": @"Guernsey Pound",
+                    @"GHS": @"Ghana Cedi",
+                    @"GIP": @"Gibraltar Pound",
+                    @"GMD": @"Gambia Dalasi",
+                    @"GNF": @"Guinea Franc",
+                    @"GTQ": @"Guatemala Quetzal",
+                    @"GYD": @"Guyana Dollar",
+                    @"HKD": @"Hong Kong Dollar",
+                    @"HNL": @"Honduras Lempira",
+                    @"HRK": @"Croatia Kuna",
+                    @"HTG": @"Haiti Gourde",
+                    @"HUF": @"Hungary Forint",
+                    @"IDR": @"Indonesia Rupiah",
+                    @"ILS": @"Israel Shekel",
+                    @"IMP": @"Isle of Man Pound",
+                    @"INR": @"India Rupee",
+                    @"IQD": @"Iraq Dinar",
+                    @"IRR": @"Iran Rial",
+                    @"ISK": @"Iceland Krona",
+                    @"JEP": @"Jersey Pound",
+                    @"JMD": @"Jamaica Dollar",
+                    @"JOD": @"Jordan Dinar",
+                    @"JPY": @"Japan Yen",
+                    @"KES": @"Kenya Shilling",
+                    @"KGS": @"Kyrgyzstan Som",
+                    @"KHR": @"Cambodia Riel",
+                    @"KMF": @"Comoros Franc",
+                    @"KPW": @"Korea (North) Won",
+                    @"KRW": @"Korea (South) Won",
+                    @"KWD": @"Kuwait Dinar",
+                    @"KYD": @"Cayman Islands Dollar",
+                    @"KZT": @"Kazakhstan Tenge",
+                    @"LAK": @"Laos Kip",
+                    @"LBP": @"Lebanon Pound",
+                    @"LKR": @"Sri Lanka Rupee",
+                    @"LRD": @"Liberia Dollar",
+                    @"LSL": @"Lesotho Loti",
+                    @"LTL": @"Lithuania Litas",
+                    @"LVL": @"Latvia Lat",
+                    @"LYD": @"Libya Dinar",
+                    @"MAD": @"Morocco Dirham",
+                    @"MDL": @"Moldova Leu",
+                    @"MGA": @"Madagascar Ariary",
+                    @"MKD": @"Macedonia Denar",
+                    @"MMK": @"Myanmar (Burma) Kyat",
+                    @"MNT": @"Mongolia Tughrik",
+                    @"MOP": @"Macau Pataca",
+                    @"MRO": @"Mauritania Ouguiya",
+                    @"MUR": @"Mauritius Rupee",
+                    @"MVR": @"Maldives (Maldive Islands) Rufiyaa",
+                    @"MWK": @"Malawi Kwacha",
+                    @"MXN": @"Mexico Peso",
+                    @"MYR": @"Malaysia Ringgit",
+                    @"MZN": @"Mozambique Metical",
+                    @"NAD": @"Namibia Dollar",
+                    @"NGN": @"Nigeria Naira",
+                    @"NIO": @"Nicaragua Cordoba",
+                    @"NOK": @"Norway Krone",
+                    @"NPR": @"Nepal Rupee",
+                    @"NZD": @"New Zealand Dollar",
+                    @"OMR": @"Oman Rial",
+                    @"PAB": @"Panama Balboa",
+                    @"PEN": @"Peru Nuevo Sol",
+                    @"PGK": @"Papua New Guinea Kina",
+                    @"PHP": @"Philippines Peso",
+                    @"PKR": @"Pakistan Rupee",
+                    @"PLN": @"Poland Zloty",
+                    @"PYG": @"Paraguay Guarani",
+                    @"QAR": @"Qatar Riyal",
+                    @"RON": @"Romania New Leu",
+                    @"RSD": @"Serbia Dinar",
+                    @"RUB": @"Russia Ruble",
+                    @"RWF": @"Rwanda Franc",
+                    @"SAR": @"Saudi Arabia Riyal",
+                    @"SBD": @"Solomon Islands Dollar",
+                    @"SCR": @"Seychelles Rupee",
+                    @"SDG": @"Sudan Pound",
+                    @"SEK": @"Sweden Krona",
+                    @"SGD": @"Singapore Dollar",
+                    @"SHP": @"Saint Helena Pound",
+                    @"SLL": @"Sierra Leone Leone",
+                    @"SOS": @"Somalia Shilling",
+                    @"SPL": @"Seborga Luigino",
+                    @"SRD": @"Suriname Dollar",
+                    @"STD": @"São Tomé and Príncipe Dobra",
+                    @"SVC": @"El Salvador Colon",
+                    @"SYP": @"Syria Pound",
+                    @"SZL": @"Swaziland Lilangeni",
+                    @"THB": @"Thailand Baht",
+                    @"TJS": @"Tajikistan Somoni",
+                    @"TMT": @"Turkmenistan Manat",
+                    @"TND": @"Tunisia Dinar",
+                    @"TOP": @"Tonga Pa'anga",
+                    @"TRY": @"Turkey Lira",
+                    @"TTD": @"Trinidad and Tobago Dollar",
+                    @"TVD": @"Tuvalu Dollar",
+                    @"TWD": @"Taiwan New Dollar",
+                    @"TZS": @"Tanzania Shilling",
+                    @"UAH": @"Ukraine Hryvna",
+                    @"UGX": @"Uganda Shilling",
+                    @"USD": @"United States Dollar",
+                    @"UYU": @"Uruguay Peso",
+                    @"UZS": @"Uzbekistan Som",
+                    @"VEF": @"Venezuela Bolivar",
+                    @"VND": @"Viet Nam Dong",
+                    @"VUV": @"Vanuatu Vatu",
+                    @"WST": @"Samoa Tala",
+                    @"XAF": @"Communauté Financière Africaine (BEAC) CFA Franc BEAC",
+                    @"XCD": @"East Caribbean Dollar",
+                    @"XDR": @"International Monetary Fund (IMF) Special Drawing Rights",
+                    @"XOF": @"Communauté Financière Africaine (BCEAO) Franc",
+                    @"XPF": @"Comptoirs Français du Pacifique (CFP) Franc",
+                    @"YER": @"Yemen Rial",
+                    @"ZAR": @"South Africa Rand",
+                    @"ZMW": @"Zambia Kwacha",
+                    @"ZWD": @"Zimbabwe Dollar"};
+    });
+    
+    return currency;
 }
 
 // |+|=======================================================================|+|
@@ -263,12 +272,20 @@
 // |+|=======================================================================|+|
 - (BOOL)loadData
 {
-    EconomyData *economyData = [[EconomyData alloc] initWithCurrency:Currency
-                                                                 gdp:GDP
-                                                               gdppc:GDPPerCapita
-                                                               gnipc:GNIPerCapita];
+    @try {
+        EconomyData *economyData = [[EconomyData alloc] initWithCurrency:(Currency == nil) ? @"N/A" : Currency
+                                                                     gdp:(GDP == nil) ? @"N/A" : GDP
+                                                                   gdppc:(GDPPerCapita == nil) ? @"N/A" : GDPPerCapita
+                                                                   gnipc:(GNIPerCapita == nil) ? @"N/A" : GNIPerCapita];
+        
+        NSLog(@"before currentData creation");
+        currentData = [economyData tr_tableRepresentation];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception caught in loadData: %@", exception);
+    }
     
-    currentData = [economyData tr_tableRepresentation];
+    NSLog(@"before reload");
     
     [self.tableView reloadData];
     
@@ -296,11 +313,12 @@
 {
     [RKGeonamesUtils fetchWorldBankIndicator:indicator
                               forCountryCode:self.country.countryCode
+                                     forYear:(self.year.text == nil) ? @"2011" : self.year.text
                                     withType:TYPE_FLOAT
                                      andText:[NSString stringWithFormat:@" %C", dollar]
                                  withCompletion:completion
                                     failure:^{
-                                        currentData = [[EconomyData emptyEconomyData] tr_tableRepresentation];
+                                        currentData = [[EconomyData data] tr_tableRepresentation];
                                         
                                         [self.tableView reloadData];
                                     }];
@@ -323,44 +341,47 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
-static NSString *GDP_PER_CAPITA_INDICATOR_STRING = @"GDPPCKD";
-static NSString *GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
+static NSString * const GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
+static NSString * const GDP_PER_CAPITA_INDICATOR_STRING = @"NY.GDP.PCAP.CD";//@"GDPPCKD";
+static NSString * const GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
 static UniChar dollar = 0x0024;
 - (void) getData
 {
-    currentData = [[EconomyData emptyEconomyData] tr_tableRepresentation];
-    
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    @try {
         
-        [self getIndicatorData:GDP_INDICATOR_STRING withCompletion:^(NSString *Data){
-            
-            GDP = Data;
-            
-            [self loadData];
-        }];
+        NSLog(@"before currentData created !");
+        
+        currentData = [[EconomyData data] tr_tableRepresentation];
+        
+        GDP          = LOADING_STRING;
+        GDPPerCapita = LOADING_STRING;
+        GNIPerCapita = LOADING_STRING;
 
-        [self getIndicatorData:GDP_PER_CAPITA_INDICATOR_STRING withCompletion:^(NSString *Data){
+        [self.tableView reloadData];
+        
+        NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @"GDP",
+                                               GDP_PER_CAPITA_INDICATOR_STRING: @"GDPPerCapita",
+                                               GNI_PER_CAPITA_INDICATOR_STRING: @"GNIPerCapita"};
+        
+        NSLog(@"currentData created !");
+        
+        [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             
-            GDPPerCapita = Data;
-            
-            [self loadData];
+            [self getIndicatorData:key withCompletion:^(NSString *Data){
+                
+                //KVC
+                [self setValue:Data forKey:obj];
+                
+                [self loadData];
+            }];
         }];
-
-        [self getIndicatorData:GNI_PER_CAPITA_INDICATOR_STRING withCompletion:^(NSString *Data){
-            
-            GNIPerCapita = Data;
-            
-            [self loadData];
-        }];
-
-//    });
-    
-//    [self loadData];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Eception caught: %@", exception);
+    }
 }
 
 static int TYPE_FLOAT = 1;
-static int TYPE_INT = 2;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -384,9 +405,13 @@ static int TYPE_INT = 2;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self addHomeButton];
+    self.year.delegate = self;
+    [self.year setText:@"2011"];
+    self.year.keyboardType = UIKeyboardTypeDecimalPad;
     
-    self.currencies = [self currenciesD];
+    [self addBarButtons:@selector(getData)];
+    
+    //self.currencies = [self currenciesD];
     Currency     = [self.currencies valueForKey:self.country.currency];
     GDP          = LOADING_STRING;
     GDPPerCapita = LOADING_STRING;
@@ -394,6 +419,14 @@ static int TYPE_INT = 2;
     
     [self getData];
 }
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    NSLog(@"touchesBegan:withEvent:");
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
+}
+
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -417,5 +450,34 @@ static int TYPE_INT = 2;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UITextField delegates
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: textFieldShouldEndEditing                           |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   get the newly set year and refresh                  |+|
+// |+|                   the collected data                                  |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    self.year.text = textField.text;
+    
+    [self getData];
+    
+    return YES;
+}
+
 
 @end

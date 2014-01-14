@@ -25,6 +25,8 @@
 
 @property (nonatomic, strong) NSArray *items;
 
+@property (nonatomic, strong) IBOutlet UITextField *year;
+
 @end
 
 @implementation RKGDemographicsViewController
@@ -50,7 +52,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.year.text = @"2011";
     }
     return self;
 }
@@ -112,63 +114,38 @@ static NSString *BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
 static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 - (void) getData
 {
-    currentData = [[DemographicData emptyDemographicData] tr_tableRepresentation];    
+    currentData = [[DemographicData data] tr_tableRepresentation];
     
-    [RKGeonamesUtils fetchWorldBankIndicator:TOTAL_POPULATION_INDICATOR_STRING
-                              forCountryCode:self.country.countryCode
-                                    withType:TYPE_FLOAT
-                                     andText:@""
-                                 withCompletion:^(NSString *Data){
-                                         totalPopulation = Data;
-                                         
-                                         [self loadData];
-                                     }
-                                     failure:^(){
-                                         
-                                         [self.tableView reloadData];
-                                     }];
+    NSDictionary *bankIndicatorOutData = @{TOTAL_POPULATION_INDICATOR_STRING: @[@"totalPopulation", @""],
+                                           POPULATION_GROWTH_INDICATOR_STRING: @[@"populationGrowth", @"%"],
+                                           BIRTH_RATE_INDICATOR_STRING: @[@"birthRate", [NSString stringWithFormat:@"%C", per_mille]],
+                                           DEATH_RATE_INDICATOR_STRING: @[@"deathRate", [NSString stringWithFormat:@"%C", per_mille]]};
     
-    [RKGeonamesUtils fetchWorldBankIndicator:POPULATION_GROWTH_INDICATOR_STRING
-                              forCountryCode:self.country.countryCode
-                                    withType:TYPE_FLOAT andText:@"%"
-                                 withCompletion:^(NSString *Data) {
-                                         populationGrowth = Data;
-                                         
-                                         [self loadData];
-                                     }
-                                     failure:^(){
-                                         
-                                         [self.tableView reloadData];
-                                     }];
-    
-    [RKGeonamesUtils fetchWorldBankIndicator:BIRTH_RATE_INDICATOR_STRING
-                              forCountryCode:self.country.countryCode
-                                    withType:TYPE_FLOAT andText:[NSString stringWithFormat:@"%C", per_mille]
-                                 withCompletion:^(NSString *Data) {
-                                         birthRate = Data;
-                                         
-                                         [self loadData];
-                                    }
-                                    failure:^{
-                                        
-                                        [self.tableView reloadData];
-                                    }];
-    
-    [RKGeonamesUtils fetchWorldBankIndicator:DEATH_RATE_INDICATOR_STRING
-                              forCountryCode:self.country.countryCode
-                                    withType:TYPE_FLOAT
-                                     andText:[NSString stringWithFormat:@"%C", per_mille]
-                                 withCompletion:^(NSString *Data) {
-                                        deathRate = Data;
+    [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        
+        NSArray *array = obj;
+        
+        [RKGeonamesUtils fetchWorldBankIndicator:key
+                                  forCountryCode:self.country.countryCode
+                                         forYear:self.year.text
+                                        withType:TYPE_FLOAT
+                                         andText:[array objectAtIndex:1]
+                                  withCompletion:^(NSString *Data){
+                                      
+                                      NSLog(@"Data: %@", Data);
+                                      
+                                      //KVC
+                                      [self setValue:Data forKey:[array objectAtIndex:0]];
+                                      
+                                      [self loadData];
+                                  }
+                                         failure:^(){
+                                            [self setValue:@"N/A" forKey:[array objectAtIndex:0]];
+                                            
+                                            [self loadData];
+                                         }];
 
-                                        [self loadData];
-                                    }
-                                    failure:^{
-                                        
-//                                        currentData = [[DemographicData emptyDemographicData] tr_tableRepresentation];
-                                        
-                                        [self.tableView reloadData];
-                                    }];
+    }];
 }
 
 // |+|=======================================================================|+|
@@ -194,7 +171,11 @@ static const UniChar per_mille = 0x2030;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self addHomeButton];
+    self.year.delegate = self;
+    [self.year setText:@"2011"];
+    self.year.keyboardType = UIKeyboardTypeDecimalPad;
+    
+    [self addBarButtons:@selector(getData)];
     
     totalPopulation  = LOADING_STRING;
     populationGrowth = LOADING_STRING;
@@ -202,6 +183,13 @@ static const UniChar per_mille = 0x2030;
     deathRate        = LOADING_STRING;
     
     [self getData];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    NSLog(@"touchesBegan:withEvent:");
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
 }
 
 // |+|=======================================================================|+|
@@ -226,5 +214,34 @@ static const UniChar per_mille = 0x2030;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UITextField delegate
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: textFieldShouldEndEditing                           |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   get the newly set year and refresh                  |+|
+// |+|                   the collected data                                  |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    self.year.text = textField.text;
+    
+    [self getData];
+    
+    return YES;
+}
+
 
 @end

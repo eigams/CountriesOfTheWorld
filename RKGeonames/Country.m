@@ -23,7 +23,7 @@
 
 @end
 
-@implementation Country
+@implementation RKCountry
 
 @synthesize id;
 @synthesize iso2Code;

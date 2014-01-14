@@ -28,6 +28,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0CD978521856BEBE00838DBF"
+               BuildableName = "RKGeonamesTestsTests.xctest"
+               BlueprintName = "RKGeonamesTestsTests"
+               ReferencedContainer = "container:RKGeonames.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

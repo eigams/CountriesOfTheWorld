@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Country.h"
 
-@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>
+@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate>
 {
     NSDictionary *currentData;    
 }
@@ -20,8 +20,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 - (void) setDetails:(CountryGeonames *)Country;
-- (void) addHomeButton:(id)target selector:(SEL)action;
-- (void) addHomeButton;
+- (void)addBarButtons:(SEL)refreshSelector;
 
 - (void)setBackgroundImage:(UIImage *)image;
 

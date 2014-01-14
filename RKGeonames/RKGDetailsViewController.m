@@ -111,8 +111,10 @@ static const NSUInteger INDICATOR_HEGHT = 30;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         
-        [self.mapView loadRequest:urlRequest];
-        self.mapView.alpha = 1;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.mapView loadRequest:urlRequest];
+            self.mapView.alpha = 1;
+        });
     });
 }
 
@@ -137,12 +139,13 @@ static NSString *COUNTRY_FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 - (void)setBackgroundImage:(UIImage *)image
 {
     self.bgImage = image;
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:self.bgImage];
     
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:self.bgImage];
+
     imageView.frame = CGRectMake(0, 211, 320, self.view.frame.size.height - 180);
     imageView.alpha = 0.1;
     imageView.contentMode = UIViewContentModeScaleToFill;
-    
+
     [self.view addSubview:imageView];
 }
 
@@ -196,6 +199,40 @@ static const int HOME_VIEW_INDEX = 3;
     NSInteger noOfViewControllers = [self.navigationController.viewControllers count];
     [self.navigationController popToViewController:[self.navigationController.viewControllers
                           objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)] animated:YES];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: addBarButtons                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)addBarButtons:(SEL)refreshSelector
+{
+//    [self addHomeButton];
+    // add the "Back" button to the navigation bar
+    UIBarButtonItem *homeBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Home"
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(navigateHome)];
+    
+    // add the "Back" button to the navigation bar
+    UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                                                target:self
+                                                                                action:refreshSelector];
+    
+    self.navigationItem.rightBarButtonItems = @[homeBarButton, refreshBarButton];
 }
 
 // |+|=======================================================================|+|
@@ -356,7 +393,13 @@ static const int HOME_VIEW_INDEX = 3;
     cell.detailTextLabel.text = currentData[@"values"][indexPath.row];
     if(YES == [currentData[@"values"][indexPath.row] isEqualToString:LOADING_STRING])
     {
-        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
+        if(nil != spinner)
+        {
+            return cell;
+        }
+        
+        spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         spinner.frame = CGRectMake(0, 0, 14, 14);
         
         cell.accessoryView = spinner;
@@ -366,6 +409,8 @@ static const int HOME_VIEW_INDEX = 3;
     else
     {
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
+        
+        NSLog(@"cell.detailTextLabel.text: %@", cell.detailTextLabel.text);
         
         [spinner stopAnimating];
         cell.accessoryView = nil;

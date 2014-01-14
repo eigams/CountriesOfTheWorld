@@ -17,6 +17,7 @@
 
 + (void) fetchWorldBankIndicator:(NSString *)indicator
                   forCountryCode:(NSString *)countryCode
+                         forYear:(NSString *)year
                         withType:(int)type
                          andText:(NSString *)text
                      withCompletion:(void (^)(NSString *Sink))handler

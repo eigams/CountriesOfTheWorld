@@ -67,7 +67,7 @@
 
 @end
 
-@interface Country : NSObject
+@interface RKCountry : NSObject
 
 @property (nonatomic, copy) NSString *id;
 @property (nonatomic, copy) NSString *iso2Code;
@@ -85,6 +85,15 @@
 @interface CountryInfo : NSObject
 
 @property (nonatomic, strong) NSArray *countries;
+
+@end
+
+@interface Country : NSObject
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *capitalCity;
+@property (nonatomic, copy) NSString *longitude;
+@property (nonatomic, copy) NSString *latitude;
 
 @end
 

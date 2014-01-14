@@ -8,46 +8,100 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>Pods-GHUnit.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
 		</dict>
 		<key>Pods-ISO8601DateFormatterValueTransformer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>3</integer>
 		</dict>
 		<key>Pods-RKValueTransformers.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>5</integer>
 		</dict>
 		<key>Pods-RestKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 		<key>Pods-SOCKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>6</integer>
 		</dict>
 		<key>Pods-TransitionKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>7</integer>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0EA6DAC6A60F451DABAE9539</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>105B1647325948DA9D051890</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>241AB3F7C0D34A5A8A4A0104</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>25D30AD4B08742FFAE8B2B0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>49068F36110A497E949055D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>628864432C4745199F0B1220</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>647444CFA4B247BABDDEA66F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6D2901F8F79948689973538F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6E0977D1FC8F479EBB418330</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -63,6 +117,11 @@
 			<true/>
 		</dict>
 		<key>931712500686427E98194327</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D26061CA4FC427E9E32FC27</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking 3
 
+// GHUnit
+#define COCOAPODS_POD_AVAILABLE_GHUnit
+#define COCOAPODS_VERSION_MAJOR_GHUnit 0
+#define COCOAPODS_VERSION_MINOR_GHUnit 5
+#define COCOAPODS_VERSION_PATCH_GHUnit 8
+
 // ISO8601DateFormatterValueTransformer
 #define COCOAPODS_POD_AVAILABLE_ISO8601DateFormatterValueTransformer
 #define COCOAPODS_VERSION_MAJOR_ISO8601DateFormatterValueTransformer 0
@@ -22,7 +28,7 @@
 #define COCOAPODS_POD_AVAILABLE_RKValueTransformers
 #define COCOAPODS_VERSION_MAJOR_RKValueTransformers 1
 #define COCOAPODS_VERSION_MINOR_RKValueTransformers 0
-#define COCOAPODS_VERSION_PATCH_RKValueTransformers 0
+#define COCOAPODS_VERSION_PATCH_RKValueTransformers 1
 
 // RestKit
 #define COCOAPODS_POD_AVAILABLE_RestKit

@@ -9,10 +9,25 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>RKGeonamesTests.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>9</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>0C4FA10517744BB800A48BA0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0CD9783C1856BEBE00838DBF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0CD978521856BEBE00838DBF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

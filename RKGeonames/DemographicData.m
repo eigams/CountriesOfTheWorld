@@ -59,9 +59,9 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-+ (id)emptyDemographicData;
++ (id)data;
 {
-    return [[DemographicData alloc] initWithTotalPopulation:@"N/A"
+    return [[self alloc] initWithTotalPopulation:@"N/A"
                                            populationGrowth:@"N/A"
                                                   birthRate:@"N/A"
                                                   deathRate:@"N/A"];
