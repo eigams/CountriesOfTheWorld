@@ -16,4 +16,5 @@
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <CoreLocation/CoreLocation.h>
+    #import <RestKit/RestKit.h>
 #endif
