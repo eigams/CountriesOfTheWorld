@@ -92,7 +92,10 @@ static const NSUInteger INDICATOR_WIDTH = 30;
 static const NSUInteger INDICATOR_HEGHT = 30;
 - (void) setupMapView
 {
-    float lah = [self.country.north floatValue] + .5, lal = [self.country.south floatValue] - .5, loh = [self.country.east floatValue] + .5, lol = [self.country.west floatValue] - .5;
+    float lah = [self.country.north floatValue] + .5,
+          lal = [self.country.south floatValue] - .5,
+          loh = [self.country.east floatValue] + .5,
+          lol = [self.country.west floatValue] - .5;
     
     NSString *urlString = [NSString stringWithFormat:MAP_VIEW_URL, lah, loh, lah, lol, lal, lol, lal, loh, lah, loh];
     

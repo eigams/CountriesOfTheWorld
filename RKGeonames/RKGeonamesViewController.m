@@ -131,6 +131,15 @@
             UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
             NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
             [_flagImages addObject:newItem];
+            
+            //reload the flags only when loading the first 5 visible
+            static const int FIRST_VIIBLE_FLAGS = 5;
+            if (idx < FIRST_VIIBLE_FLAGS)
+            {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
+            }
         });
     }];
 }
@@ -179,7 +188,6 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         [self loadFlagImages];
         
         [self.activityIndicator stopAnimating];
-        [self.tableView reloadData];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"ERROR: %@", error);
@@ -194,8 +202,6 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     [self.view addSubview:self.activityIndicator];
     
 }
-
-static BOOL firstTime = YES;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -216,17 +222,15 @@ static BOOL firstTime = YES;
 // |+|=======================================================================|+|
 - (void)viewWillAppear:(BOOL)animated
 {
-    if(YES == firstTime)
-    {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         RKGSplashScreenViewController *splashScreenViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SplashScreenViewController"];
         
         splashScreenViewController.modalPresentationStyle = UIModalPresentationFormSheet;
         splashScreenViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         
         [self presentModalViewController:splashScreenViewController animated:NO];
-        
-        firstTime = NO;
-    }
+    });
     
     [super viewWillAppear:animated];
 }
@@ -497,20 +501,6 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         });
         
         cell.flagImage.image = bandanaFlag;
-        
-        // process flags not cached already
-        NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            
-            UIImage* image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]]];
-            NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
-            [_flagImages addObject:newItem];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.flagImage.image = image;
-            });
-        });
     }
     
     cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
