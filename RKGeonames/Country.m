@@ -7,6 +7,7 @@
 //
 
 #import "Country.h"
+#import "CountryData.h"
 
 @implementation CountryInfo
 
@@ -85,6 +86,25 @@
 @synthesize geonameId;
 @synthesize west;
 @synthesize population;
+
+- (id)initWithManagedObject:(CountryData *)model
+{
+    self = [super init];
+    
+    if (self) {
+        self.name = model.name;
+        self.currency = model.currency;
+        self.capitalCity = model.capitalCity;
+        self.areaInSqKm = model.surface;
+        self.north = model.north;
+        self.south = model.south;
+        self.east = model.east;
+        self.west = model.west;
+        self.countryCode = model.iso2Code;
+    }
+    
+    return self;
+}
 
 @end
 

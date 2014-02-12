@@ -21,6 +21,7 @@
 
 - (void) setDetails:(CountryGeonames *)Country;
 - (void)addBarButtons:(SEL)refreshSelector;
+- (void)setupTextFieldView;
 
 - (void)setBackgroundImage:(UIImage *)image;
 

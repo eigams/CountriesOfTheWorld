@@ -94,19 +94,28 @@
     button.layer.masksToBounds = YES;
 }
 
+- (void)performSegue:(NSString *)identifier
+{
+    [self performSegueWithIdentifier:identifier sender:self];
+}
+
+static NSString * const AdministrationSegue = @"AdministrationSegue";
+static NSString * const DemographicsSegue = @"DemographicsSegue";
+static NSString * const EconomicsSegue = @"EconomicsSegue";
+
 - (void)pushAdminViewController
 {
-    [self performSegueWithIdentifier:@"AdministrationSegue" sender:self];
+    [self performSegue:AdministrationSegue];
 }
 
 - (void)pushDemographicsViewController
 {
-    [self performSegueWithIdentifier:@"DemographicsSegue" sender:self];
+    [self performSegue:DemographicsSegue];
 }
 
 - (void)pushEconomicsViewController
 {
-    [self performSegueWithIdentifier:@"EconomicsSegue" sender:self];
+    [self performSegue:EconomicsSegue];
 }
 
 - (UIButton *)createButton:(SEL)action
@@ -120,7 +129,7 @@
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-//    [btn setTitle:title forState:UIControlStateNormal];
+
     [btn setFrame:frame];
     [btn setBackgroundImage:bgin forState:UIControlStateNormal];
     [btn setBackgroundImage:bginh forState:UIControlStateHighlighted];
@@ -139,10 +148,6 @@
     [btn setAttributedTitle:titlen forState:UIControlStateNormal];
     [btn setAttributedTitle:titleh forState:UIControlStateHighlighted];
     
-//    [btn.titleLabel setFont:font];
-//    [btn setTitleColor:color forState:UIControlStateNormal];
-//    [btn setTitleColor:colorh forState:UIControlStateHighlighted];
-    
     return btn;
 }
 
@@ -151,18 +156,40 @@
     return [NSValue valueWithBytes:&selector objCType:@encode(SEL)];
 }
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: createButtons                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+static NSString * const BUTTON_IMAGE = @"Button.png";
+static NSString * const BUTTONHL_IMAGE = @"ButtonHighlighted.png";
+static NSString * const BUTTON_TEXT_ABOUT = @"About";
+static NSString * const BUTTON_TEXT_DEMOGR = @"Demographics";
+static NSString * const BUTTON_TEXT_ECONOMICS = @"Economics";
 - (void)createButtons
 {
     UIFont *buttonFont = [UIFont fontWithName:@"Nitti Typewriter Underlined" size:28.0];
     UIColor *buttonColorDefault = [UIColor colorWithRed:90.0f/255.0f green:90.0f/255.0f blue:90.0f/255.0f alpha:1.0];
     UIColor *buttonColorHighlight = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0];
     
-    UIImage *btn = [UIImage imageNamed:@"Button.png"];
-    UIImage *btnh = [UIImage imageNamed:@"ButtonHighlighted.png"];
+    UIImage *btn = [UIImage imageNamed:BUTTON_IMAGE];
+    UIImage *btnh = [UIImage imageNamed:BUTTONHL_IMAGE];
     
-    NSArray *params = @[@[[self selectorAsValue:@selector(pushAdminViewController)], @"About", [NSValue valueWithCGRect:self.buttonAdministration.frame]],
-                        @[[self selectorAsValue:@selector(pushDemographicsViewController)], @"Demographics", [NSValue valueWithCGRect:self.buttonDemographics.frame]],
-                        @[[self selectorAsValue:@selector(pushEconomicsViewController)], @"Economics", [NSValue valueWithCGRect:self.buttonEconomics.frame]]];
+    NSArray *params = @[@[[self selectorAsValue:@selector(pushAdminViewController)],        BUTTON_TEXT_ABOUT,      [NSValue valueWithCGRect:self.buttonAdministration.frame]],
+                        @[[self selectorAsValue:@selector(pushDemographicsViewController)], BUTTON_TEXT_DEMOGR,     [NSValue valueWithCGRect:self.buttonDemographics.frame]],
+                        @[[self selectorAsValue:@selector(pushEconomicsViewController)],    BUTTON_TEXT_ECONOMICS,  [NSValue valueWithCGRect:self.buttonEconomics.frame]]];
     
     [params enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         

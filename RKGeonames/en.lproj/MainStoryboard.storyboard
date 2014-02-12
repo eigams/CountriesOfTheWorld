@@ -48,8 +48,8 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XyE-go-wzK">
-                                            <rect key="frame" x="9" y="12" width="54" height="39"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XyE-go-wzK">
+                                            <rect key="frame" x="9" y="12" width="54" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="54" id="RQO-Tp-8gH"/>
                                                 <constraint firstAttribute="height" constant="39" id="nG0-XU-hx4"/>
@@ -66,7 +66,7 @@
                                     <constraint firstItem="3Ld-JH-g8z" firstAttribute="leading" secondItem="gvB-Zo-EaO" secondAttribute="leading" id="tWx-yP-ZN4"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="capitalCityLabel" destination="3Ld-JH-g8z" id="Bnv-lD-uIO"/>
+                                    <outlet property="capitalCityLabel" destination="3Ld-JH-g8z" id="mT3-Ch-wTh"/>
                                     <outlet property="countryNameLabel" destination="gvB-Zo-EaO" id="rGG-3M-OPE"/>
                                     <outlet property="flagImage" destination="XyE-go-wzK" id="5lX-M3-Jas"/>
                                     <segue destination="L5P-U8-AAO" kind="push" identifier="CountryDetailsSegue" id="XvA-3r-elr"/>

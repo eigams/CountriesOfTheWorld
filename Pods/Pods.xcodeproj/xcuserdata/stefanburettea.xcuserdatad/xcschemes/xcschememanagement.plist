@@ -23,6 +23,11 @@
 			<key>orderHint</key>
 			<integer>3</integer>
 		</dict>
+		<key>Pods-MSCellAccessory.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>Pods-RKValueTransformers.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -71,12 +76,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1CDCC75C517C450092F3D208</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>241AB3F7C0D34A5A8A4A0104</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>2573388898F0457C9B5CAC6C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>25D30AD4B08742FFAE8B2B0E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3C5634082A50403E90688214</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3E9922EB9404481C93ABFCB2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -111,6 +136,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>90C2C1346D114E8BB399CB8C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>91D8F4235DF340BAA0EFEB9A</key>
 		<dict>
 			<key>primary</key>
@@ -126,12 +156,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>C42FAAC6E7944B70BD03B626</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CCB6AE60D3C34D03BFBB3840</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D2B56DE8100D4CFE89BBD56C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>E6A2210813B34E9E9343E703</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F66A4FA677F1489FBCD7087D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F76CC4C451AD4670BE8C692D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

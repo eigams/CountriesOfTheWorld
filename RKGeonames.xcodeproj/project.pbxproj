@@ -57,6 +57,13 @@
 		0CD978751856C4D000838DBF /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
 		0CD978761856C4D000838DBF /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
 		0CD978771856C4D000838DBF /* EconomyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDD17E355F100E5CB22 /* EconomyData.m */; };
+		0CDDA16A18A329AD0093E6EE /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDDA16918A329AD0093E6EE /* disclosure.png */; };
+		0CE4BE351888D735008EB49A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0CE4BE331888D735008EB49A /* Model.xcdatamodeld */; };
+		0CE4BE3A1888DAB6008EB49A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE4BE391888DAB6008EB49A /* CoreData.framework */; };
+		0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */; };
+		0CFBA4BF18A06845007764F0 /* PopulationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4BE18A06845007764F0 /* PopulationData.m */; };
+		0CFBA4C218A06845007764F0 /* CountryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4C118A06845007764F0 /* CountryData.m */; };
+		0CFBA4C518A06845007764F0 /* EconomicalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4C418A06845007764F0 /* EconomicalData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +101,7 @@
 		0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGSplashScreenViewController.h; sourceTree = "<group>"; };
 		0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGSplashScreenViewController.m; sourceTree = "<group>"; };
 		0C69CE29177C854A00951ADA /* world-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "world-map.png"; path = "RKGeonames/world-map.png"; sourceTree = "<group>"; };
+		0C895E5C189490C700900269 /* Singleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
 		0CAA7DD017E330F000E5CB22 /* AdministrationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdministrationData.h; sourceTree = "<group>"; };
 		0CAA7DD117E330F000E5CB22 /* AdministrationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdministrationData.m; sourceTree = "<group>"; };
 		0CAA7DD317E334BE00E5CB22 /* AdministrationData+TableRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AdministrationData+TableRepresentation.h"; sourceTree = "<group>"; };
@@ -123,9 +131,20 @@
 		0CD978451856BEBE00838DBF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0CD978471856BEBE00838DBF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0CD978491856BEBE00838DBF /* RKGeonamesTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RKGeonamesTests-Prefix.pch"; sourceTree = "<group>"; };
-		0CD978681856BEE700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		0CD978681856BEE700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesAPITests.m; sourceTree = "<group>"; };
-		0CD9786D1856C12700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		0CD9786D1856C12700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		0CDDA16918A329AD0093E6EE /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = disclosure.png; path = ../../../../Downloads/disclosure.png; sourceTree = "<group>"; };
+		0CE4BE341888D735008EB49A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		0CE4BE391888DAB6008EB49A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectStore.h; sourceTree = "<group>"; };
+		0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectStore.m; sourceTree = "<group>"; };
+		0CFBA4BD18A06845007764F0 /* PopulationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopulationData.h; sourceTree = "<group>"; };
+		0CFBA4BE18A06845007764F0 /* PopulationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopulationData.m; sourceTree = "<group>"; };
+		0CFBA4C018A06845007764F0 /* CountryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryData.h; sourceTree = "<group>"; };
+		0CFBA4C118A06845007764F0 /* CountryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryData.m; sourceTree = "<group>"; };
+		0CFBA4C318A06845007764F0 /* EconomicalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomicalData.h; sourceTree = "<group>"; };
+		0CFBA4C418A06845007764F0 /* EconomicalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomicalData.m; sourceTree = "<group>"; };
 		B487009349BE4E35B272E03C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -134,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CE4BE3A1888DAB6008EB49A /* CoreData.framework in Frameworks */,
 				0CD9786E1856C12700838DBF /* libPods.a in Frameworks */,
 				0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */,
 				0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */,
@@ -159,6 +179,7 @@
 		0C4FA0FD17744BB800A48BA0 = {
 			isa = PBXGroup;
 			children = (
+				0C895E5C189490C700900269 /* Singleton.h */,
 				0C4368A81784298100B61F76 /* RKGeonamesUtils.h */,
 				0C4368A91784298100B61F76 /* RKGeonamesUtils.m */,
 				0CCEC92717808DBD00A148CB /* MappingProvider.h */,
@@ -184,6 +205,7 @@
 		0C4FA10817744BB800A48BA0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CE4BE391888DAB6008EB49A /* CoreData.framework */,
 				0CD9786D1856C12700838DBF /* libPods.a */,
 				0CD978681856BEE700838DBF /* libPods.a */,
 				0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */,
@@ -214,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				0C1EB99D182096BF0093453C /* bandanaflag.jpg */,
+				0CDDA16918A329AD0093E6EE /* disclosure.png */,
 				0C4FA11117744BB800A48BA0 /* RKGeonames-Info.plist */,
 				0C4FA11217744BB800A48BA0 /* InfoPlist.strings */,
 				0C4FA11517744BB800A48BA0 /* main.m */,
@@ -228,6 +251,13 @@
 		0CAA7DCF17E328EC00E5CB22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0CE4BE331888D735008EB49A /* Model.xcdatamodeld */,
+				0CFBA4C318A06845007764F0 /* EconomicalData.h */,
+				0CFBA4C418A06845007764F0 /* EconomicalData.m */,
+				0CFBA4C018A06845007764F0 /* CountryData.h */,
+				0CFBA4C118A06845007764F0 /* CountryData.m */,
+				0CFBA4BD18A06845007764F0 /* PopulationData.h */,
+				0CFBA4BE18A06845007764F0 /* PopulationData.m */,
 				0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */,
 				0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */,
 				0C376B0917817AA100412F5F /* City.h */,
@@ -248,6 +278,8 @@
 				0CAA7DDD17E355F100E5CB22 /* EconomyData.m */,
 				0CAA7DDF17E3560900E5CB22 /* EconomyData+TableRepresentation.h */,
 				0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */,
+				0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */,
+				0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -369,6 +401,7 @@
 				0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */,
 				0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */,
 				0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */,
+				0CDDA16A18A329AD0093E6EE /* disclosure.png in Resources */,
 				0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */,
 				0C69CE2C177C854A00951ADA /* world-map.png in Resources */,
 			);
@@ -421,10 +454,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4FA11617744BB800A48BA0 /* main.m in Sources */,
+				0CE4BE351888D735008EB49A /* Model.xcdatamodeld in Sources */,
 				0C4FA11A17744BB800A48BA0 /* AppDelegate.m in Sources */,
 				0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */,
 				0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */,
 				0C68AF051775C8FE00A14896 /* Country.m in Sources */,
+				0CFBA4C218A06845007764F0 /* CountryData.m in Sources */,
 				0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */,
 				0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */,
 				0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */,
@@ -433,9 +468,12 @@
 				0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */,
 				0CCEC9251780883B00A148CB /* Timezone.m in Sources */,
 				0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */,
+				0CFBA4BF18A06845007764F0 /* PopulationData.m in Sources */,
+				0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */,
 				0C376B0B17817AA100412F5F /* City.m in Sources */,
 				0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */,
 				0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */,
+				0CFBA4C518A06845007764F0 /* EconomicalData.m in Sources */,
 				0CAA7DD217E330F000E5CB22 /* AdministrationData.m in Sources */,
 				0CAA7DD517E334BE00E5CB22 /* AdministrationData+TableRepresentation.m in Sources */,
 				0CAA7DD817E355A000E5CB22 /* DemographicData.m in Sources */,
@@ -655,8 +693,22 @@
 				0CD978631856BEBF00838DBF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0CE4BE331888D735008EB49A /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0CE4BE341888D735008EB49A /* Model.xcdatamodel */,
+			);
+			currentVersion = 0CE4BE341888D735008EB49A /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0C4FA0FE17744BB800A48BA0 /* Project object */;
 }

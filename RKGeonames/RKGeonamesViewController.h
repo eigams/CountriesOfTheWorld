@@ -10,4 +10,6 @@
 
 @interface RKGeonamesViewController : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
 
+- (void)updateView;
+
 @end

@@ -200,8 +200,14 @@ static const int HOME_VIEW_INDEX = 3;
 - (void) navigateHome;
 {
     NSInteger noOfViewControllers = [self.navigationController.viewControllers count];
-    [self.navigationController popToViewController:[self.navigationController.viewControllers
-                          objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)] animated:YES];
+    UIViewController *vc = [self.navigationController.viewControllers objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)];
+    [self.navigationController popToViewController:vc animated:YES];
+
+    SEL updateViewSelector = @selector(updateView);
+    if([vc respondsToSelector:updateViewSelector])
+    {
+        [vc performSelector:updateViewSelector];
+    }
 }
 
 // |+|=======================================================================|+|
@@ -260,6 +266,12 @@ static const int HOME_VIEW_INDEX = 3;
     [self addHomeButton:self selector:@selector(navigateHome)];
 }
 
+- (void)setupTextFieldView
+{
+    return;
+}
+
+static NSString *YEAR_TEXT = @"";
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -282,16 +294,11 @@ static const int HOME_VIEW_INDEX = 3;
 {
     [super viewDidLoad];
     
-    //create the activity indicator
-    //it'll be used later on to mark lenghtly operations
-//    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//    self.activityIndicator.center = self.tableView.center;
-//    self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
-    
-//    [self setBackgroundImage];
     [self setupMapView];
     
     self.title = self.country.name;
+
+    [self setupTextFieldView];
     
 	// Do any additional setup after loading the view.
 }

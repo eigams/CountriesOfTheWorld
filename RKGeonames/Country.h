@@ -45,6 +45,8 @@
 
 @end
 
+@class CountryData;
+
 @interface CountryGeonames : NSObject
 
 @property (nonatomic, copy) NSString *name;
@@ -64,6 +66,8 @@
 @property (nonatomic, copy) NSString *geonameId;
 @property (nonatomic, copy) NSString *west;
 @property (nonatomic, copy) NSString *population;
+
+- (id)initWithManagedObject:(CountryData *)model;
 
 @end
 
@@ -91,9 +95,12 @@
 @interface Country : NSObject
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *capitalCity;
+@property (nonatomic, copy) NSString *capitalcity;
+@property (nonatomic, copy) NSString *surface;
+@property (nonatomic, copy) NSString *timezone;
 @property (nonatomic, copy) NSString *longitude;
 @property (nonatomic, copy) NSString *latitude;
+@property (nonatomic, copy) NSString *flag;
 
 @end
 

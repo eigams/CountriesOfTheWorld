@@ -24,6 +24,12 @@
 #define COCOAPODS_VERSION_MINOR_ISO8601DateFormatterValueTransformer 5
 #define COCOAPODS_VERSION_PATCH_ISO8601DateFormatterValueTransformer 0
 
+// MSCellAccessory
+#define COCOAPODS_POD_AVAILABLE_MSCellAccessory
+#define COCOAPODS_VERSION_MAJOR_MSCellAccessory 1
+#define COCOAPODS_VERSION_MINOR_MSCellAccessory 1
+#define COCOAPODS_VERSION_PATCH_MSCellAccessory 2
+
 // RKValueTransformers
 #define COCOAPODS_POD_AVAILABLE_RKValueTransformers
 #define COCOAPODS_VERSION_MAJOR_RKValueTransformers 1

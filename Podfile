@@ -3,6 +3,7 @@ platform :ios, '7.0'
 # Installation via CocoaPods from tagged version
 pod 'RestKit', '~> 0.21'
 pod 'GHUnit',  '~> 0.5.8'
+pod 'MSCellAccessory'
 
 # Installation via CocoaPods over Git
 #pod 'RestKit', :git => 'https://github.com/RestKit/RestKit.git', :branch => 'development'

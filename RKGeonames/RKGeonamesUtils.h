@@ -12,7 +12,7 @@
 
 + (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor
                                                    withURL:(NSString *)urlString
-                                            andPathPattern:(NSString *)pathPattern
+                                            pathPattern:(NSString *)pathPattern
                                                 andKeyPath:(NSString *)keyPath;
 
 + (void) fetchWorldBankIndicator:(NSString *)indicator
@@ -22,5 +22,8 @@
                          andText:(NSString *)text
                      withCompletion:(void (^)(NSString *Sink))handler
                          failure:(void (^)(void))failure;
+
++ (BOOL)savePictureToDisk:(NSString *)name data:(NSData *)pictureData;
++ (NSData *)loadPictureFromDisk:(NSString *)pictureName;
 
 @end

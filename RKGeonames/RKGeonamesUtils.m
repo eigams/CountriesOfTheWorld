@@ -14,6 +14,90 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
+// |+|    FUNCTION NAME: applicationDocumentsDirectory                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
++ (NSURL *)applicationDocumentsDirectory {
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: setupObjectRequestOperation                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
++ (BOOL)savePictureToDisk:(NSString *)name data:(NSData *)pictureData
+{
+    if((nil == name) || (nil == pictureData))
+    {
+        return NO;
+    }
+    
+    NSString *path = [[RKGeonamesUtils applicationDocumentsDirectory] path];
+    NSString *absolute = [[RKGeonamesUtils applicationDocumentsDirectory] absoluteString];
+    
+    NSString *pictureURL = [[[RKGeonamesUtils applicationDocumentsDirectory] path] stringByAppendingPathComponent:name];
+    
+    [pictureData writeToFile:pictureURL atomically:YES];
+    
+    return YES;
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: setupObjectRequestOperation                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  success/failure                                     |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
++ (NSData *)loadPictureFromDisk:(NSString *)pictureName
+{
+    NSString *picturePath = [[[RKGeonamesUtils applicationDocumentsDirectory] path] stringByAppendingPathComponent:pictureName];
+    if(NO == [[NSFileManager defaultManager] fileExistsAtPath:picturePath])
+    {
+        NSLog(@"File not exists at path: %@", picturePath);
+        
+        return nil;
+    }
+    
+    return [NSData dataWithContentsOfFile:picturePath];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
 // |+|    FUNCTION NAME: setupObjectRequestOperation                         |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -31,7 +115,7 @@
 // |+|=======================================================================|+|
 + (RKObjectRequestOperation *) setupObjectRequestOperation:(SEL)selctor
                                                    withURL:(NSString *)urlString
-                                            andPathPattern:(NSString *)pathPattern
+                                            pathPattern:(NSString *)pathPattern
                                                 andKeyPath:(NSString *)keyPath
 {
     if(NO == [MappingProvider respondsToSelector:selctor])
@@ -48,7 +132,8 @@
                                                                                            keyPath:keyPath
                                                                                        statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]] responseDescriptors:@[responseDescriptor]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    RKObjectRequestOperation *operation = [[RKObjectRequestOperation alloc] initWithRequest:request responseDescriptors:@[responseDescriptor]];
     
     return operation;
 }
@@ -86,7 +171,10 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
     
     NSLog(@"urlString: %@", urlString);
     
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
+    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(worldBankIndicatorArrayMapping)
+                                                                               withURL:urlString
+                                                                           pathPattern:nil
+                                                                            andKeyPath:nil];
     
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1))

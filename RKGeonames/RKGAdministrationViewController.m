@@ -14,9 +14,15 @@
 #import "Timezone.h"
 #import "City.h"
 
+#import "ManagedObjectStore.h"
+#import "CountryData.h"
+
 #import "RKGeonamesConstants.h"
 
 @interface RKGAdministrationViewController ()
+{
+    NSString *_timezoneString;
+}
 
 @property (nonatomic, strong) Timezone *timezone;
 
@@ -73,33 +79,46 @@
 static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&south=%@&east=%@&west=%@&username=sbpuser";
 - (void) getCities:(NSString *)north south:(NSString *)south west:(NSString *)west east:(NSString *)east
 {
-    NSString *urlString = [NSString stringWithFormat:GET_CITY_URL, north, south, east, west];
-    
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(cityMapping) withURL:urlString andPathPattern:nil andKeyPath:@"geonames"];
-    
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-        NSArray *citiesArray = mappingResult.array;
+    @try
+    {
+        NSString *urlString = [NSString stringWithFormat:GET_CITY_URL, north, south, east, west];
         
-        for(City *city in citiesArray)
-        {
-            if((YES == [city.name isEqualToString:self.country.capitalCity]) &&
-               (YES == [city.countrycode isEqualToString:self.country.countryCode]))
+        RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(cityMapping) withURL:urlString pathPattern:nil andKeyPath:@"geonames"];
+        
+        [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+            NSArray *citiesArray = mappingResult.array;
+            
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%@ contains name) AND (countrycode == %@)", self.country.capitalCity, self.country.countryCode];
+            
+            NSArray *filteredItems = [citiesArray filteredArrayUsingPredicate:predicate];
+            if ((nil != filteredItems) && [filteredItems count])
             {
-                [self getTimezoneData:[city.lat floatValue] and:[city.lng floatValue]];
-                break;
+                City *city = [filteredItems objectAtIndex:0];
+                if(nil != city)
+                {
+                    [self getTimezoneData:@[[NSNumber numberWithFloat:[city.lat floatValue]], [NSNumber numberWithFloat:[city.lng floatValue]]]];
+                }
             }
-        }
+            
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            NSLog(@"ERROR: %@", error);
+            NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
+            
+            currentData = [[AdministrationData data] tr_tableRepresentation];
+            
+            [self.tableView reloadData];
+        }];
         
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
+        [operation start];
+    }
+    @catch (NSException *exception)
+    {
+        NSLog(@"Execption caught: %@", [exception reason]);
         
         currentData = [[AdministrationData data] tr_tableRepresentation];
         
         [self.tableView reloadData];
-    }];
-    
-    [operation start];
+    }
 }
 
 // |+|=======================================================================|+|
@@ -121,11 +140,14 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
 // |+|=======================================================================|+|
 static const UniChar square = 0x00B2;
 static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%.2f&lng=%.2f&username=sbpuser";
-- (void) getTimezoneData:(float)latitude and:(float)longitude;
+- (void) getTimezoneData:(NSArray *)latitudeAndLongitude;
 {
-    NSString *urlString = [NSString stringWithFormat:GET_TIMEZONE_URL, latitude, longitude];
+    NSString *urlString = [NSString stringWithFormat:GET_TIMEZONE_URL, [[latitudeAndLongitude objectAtIndex:0] floatValue], [[latitudeAndLongitude objectAtIndex:1] floatValue]];
     
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(timezoneMapping) withURL:urlString andPathPattern:nil andKeyPath:nil];
+    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(timezoneMapping) withURL:urlString pathPattern:nil andKeyPath:nil];
+    
+    NSString *surface = [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]] numberStyle:NSNumberFormatterDecimalStyle];
+    static NSString *timeZone = nil;
     
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
         if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1))
@@ -134,13 +156,25 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
         }
         
         self.timezone = [mappingResult.array objectAtIndex:0];
-        
-        NSString *surface = [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]] numberStyle:NSNumberFormatterDecimalStyle];
+
+        if(YES == [_timezoneString isEqualToString:LOADING_STRING])
+        {
+            timeZone = [NSString stringWithFormat:@"GMT%@", [self.timezone.gmtOffset intValue] < 0 ? self.timezone.gmtOffset : [NSString stringWithFormat:@"+%@", self.timezone.gmtOffset]];
+            
+            [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
+                                                  predicate:[NSPredicate predicateWithFormat:@"name = %@", self.country.name]
+                                                      value:timeZone
+                                                        key:@"timezone"];
+        }
+        else
+        {
+            timeZone = _timezoneString;
+        }
         
         AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:self.country.capitalCity
                                                                                 surface:[NSString stringWithFormat:@"%@ km%C", surface, square]
                                                                                 currentTime:self.timezone.time
-                                                                                timeZone:[NSString stringWithFormat:@"GMT%@", [self.timezone.gmtOffset intValue] < 0 ? self.timezone.gmtOffset : [NSString stringWithFormat:@"+%@", self.timezone.gmtOffset]]
+                                                                                timeZone:timeZone
                                                                                 sunrise:self.timezone.sunrise
                                                                                 sunset:self.timezone.sunset];
         currentData = [adminData tr_tableRepresentation];
@@ -151,7 +185,14 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        currentData = [[AdministrationData data] tr_tableRepresentation];
+        AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:self.country.capitalCity ? self.country.capitalCity : NOT_AVAILABLE_STRING
+                                                                                surface:surface ? [NSString stringWithFormat:@"%@ km%C", surface, square] : NOT_AVAILABLE_STRING
+                                                                            currentTime:NOT_AVAILABLE_STRING
+                                                                               timeZone:timeZone ? timeZone : NOT_AVAILABLE_STRING
+                                                                                sunrise:NOT_AVAILABLE_STRING
+                                                                                 sunset:NOT_AVAILABLE_STRING];
+        
+        currentData = [adminData tr_tableRepresentation];
         
         [self.tableView reloadData];
     }];
@@ -159,22 +200,68 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
     [operation start];
 }
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: getCities                                           |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   stop collecting data                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
 - (void)getCities
 {
-    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:LOADING_STRING
-                                                                            surface:LOADING_STRING
-                                                                        currentTime:LOADING_STRING
-                                                                           timeZone:LOADING_STRING
-                                                                            sunrise:LOADING_STRING
-                                                                             sunset:LOADING_STRING];
-    currentData = [adminData tr_tableRepresentation];
-    
-    [self.tableView reloadData];
+    [self setDefaults];
     
     [self getCities:self.country.north
               south:self.country.south
                west:self.country.west
                east:self.country.east];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: setDefaults                                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   stop collecting data                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)setDefaults
+{
+    NSString *surface = [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]] numberStyle:NSNumberFormatterDecimalStyle];
+    
+    CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
+                                                                                   predicate:[NSPredicate predicateWithFormat:@"name = %@", self.country.name]];
+    
+    _timezoneString = ((countryData.timezone != nil && [countryData.timezone length] > 0)) ? countryData.timezone : LOADING_STRING;
+    
+    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:self.country.capitalCity
+                                                                            surface:[NSString stringWithFormat:@"%@ km%C", surface, square]
+                                                                        currentTime:LOADING_STRING
+                                                                           timeZone:_timezoneString
+                                                                            sunrise:LOADING_STRING
+                                                                             sunset:LOADING_STRING];
+    currentData = [adminData tr_tableRepresentation];
+    
+    [self.tableView reloadData];
 }
 
 // |+|=======================================================================|+|
@@ -201,15 +288,7 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
 
     [self addBarButtons:@selector(getCities)];
     
-    AdministrationData *adminData = [[AdministrationData alloc] initWithCapitalCity:LOADING_STRING
-                                                                            surface:LOADING_STRING
-                                                                        currentTime:LOADING_STRING
-                                                                           timeZone:LOADING_STRING
-                                                                            sunrise:LOADING_STRING
-                                                                             sunset:LOADING_STRING];
-    currentData = [adminData tr_tableRepresentation];
-    
-    [self.tableView reloadData];
+    [self setDefaults];
     
     [self getCities:self.country.north
               south:self.country.south

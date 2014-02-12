@@ -14,7 +14,22 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        _flagImage = [[UIImageView alloc] initWithFrame:(CGRectMake(9, 20, 68, 50))];
+//        _flagImage.contentMode = UIViewContentModeScaleAspectFit;
+        
+        _countryNameLabel = [[UILabel alloc] initWithFrame:(CGRectMake(88, 10, 173, 42))];
+        _countryNameLabel.font = [UIFont boldSystemFontOfSize:21];
+        _countryNameLabel.textAlignment = NSTextAlignmentLeft;
+        
+        _capitalCityLabel = [[UILabel alloc] initWithFrame:(CGRectMake(88, 49, 113, 21))];
+        _capitalCityLabel.font = [UIFont systemFontOfSize:13];
+        _capitalCityLabel.textAlignment = NSTextAlignmentLeft;
+        
+        [self.contentView addSubview:_flagImage];
+        [self.contentView addSubview:_countryNameLabel];
+        [self.contentView addSubview:_capitalCityLabel];
     }
     return self;
 }

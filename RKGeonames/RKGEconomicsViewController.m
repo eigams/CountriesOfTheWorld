@@ -13,6 +13,10 @@
 #import "RKGeonamesUtils.h"
 #import "EconomyData+TableRepresentation.h"
 
+#import "ManagedObjectStore.h"
+#import "CountryData.h"
+#import "EconomicalData.h"
+
 #import "RKGeonamesConstants.h"
 
 @interface RKGEconomicsViewController ()
@@ -21,6 +25,8 @@
     NSString *GDP;
     NSString *GDPPerCapita;
     NSString *GNIPerCapita;
+    
+    EconomicalData *_economicalData;
 }
 
 @property (nonatomic, strong) NSArray *items;
@@ -349,6 +355,40 @@ static UniChar dollar = 0x0024;
 {
     @try {
         
+        //
+        //try to load the data from local storage
+        //
+        
+        CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
+                                                                                       predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
+        
+        if(nil != countryData)
+        {
+            NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]];
+            if ([result count] > 0)
+            {
+                _economicalData = [[result allObjects] objectAtIndex:0];
+                
+                if(nil != _economicalData)
+                {
+                    if((_economicalData.gdp && ![_economicalData.gdp isEqualToString:NOT_AVAILABLE_STRING]) &&
+                       (_economicalData.gdppercapita && ![_economicalData.gdppercapita isEqualToString:NOT_AVAILABLE_STRING]) &&
+                       (_economicalData.gnipercapita && ![_economicalData.gnipercapita isEqualToString:NOT_AVAILABLE_STRING]))
+                    {
+                        GDP = _economicalData.gdp ? _economicalData.gdp : NOT_AVAILABLE_STRING;
+                        GDPPerCapita = _economicalData.gdppercapita ? _economicalData.gdppercapita : NOT_AVAILABLE_STRING;
+                        GNIPerCapita = _economicalData.gnipercapita ? _economicalData.gnipercapita : NOT_AVAILABLE_STRING;
+                        
+                        [self loadData];
+                        
+                        return ;
+                    }
+                }
+            }
+        }
+        
+        // when no data is stored locally, get it from the net
+        
         NSLog(@"before currentData created !");
         
         currentData = [[EconomyData data] tr_tableRepresentation];
@@ -358,10 +398,19 @@ static UniChar dollar = 0x0024;
         GNIPerCapita = LOADING_STRING;
 
         [self.tableView reloadData];
+        if(nil == countryData)
+        {
+            countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
+                                                                              predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
+        }
         
-        NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @"GDP",
-                                               GDP_PER_CAPITA_INDICATOR_STRING: @"GDPPerCapita",
-                                               GNI_PER_CAPITA_INDICATOR_STRING: @"GNIPerCapita"};
+        _economicalData = (EconomicalData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([EconomicalData class])];
+        _economicalData.countryData = countryData;
+        _economicalData.year = self.year.text;
+
+        NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @[@"GDP", @"gdp"],
+                                               GDP_PER_CAPITA_INDICATOR_STRING: @[@"GDPPerCapita", @"gdppercapita"],
+                                               GNI_PER_CAPITA_INDICATOR_STRING: @[@"GNIPerCapita", @"gnipercapita"]};
         
         NSLog(@"currentData created !");
         
@@ -370,7 +419,14 @@ static UniChar dollar = 0x0024;
             [self getIndicatorData:key withCompletion:^(NSString *Data){
                 
                 //KVC
-                [self setValue:Data forKey:obj];
+                [self setValue:Data forKey:[obj objectAtIndex:0]];
+                [_economicalData setValue:Data forKey:[obj objectAtIndex:1]];
+                
+                [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
+                                                      predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
+                                                 childPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]
+                                                          value:_economicalData
+                                                            key:@"economicalData"];
                 
                 [self loadData];
             }];
@@ -382,6 +438,20 @@ static UniChar dollar = 0x0024;
 }
 
 static int TYPE_FLOAT = 1;
+
+static NSString *YEAR_TEXT = @"";
+- (void)setupTextFieldView
+{
+    self.year.delegate = self;
+    if([YEAR_TEXT length] == 0)
+    {
+        YEAR_TEXT = @"2011";
+    }
+    
+    [self.year setText:YEAR_TEXT];
+    
+    self.year.keyboardType = UIKeyboardTypeDecimalPad;
+}
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -404,10 +474,6 @@ static int TYPE_FLOAT = 1;
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
-    self.year.delegate = self;
-    [self.year setText:@"2011"];
-    self.year.keyboardType = UIKeyboardTypeDecimalPad;
     
     [self addBarButtons:@selector(getData)];
     
@@ -453,6 +519,9 @@ static int TYPE_FLOAT = 1;
 
 #pragma mark - UITextField delegates
 
+static const unsigned int MIN_YEAR = 1980; //display data no early than 1980
+static const unsigned int MAX_YEAR = 2013; //display data no early than 2013
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: textFieldShouldEndEditing                           |+|
@@ -472,7 +541,19 @@ static int TYPE_FLOAT = 1;
 // |+|=======================================================================|+|
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    self.year.text = textField.text;
+    unsigned int yearAsNumber = [textField.text intValue];
+    if ((yearAsNumber < MIN_YEAR) || (yearAsNumber > MAX_YEAR))
+    {
+        self.year.text = @"2011";
+    }
+    else
+    {
+        self.year.text = textField.text;
+    }
+    
+    NSLog(@"self.year.text: %@", self.year.text);
+    
+    YEAR_TEXT = self.year.text;
     
     [self getData];
     
