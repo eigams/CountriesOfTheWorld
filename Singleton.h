@@ -6,9 +6,24 @@
 //  Copyright (c) 2014 Stefan Burettea. All rights reserved.
 //
 
-#ifndef RKGeonames_Singleton_h
-#define RKGeonames_Singleton_h
+#ifndef __Singleton_h__
+#define __Singleton_h__
 
+#define SingletonInterface(Class) \
++ (instancetype)sharedInstance;
 
+#define SingletonImplemetion(Class) \
+static Class *__## sharedSingleton; \
+\
+\
++ (Class *)sharedInstance \
+{ \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+        __## sharedSingleton = [[self alloc] init]; \
+    }); \
+\
+    return __## sharedSingleton; \
+} \
 
 #endif

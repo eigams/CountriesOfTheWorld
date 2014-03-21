@@ -15,14 +15,14 @@
         <relationship name="economicalData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EconomicalData" inverseName="countryData" inverseEntity="EconomicalData" syncable="YES"/>
         <relationship name="populationData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PopulationData" inverseName="countryData" inverseEntity="PopulationData" syncable="YES"/>
     </entity>
-    <entity name="EconomicalData" syncable="YES">
+    <entity name="EconomicalData" representedClassName="EconomicalData" syncable="YES">
         <attribute name="gdp" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gdppercapita" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gnipercapita" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="countryData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CountryData" inverseName="economicalData" inverseEntity="CountryData" syncable="YES"/>
     </entity>
-    <entity name="PopulationData" syncable="YES">
+    <entity name="PopulationData" representedClassName="PopulationData" syncable="YES">
         <attribute name="birthRate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deathRate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="growth" optional="YES" attributeType="String" syncable="YES"/>

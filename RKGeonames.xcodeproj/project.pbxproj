@@ -372,6 +372,15 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Stefan Burettea";
+				TargetAttributes = {
+					0C4FA10517744BB800A48BA0 = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 0C4FA10117744BB800A48BA0 /* Build configuration list for PBXProject "RKGeonames" */;
 			compatibilityVersion = "Xcode 3.2";

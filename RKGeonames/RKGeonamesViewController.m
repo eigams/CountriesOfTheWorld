@@ -249,14 +249,8 @@
                 
                 [RKGeonamesUtils savePictureToDisk:pictureName data:imageData];
                 
-                //save the flagData member to CoreData                
+                //save the flagData member to disk
                 dispatch_async(dispatch_get_main_queue(), ^{
-//                    countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-//                                                                                      predicate:[NSPredicate predicateWithFormat:@"name = %@", country.name]];
-//                    
-//                    countryData.flagData = pictureName;
-//                    
-//                    [[ManagedObjectStore sharedInstance] writeToDisk];
                     [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
                                                           predicate:[NSPredicate predicateWithFormat:@"name = %@", country.name]
                                                               value:pictureName
@@ -286,8 +280,6 @@
             }
         });
     }];
-    
-//    [self saveToCoreData:self.items];
 }
 
 // |+|=======================================================================|+|
@@ -307,9 +299,9 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)saveToCoreData:(NSArray *)source
+- (void)saveToDisk:(NSArray *)source
 {
-    [[ManagedObjectStore sharedInstance] saveData:source withBlock:^(id obj, NSManagedObjectContext *context) {
+    [[ManagedObjectStore sharedInstance] saveData:source completion:^(id obj, NSManagedObjectContext *context) {
         
         CountryData *country = (CountryData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([CountryData class])];
         
@@ -327,33 +319,6 @@
         
         [context save:nil];
     }];
-    
-//    [[CountryStore sharedInstance] writeToDisk];
-    
-    // execute a read request after 1 second
-//    double delayInSeconds = 2.0;
-//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //update the main context
-//        [[CountryStore sharedInstance] saveChanges];
-//        [[CountryStore sharedInstance].mainContext save:nil];
-        
-//        [[CountryStore sharedInstance].mainContext performBlockAndWait:^{
-//            NSArray *test = [[CountryStore sharedInstance] allItems];
-//            NSMutableArray *sink = [NSMutableArray arrayWithCapacity:[test count]];
-//            [test enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-//                
-//                CountryGeonames *cgo = [[CountryGeonames alloc] initWithModel:obj];
-//                [sink addObject:cgo];
-//                
-//                NSLog(@"cgo: %@", ((CountryData *)obj).name);
-//            }];
-//        }];
-//
-//    });
-    
-    NSLog(@"Data saved !!!!");
 }
 
 // |+|=======================================================================|+|
@@ -482,7 +447,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
             }
             
             [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
-            [weakPtr saveToCoreData:compareResult];
+            [weakPtr saveToDisk:compareResult];
             weakPtr.items = compareResult;
 
             self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
@@ -501,7 +466,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         
         weakPtr.items = result;
         
-        [weakPtr saveToCoreData:weakPtr.items];
+        [weakPtr saveToDisk:weakPtr.items];
         
         setupBlock();
     }];
@@ -564,12 +529,6 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         
         [self.searchDisplayController setActive:NO animated:YES];
     }
-    
-//    RKGeonamesTableViewCell *cell = (RKGeonamesTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-//    [cell.layer setCornerRadius:20.0f];
-//    [cell.layer setMasksToBounds:YES];
-//    [cell.layer setBorderWidth:1.0f];
-//    [cell.layer setBorderColor:[UIColor whiteColor].CGColor];
     
     [self performSegueWithIdentifier:@"CountryDetailsSegue" sender:self];
     
@@ -657,7 +616,10 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     self.activityIndicator.center = self.view.center;
     self.activityIndicator.color = [UIColor colorWithRed:81.0/255.0 green:102.0/255.0 blue:145.0/255.0 alpha:1.0];
     
-    [self.tableView setSeparatorStyle: UITableViewCellSeparatorStyleNone];
+    [self.tableView registerClass:[RKGeonamesTableViewCell class] forCellReuseIdentifier:@"Cell"];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor blackColor];
     
     self.managedObjectStore = [ManagedObjectStore sharedInstance];
     
@@ -753,7 +715,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     cell.capitalCityLabel.text = country.capitalCity;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"disclosure.png"]];
+//    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"disclosure.png"]];
     
     __block UIImage *flagImage;
     
@@ -765,7 +727,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         if (nil != (flagImage = [obj objectForKey:[country.countryCode lowercaseString]]))
         {
             cell.flagImage.image = flagImage;
-            cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
+//            cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
             
             *stop = YES;
             
@@ -775,6 +737,69 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     
     return cell;
 }
+
+//0 % 5 -> 0
+//1 % 5 -> 1
+//2 % 5 -> 2
+//3 % 5 -> 3
+//4 % 5 -> 4
+//
+//5 % 5 -> 4
+//6 % 5 -> 3
+//7 % 5 -> 2
+//8 % 5 -> 1
+//9 % 5 -> 0
+//
+//10 % 5 -> 0
+//11 % 5 -> 1
+//12 % 5 -> 2
+//13 % 5 -> 3
+//14 % 5 -> 4
+//
+//15 % 5 -> 4
+//16 % 5 -> 3
+//17 % 5 -> 2
+//18 % 5 -> 1
+//19 % 5 -> 0
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: cellForRowAtIndexPath                               |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   display the country's name, flag and capital        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (UIColor *)colorForIndex:(NSInteger)index
+{
+    NSUInteger itemCount = self.items.count - 1;
+    float indexDiv = index % 10;
+    if (indexDiv >= 5)
+    {
+        indexDiv = 10 - indexDiv - 1;
+    }
+    
+    float val = ((float)indexDiv/(float)itemCount)*5;
+    
+    return [UIColor colorWithRed:(val+.85) green:0.925f blue:.975f alpha:1];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [self colorForIndex:indexPath.row];
+}
+
+#define GRADIENT_COLOR_1    [[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1.0] CGColor]
+#define GRADIENT_COLOR_2    [[UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:1.0] CGColor]
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -797,16 +822,11 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"RKGeonamesTableViewCell";
-    __block RKGeonamesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    __block RKGeonamesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if(nil == cell)
     {
-        cell = [[RKGeonamesTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[RKGeonamesTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
     }
-    
-    [cell.layer setCornerRadius:1.0f];
-    [cell.layer setMasksToBounds:YES];
-    [cell.layer setBorderWidth:1.0f];
-    [cell.layer setBorderColor:[UIColor whiteColor].CGColor];
     
     CountryGeonames *country = nil;
     if(tableView == self.searchDisplayController.searchResultsTableView)
@@ -821,7 +841,7 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
         
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"disclosure.png"]];
+        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
         __block UIImage *flagImage;
         
@@ -833,7 +853,6 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
             if (nil != (flagImage = [obj objectForKey:[country.countryCode lowercaseString]]))
             {
                 cell.flagImage.image = flagImage;
-                cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
                 
                 *stop = YES;
                 
@@ -875,8 +894,6 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
             }
         }
     }
-    
-    cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
     
     return cell;
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Country.h"
 
-@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate>
+@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {
     NSDictionary *currentData;    
 }

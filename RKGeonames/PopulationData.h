@@ -13,11 +13,11 @@
 
 @interface PopulationData : NSManagedObject
 
-@property (nonatomic, retain) NSString * birthRate;
-@property (nonatomic, retain) NSString * deathRate;
-@property (nonatomic, retain) NSString * growth;
-@property (nonatomic, retain) NSString * total;
-@property (nonatomic, retain) NSString * year;
+@property (nonatomic, copy) NSString * birthRate;
+@property (nonatomic, copy) NSString * deathRate;
+@property (nonatomic, copy) NSString * growth;
+@property (nonatomic, copy) NSString * total;
+@property (nonatomic, copy) NSString * year;
 @property (nonatomic, retain) CountryData *countryData;
 
 @end

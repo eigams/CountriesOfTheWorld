@@ -27,12 +27,13 @@
     NSString *GNIPerCapita;
     
     EconomicalData *_economicalData;
+    
+    NSArray *_pickerData;
+    NSString *_selectedYear;
 }
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, strong, readonly) NSDictionary *currencies;
-
-@property (nonatomic, strong) IBOutlet UITextField *year;
 
 @end
 
@@ -319,7 +320,7 @@
 {
     [RKGeonamesUtils fetchWorldBankIndicator:indicator
                               forCountryCode:self.country.countryCode
-                                     forYear:(self.year.text == nil) ? @"2011" : self.year.text
+                                     forYear:(_selectedYear == nil) ? @"2011" : _selectedYear
                                     withType:TYPE_FLOAT
                                      andText:[NSString stringWithFormat:@" %C", dollar]
                                  withCompletion:completion
@@ -364,7 +365,7 @@ static UniChar dollar = 0x0024;
         
         if(nil != countryData)
         {
-            NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]];
+            NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
             if ([result count] > 0)
             {
                 _economicalData = [[result allObjects] objectAtIndex:0];
@@ -398,6 +399,7 @@ static UniChar dollar = 0x0024;
         GNIPerCapita = LOADING_STRING;
 
         [self.tableView reloadData];
+        
         if(nil == countryData)
         {
             countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
@@ -406,7 +408,7 @@ static UniChar dollar = 0x0024;
         
         _economicalData = (EconomicalData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([EconomicalData class])];
         _economicalData.countryData = countryData;
-        _economicalData.year = self.year.text;
+        _economicalData.year = _selectedYear;
 
         NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @[@"GDP", @"gdp"],
                                                GDP_PER_CAPITA_INDICATOR_STRING: @[@"GDPPerCapita", @"gdppercapita"],
@@ -424,7 +426,7 @@ static UniChar dollar = 0x0024;
                 
                 [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
                                                       predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
-                                                 childPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]
+                                                 childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
                                                           value:_economicalData
                                                             key:@"economicalData"];
                 
@@ -439,18 +441,48 @@ static UniChar dollar = 0x0024;
 
 static int TYPE_FLOAT = 1;
 
-static NSString *YEAR_TEXT = @"";
-- (void)setupTextFieldView
+static const int START_YEAR = 1970;
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: setupPicker                                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)setupPicker
 {
-    self.year.delegate = self;
-    if([YEAR_TEXT length] == 0)
+    self.yearPicker.delegate = self;
+    self.yearPicker.dataSource = self;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber * number = [f numberFromString:yearString];
+    
+    NSMutableArray *sink = [NSMutableArray array];
+    for(int i = [number intValue]; i >= START_YEAR; --i)
     {
-        YEAR_TEXT = @"2011";
+        [sink addObject:[NSString stringWithFormat:@"%d",i]];
     }
     
-    [self.year setText:YEAR_TEXT];
+    _pickerData = [sink copy];
     
-    self.year.keyboardType = UIKeyboardTypeDecimalPad;
+    [self.yearPicker reloadAllComponents];
+    [self.yearPicker selectRow:2 inComponent:0 animated:YES];
 }
 
 // |+|=======================================================================|+|
@@ -483,16 +515,10 @@ static NSString *YEAR_TEXT = @"";
     GDPPerCapita = LOADING_STRING;
     GNIPerCapita = LOADING_STRING;
     
+    [self setupPicker];
+    
     [self getData];
 }
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    
-    NSLog(@"touchesBegan:withEvent:");
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
-}
-
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -517,21 +543,18 @@ static NSString *YEAR_TEXT = @"";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UITextField delegates
-
-static const unsigned int MIN_YEAR = 1980; //display data no early than 1980
-static const unsigned int MAX_YEAR = 2013; //display data no early than 2013
+#pragma mark - UIPickerView delegates
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: textFieldShouldEndEditing                           |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   get the newly set year and refresh                  |+|
-// |+|                   the collected data                                  |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -539,26 +562,83 @@ static const unsigned int MAX_YEAR = 2013; //display data no early than 2013
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    unsigned int yearAsNumber = [textField.text intValue];
-    if ((yearAsNumber < MIN_YEAR) || (yearAsNumber > MAX_YEAR))
-    {
-        self.year.text = @"2011";
-    }
-    else
-    {
-        self.year.text = textField.text;
-    }
-    
-    NSLog(@"self.year.text: %@", self.year.text);
-    
-    YEAR_TEXT = self.year.text;
-    
-    [self getData];
-    
-    return YES;
+    return 1;
 }
 
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
+{
+    return [_pickerData count];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+-(NSString *)pickerView:(UIPickerView *)pickerView
+            titleForRow:(NSInteger)row
+           forComponent:(NSInteger)component
+{
+    return [_pickerData objectAtIndex:row];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)pickerView:(UIPickerView *)pickerView
+      didSelectRow:(NSInteger)row
+       inComponent:(NSInteger)component
+{
+    _selectedYear = [_pickerData objectAtIndex:row];
+    
+    [self getData];
+}
 
 @end

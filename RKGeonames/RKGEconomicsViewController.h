@@ -11,4 +11,6 @@
 
 @interface RKGEconomicsViewController : RKGDetailsViewController
 
+@property (weak, nonatomic) IBOutlet UIPickerView *yearPicker;
+
 @end

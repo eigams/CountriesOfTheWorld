@@ -13,17 +13,17 @@
 
 @interface CountryData : NSManagedObject
 
-@property (nonatomic, retain) NSString * capitalCity;
-@property (nonatomic, retain) NSString * currency;
-@property (nonatomic, retain) NSString * east;
-@property (nonatomic, retain) NSString * flagData;
-@property (nonatomic, retain) NSString * iso2Code;
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * north;
-@property (nonatomic, retain) NSString * south;
-@property (nonatomic, retain) NSString * surface;
-@property (nonatomic, retain) NSString * timezone;
-@property (nonatomic, retain) NSString * west;
+@property (nonatomic, copy) NSString * capitalCity;
+@property (nonatomic, copy) NSString * currency;
+@property (nonatomic, copy) NSString * east;
+@property (nonatomic, copy) NSString * flagData;
+@property (nonatomic, copy) NSString * iso2Code;
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * north;
+@property (nonatomic, copy) NSString * south;
+@property (nonatomic, copy) NSString * surface;
+@property (nonatomic, copy) NSString * timezone;
+@property (nonatomic, copy) NSString * west;
 @property (nonatomic, retain) NSSet *economicalData;
 @property (nonatomic, retain) NSSet *populationData;
 @end

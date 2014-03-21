@@ -8,14 +8,6 @@
 
 #import "ManagedObjectStore.h"
 
-//
-//  CountryStore.m
-//  RKGeonames
-//
-//  Created by Stefan Buretea on 1/16/14.
-//  Copyright (c) 2014 Stefan Burettea. All rights reserved.
-//
-
 static NSString *const EntityName = @"CountryData";
 
 @interface NSFetchRequest(Helper)
@@ -454,7 +446,7 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)saveData:(id)source withBlock:(void(^)(id obj, NSManagedObjectContext *context))saveBlock updateMainContext:(BOOL)update
+- (void)saveData:(id)source updateMainContext:(BOOL)update completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock
 {
     // perform a heavy write block on the child context
     [_privateContext performBlock:^{
@@ -476,18 +468,20 @@ SingletonImplemetion(ManagedObjectStore);
             //[weakPtr saveChanges];
             [_mainContext performBlock:^{
                 [_mainContext save];
+                
+                [self writeToDisk];
             }];
-            
-            NSLog(@"Done write test: Saving parent");
         }
     }];
+    
+    [self writeToDisk];
     
     return;
 }
 
-- (void)saveData:(id)source withBlock:(void(^)(id obj, NSManagedObjectContext *context))saveBlock
+- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock
 {
-    [self saveData:source withBlock:saveBlock updateMainContext:YES];
+    [self saveData:source updateMainContext:YES completion:saveBlock];
 }
 
 
@@ -537,7 +531,6 @@ SingletonImplemetion(ManagedObjectStore);
         
         //the managed object context can manage undo, but we dont need it for now
         [_writeContext setUndoManager:nil];
-        
         
         // create the main ctx with concurrency type NSMainQueueConcurrencyType
         _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
@@ -603,7 +596,10 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL)updateItem:(NSString *)entity predicate:(NSPredicate *)predicate value:(id)newValue key:(NSString *)key
+- (BOOL)updateItem:(NSString *)entity
+         predicate:(NSPredicate *)predicate
+             value:(id)newValue
+               key:(NSString *)key
 {
     //try to find the object in the store
     NSManagedObject *obj = [self fetchItem:entity predicate:predicate];
@@ -625,6 +621,50 @@ SingletonImplemetion(ManagedObjectStore);
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
+// |+|    FUNCTION NAME: updateChildItem                                     |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:  N/A                                                 |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (BOOL)updateItem:(NSString *)entity
+         predicate:(NSPredicate *)predicate
+    childPredicate:(NSPredicate *)childPredicate
+             value:(id)newValue
+               key:(NSString *)key
+{
+    //try to find the object in the store
+    NSManagedObject *obj = [self fetchItem:entity predicate:predicate];
+    if(nil == obj)
+    {
+        NSLog(@"Object not found !");
+        
+        return NO;
+    }
+    
+    NSSet *set = [obj valueForKey:key];
+    NSSet *resultSet = [set filteredSetUsingPredicate:childPredicate];
+    id child = [[resultSet allObjects] objectAtIndex:0];
+    
+    child = newValue;
+    
+    //save
+    [self writeToDisk];
+    
+    return YES;
+}
+
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
 // |+|    FUNCTION NAME: fetchItem                                           |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -639,7 +679,9 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)fetchItem:(NSString *)entity withPredicate:(NSPredicate *)predicate completion:(void(^)(NSArray *results))block
+- (void)fetchItem:(NSString *)entity
+    withPredicate:(NSPredicate *)predicate
+       completion:(void(^)(NSArray *results))block
 {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entity
                                                                  context:_privateContext
@@ -746,24 +788,14 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|=======================================================================|+|
 - (NSArray *)allItems:(NSString *)entity
 {
-    //1
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:entity];
     
-    //2
-    //    NSEntityDescription *description = [[model entitiesByName] objectForKey:];
-    
-    //3
-    //    [request setEntity:description];
-    
-    //4
     NSSortDescriptor *sortd = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
     
-    //5
     [request setSortDescriptors:[NSArray arrayWithObject:sortd]];
     
     NSError *error;
     
-    //6
     NSArray *results = [_mainContext executeFetchRequest:request error:&error];
     
     if(nil != error)

@@ -22,10 +22,20 @@ SingletonInterface(ManagedObjectStore);
 
 - (void)fetchItem:(NSString *)entity predicate:(NSPredicate *)predicate completion:(void(^)(NSArray *results))block;
 - (NSManagedObject *)fetchItem:(NSString *)entity predicate:(NSPredicate *)predicate;
-- (BOOL)updateItem:(NSString *)entity predicate:(NSPredicate *)predicate value:(id)newValue key:(NSString *)key;
 
-- (void)saveData:(id)source withBlock:(void(^)(id obj, NSManagedObjectContext *context))saveBlock updateMainContext:(BOOL)update;
-- (void)saveData:(id)source withBlock:(void(^)(id obj, NSManagedObjectContext *context))saveBlock;
+- (BOOL)updateItem:(NSString *)entity
+         predicate:(NSPredicate *)predicate
+             value:(id)newValue
+               key:(NSString *)key;
+
+- (BOOL)updateItem:(NSString *)entity
+          predicate:(NSPredicate *)predicate
+     childPredicate:(NSPredicate *)childPredicate
+              value:(id)newValue
+                key:(NSString *)key;
+
+- (void)saveData:(id)source updateMainContext:(BOOL)update completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock;
+- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock;
 
 - (void)writeToDisk;
 

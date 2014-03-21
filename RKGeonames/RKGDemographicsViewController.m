@@ -29,11 +29,12 @@ static NSString * YEAR_TEXT = @"";
     NSString *birthRate;
     
     __block PopulationData *_populationData;
+    
+    NSArray *_pickerData;
+    NSString *_selectedYear;
 }
 
 @property (nonatomic, strong) NSArray *items;
-
-@property (nonatomic, strong) IBOutlet UITextField *year;
 
 @end
 
@@ -60,44 +61,13 @@ static NSString * YEAR_TEXT = @"";
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-//        self.year.text = @"2011";
+
     }
     return self;
 }
 
 static int TYPE_FLOAT = 1;
 static const UniChar perThousand = 0x2031;
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: loadData                                            |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (BOOL)loadData
-{
-    DemographicData *demoData = [[DemographicData alloc] initWithTotalPopulation:totalPopulation
-                                                                populationGrowth:populationGrowth
-                                                                       birthRate:birthRate
-                                                                       deathRate:deathRate];
-    
-    currentData = [demoData tr_tableRepresentation];
-    
-    [self.tableView reloadData];
-    
-    return YES;
-}
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -116,22 +86,35 @@ static const UniChar perThousand = 0x2031;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *TOTAL_POPULATION_INDICATOR_STRING = @"SP.POP.TOTL";
-static NSString *POPULATION_GROWTH_INDICATOR_STRING = @"SP.POP.GROW";
-static NSString *BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
-static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
+static NSString *const TOTAL_POPULATION_INDICATOR_STRING = @"SP.POP.TOTL";
+static NSString *const POPULATION_GROWTH_INDICATOR_STRING = @"SP.POP.GROW";
+static NSString *const BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
+static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 - (void) getData
 {
     //
     //try to load the data from local storage
     //
     
+    void (^LoadDataBlock)() = ^{
+        
+        DemographicData *demoData = [[DemographicData alloc] initWithTotalPopulation:totalPopulation
+                                                                    populationGrowth:populationGrowth
+                                                                           birthRate:birthRate
+                                                                           deathRate:deathRate];
+        
+        currentData = [demoData tr_tableRepresentation];
+        
+        [self.tableView reloadData];
+        
+    };
+    
     CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
                                                                                    predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
     
     if(nil != countryData)
     {
-        NSSet *result = [countryData.populationData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]];
+        NSSet *result = [countryData.populationData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
         if ([result count] > 0)
         {
             _populationData = [[result allObjects] objectAtIndex:0];
@@ -148,7 +131,7 @@ static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                     birthRate = _populationData.birthRate ? _populationData.birthRate : NOT_AVAILABLE_STRING;
                     deathRate = _populationData.deathRate ? _populationData.deathRate : NOT_AVAILABLE_STRING;
                     
-                    [self loadData];
+                    LoadDataBlock();
                     
                     return ;
                 }
@@ -173,7 +156,7 @@ static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
     
     _populationData = (PopulationData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([PopulationData class])];
     _populationData.countryData = countryData;
-    _populationData.year = self.year.text;
+    _populationData.year = _selectedYear;
     
     [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         
@@ -181,7 +164,7 @@ static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
         
         [RKGeonamesUtils fetchWorldBankIndicator:key
                                   forCountryCode:self.country.countryCode
-                                         forYear:self.year.text
+                                         forYear:_selectedYear
                                         withType:TYPE_FLOAT
                                          andText:[array objectAtIndex:2]
                                   withCompletion:^(NSString *Data){
@@ -194,32 +177,63 @@ static NSString *DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                       
                                       [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
                                                                             predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
-                                                                       childPredicate:[NSPredicate predicateWithFormat:@"year == %@", self.year.text]
+                                                                       childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
                                                                                 value:_populationData
                                                                                   key:@"populationData"];
                                       
-                                      [self loadData];
+                                      LoadDataBlock();
                                   }
                                          failure:^(){
                                             [self setValue:@"N/A" forKey:[array objectAtIndex:0]];
                                             
-                                            [self loadData];
+                                             LoadDataBlock();
                                          }];
 
     }];
 }
 
-- (void)setupTextFieldView
+static const int START_YEAR = 1970;
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: setupPicker                                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)setupPicker
 {
-    self.year.delegate = self;
-    if([YEAR_TEXT length] == 0)
+    self.yearPicker.delegate = self;
+    self.yearPicker.dataSource = self;
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy"];
+    
+    NSString *yearString = [formatter stringFromDate:[NSDate date]];
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber * number = [f numberFromString:yearString];
+    
+    NSMutableArray *sink = [NSMutableArray array];
+    for(int i = [number intValue]; i >= START_YEAR; --i)
     {
-        YEAR_TEXT = @"2011";
+        [sink addObject:[NSString stringWithFormat:@"%d",i]];
     }
-
-    [self.year setText:YEAR_TEXT];
-
-    self.year.keyboardType = UIKeyboardTypeDecimalPad;
+    
+    _pickerData = [sink copy];
+    
+    [self.yearPicker reloadAllComponents];
+    [self.yearPicker selectRow:2 inComponent:0 animated:YES];
 }
 
 // |+|=======================================================================|+|
@@ -252,14 +266,9 @@ static const UniChar per_mille = 0x2030;
     birthRate        = LOADING_STRING;
     deathRate        = LOADING_STRING;
     
-    [self getData];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self setupPicker];
     
-    NSLog(@"touchesBegan:withEvent:");
-    [self.view endEditing:YES];
-    [super touchesBegan:touches withEvent:event];
+    [self getData];
 }
 
 // |+|=======================================================================|+|
@@ -286,21 +295,18 @@ static const UniChar per_mille = 0x2030;
 }
 
 
-#pragma mark - UITextField delegate
-
-static const unsigned int MIN_YEAR = 1980; //display data no early than 1980
-static const unsigned int MAX_YEAR = 2013; //display data no early than 2013
+#pragma mark - UIPickerView delegate
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: textFieldShouldEndEditing                           |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   get the newly set year and refresh                  |+|
-// |+|                   the collected data                                  |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -308,25 +314,83 @@ static const unsigned int MAX_YEAR = 2013; //display data no early than 2013
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    unsigned int yearAsNumber = [textField.text intValue];
-    if ((yearAsNumber < MIN_YEAR) || (yearAsNumber > MAX_YEAR))
-    {
-        self.year.text = @"2011";
-    }
-    else
-    {
-        self.year.text = textField.text;
-    }
-    
-    NSLog(@"self.year.text: %@", self.year.text);
-    
-    YEAR_TEXT = self.year.text;
+    return 1;
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent: (NSInteger)component
+{
+    return [_pickerData count];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+-(NSString *)pickerView:(UIPickerView *)pickerView
+            titleForRow:(NSInteger)row
+           forComponent:(NSInteger)component
+{
+    return [_pickerData objectAtIndex:row];
+}
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: didReceiveMemoryWarning                             |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (void)pickerView:(UIPickerView *)pickerView
+      didSelectRow:(NSInteger)row
+       inComponent:(NSInteger)component
+{
+    _selectedYear = [_pickerData objectAtIndex:row];
     
     [self getData];
-    
-    return YES;
 }
 
 @end

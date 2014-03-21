@@ -83,8 +83,11 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
     {
         NSString *urlString = [NSString stringWithFormat:GET_CITY_URL, north, south, east, west];
         
-        RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(cityMapping) withURL:urlString pathPattern:nil andKeyPath:@"geonames"];
-        
+        RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(cityMapping)
+                                                                                   withURL:urlString
+                                                                               pathPattern:nil
+                                                                                andKeyPath:@"geonames"];
+
         [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
             NSArray *citiesArray = mappingResult.array;
             
