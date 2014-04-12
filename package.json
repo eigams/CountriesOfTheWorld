@@ -1,0 +1,28 @@
+{
+  "name": "RKGeonames",
+  "version": "0.0.0",
+  "description": "RKGeonames",
+  "main": "index.js",
+  "dependencies": {
+    "wd": "~0.2.13",
+    "path": "~0.4.9",
+    "underscore": "~1.6.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.18.2",
+    "grunt": "~0.4.4",
+    "should": "~3.2.0-beta1",
+    "chai": "~1.9.1",
+    "chai-as-promised": "~4.1.1",
+    "colors": "~0.6.2"
+  },
+  "keywords": [
+    "xcode",
+    "objective-c",
+    "mocha",
+    "appium",
+    "wd"
+  ],
+  "author": "Stefan Buretea",
+  "license": "BSD-2-Clause"
+}
