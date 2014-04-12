@@ -4,7 +4,6 @@ xcode_sdk: iphonesimulator7.0
 language: objective-c
 before_install:
   - brew update
-  - brew install xctool
   - brew install node
   - npm install -g grunt-cli appium
   - gem install cocoapods --no-ri --no-rdoc
