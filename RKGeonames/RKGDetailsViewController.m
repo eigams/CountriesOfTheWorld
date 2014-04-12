@@ -10,6 +10,7 @@
 
 #import "RKGeonamesUtils.h"
 #import "RKGeonamesConstants.h"
+#import "CountryData.h"
 
 @interface RKGDetailsViewController ()
 
@@ -139,13 +140,16 @@ static const NSUInteger INDICATOR_HEGHT = 30;
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 static NSString *COUNTRY_FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
+static const NSUInteger FLAG_Y_POS = 211;
+static const NSUInteger FLAG_WIDTH = 320;
+static const NSUInteger FLAG_HEIGHT = 211;
 - (void)setBackgroundImage:(UIImage *)image
 {
     self.bgImage = image;
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:self.bgImage];
 
-    imageView.frame = CGRectMake(0, 211, 320, self.view.frame.size.height - 180);
+    imageView.frame = CGRectMake(0, FLAG_Y_POS, FLAG_WIDTH, self.view.frame.size.height - FLAG_HEIGHT);
     imageView.alpha = 0.1;
     imageView.contentMode = UIViewContentModeScaleToFill;
 
@@ -460,6 +464,5 @@ static NSString *YEAR_TEXT = @"";
 {
     [self.activityIndicator stopAnimating];
 }
-
 
 @end

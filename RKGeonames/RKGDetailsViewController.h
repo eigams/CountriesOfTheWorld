@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "Country.h"
+
+//@protocol DemographicDataClientDelegate;
 
 @interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
 {

@@ -90,7 +90,7 @@
 
 @end
 
-@interface RKGeonamesViewController ()
+@interface RKGeonamesViewController () <UIViewControllerTransitioningDelegate>
 {
     NSUInteger  totalCountries;
     NSUInteger  totalPages;
@@ -563,6 +563,8 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
             self.selectedCountry = [self.items objectAtIndex:path.row];
         }
         
+        UIViewController *toVC = segue.destinationViewController;
+        toVC.transitioningDelegate = self;
         [segue.destinationViewController setDetails:self.selectedCountry];
         [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             UIImage *image = [obj objectForKey:[self.selectedCountry.countryCode lowercaseString]];
@@ -764,10 +766,10 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: cellForRowAtIndexPath                               |+|
+// |+|    FUNCTION NAME: colorForIndex                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
-// |+|    DESCRIPTION:   display the country's name, flag and capital        |+|
+// |+|    DESCRIPTION:                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -788,9 +790,10 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         indexDiv = 10 - indexDiv - 1;
     }
     
-    float val = ((float)indexDiv/(float)itemCount)*5;
+    float valR = ((float)indexDiv/(float)itemCount)*4;
+    float valG = ((float)indexDiv/(float)itemCount)*3;
     
-    return [UIColor colorWithRed:(val+.85) green:0.925f blue:.975f alpha:1];
+    return [UIColor colorWithRed:(valR+.86f) green:(valG + 0.93f) blue:1 alpha:1];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

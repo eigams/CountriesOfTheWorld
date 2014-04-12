@@ -40,7 +40,6 @@
 @implementation RKGEconomicsViewController
 
 @synthesize items;
-//@synthesize currencies;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -280,19 +279,16 @@
 - (BOOL)loadData
 {
     @try {
-        EconomyData *economyData = [[EconomyData alloc] initWithCurrency:(Currency == nil) ? @"N/A" : Currency
-                                                                     gdp:(GDP == nil) ? @"N/A" : GDP
-                                                                   gdppc:(GDPPerCapita == nil) ? @"N/A" : GDPPerCapita
-                                                                   gnipc:(GNIPerCapita == nil) ? @"N/A" : GNIPerCapita];
+        EconomyData *economyData = [[EconomyData alloc] initWithCurrency:(Currency == nil) ? NOT_AVAILABLE_STRING : Currency
+                                                                     gdp:(GDP == nil) ? NOT_AVAILABLE_STRING : GDP
+                                                                   gdppc:(GDPPerCapita == nil) ? NOT_AVAILABLE_STRING : GDPPerCapita
+                                                                   gnipc:(GNIPerCapita == nil) ? NOT_AVAILABLE_STRING : GNIPerCapita];
         
-        NSLog(@"before currentData creation");
         currentData = [economyData tr_tableRepresentation];
     }
     @catch (NSException *exception) {
         NSLog(@"Exception caught in loadData: %@", exception);
     }
-    
-    NSLog(@"before reload");
     
     [self.tableView reloadData];
     
@@ -348,95 +344,12 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString * const GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
-static NSString * const GDP_PER_CAPITA_INDICATOR_STRING = @"NY.GDP.PCAP.CD";//@"GDPPCKD";
-static NSString * const GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
-static UniChar dollar = 0x0024;
 - (void) getData
 {
-    @try {
-        
-        //
-        //try to load the data from local storage
-        //
-        
-        CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                                       predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
-        
-        if(nil != countryData)
-        {
-            NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
-            if ([result count] > 0)
-            {
-                _economicalData = [[result allObjects] objectAtIndex:0];
-                
-                if(nil != _economicalData)
-                {
-                    if((_economicalData.gdp && ![_economicalData.gdp isEqualToString:NOT_AVAILABLE_STRING]) &&
-                       (_economicalData.gdppercapita && ![_economicalData.gdppercapita isEqualToString:NOT_AVAILABLE_STRING]) &&
-                       (_economicalData.gnipercapita && ![_economicalData.gnipercapita isEqualToString:NOT_AVAILABLE_STRING]))
-                    {
-                        GDP = _economicalData.gdp ? _economicalData.gdp : NOT_AVAILABLE_STRING;
-                        GDPPerCapita = _economicalData.gdppercapita ? _economicalData.gdppercapita : NOT_AVAILABLE_STRING;
-                        GNIPerCapita = _economicalData.gnipercapita ? _economicalData.gnipercapita : NOT_AVAILABLE_STRING;
-                        
-                        [self loadData];
-                        
-                        return ;
-                    }
-                }
-            }
-        }
-        
-        // when no data is stored locally, get it from the net
-        
-        NSLog(@"before currentData created !");
-        
-        currentData = [[EconomyData data] tr_tableRepresentation];
-        
-        GDP          = LOADING_STRING;
-        GDPPerCapita = LOADING_STRING;
-        GNIPerCapita = LOADING_STRING;
-
-        [self.tableView reloadData];
-        
-        if(nil == countryData)
-        {
-            countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                              predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
-        }
-        
-        _economicalData = (EconomicalData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([EconomicalData class])];
-        _economicalData.countryData = countryData;
-        _economicalData.year = _selectedYear;
-
-        NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @[@"GDP", @"gdp"],
-                                               GDP_PER_CAPITA_INDICATOR_STRING: @[@"GDPPerCapita", @"gdppercapita"],
-                                               GNI_PER_CAPITA_INDICATOR_STRING: @[@"GNIPerCapita", @"gnipercapita"]};
-        
-        NSLog(@"currentData created !");
-        
-        [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-            
-            [self getIndicatorData:key withCompletion:^(NSString *Data){
-                
-                //KVC
-                [self setValue:Data forKey:[obj objectAtIndex:0]];
-                [_economicalData setValue:Data forKey:[obj objectAtIndex:1]];
-                
-                [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
-                                                      predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
-                                                 childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
-                                                          value:_economicalData
-                                                            key:@"economicalData"];
-                
-                [self loadData];
-            }];
-        }];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Eception caught: %@", exception);
-    }
+    EconomicalDataClient *client = [EconomicalDataClient sharedInstance];
+    client.delegate = self;
+    
+    [client getDataForCountry:self.country.name];
 }
 
 static int TYPE_FLOAT = 1;
@@ -471,10 +384,10 @@ static const int START_YEAR = 1970;
     NSString *yearString = [formatter stringFromDate:[NSDate date]];
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSNumber * number = [f numberFromString:yearString];
+    NSNumber *number = [f numberFromString:yearString];
     
     NSMutableArray *sink = [NSMutableArray array];
-    for(int i = [number intValue]; i >= START_YEAR; --i)
+    for(int i = [number intValue] - 1; i >= START_YEAR; --i)
     {
         [sink addObject:[NSString stringWithFormat:@"%d",i]];
     }
@@ -483,6 +396,8 @@ static const int START_YEAR = 1970;
     
     [self.yearPicker reloadAllComponents];
     [self.yearPicker selectRow:2 inComponent:0 animated:YES];
+    
+    _selectedYear = [_pickerData objectAtIndex:[self.yearPicker selectedRowInComponent:0]];
 }
 
 // |+|=======================================================================|+|
@@ -640,5 +555,132 @@ static const int START_YEAR = 1970;
     
     [self getData];
 }
+
+#pragma mark - EconomicsDataDelegates
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: updateView   withLocalStoredData                    |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   default implementation                              |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+- (BOOL)updateView:(EconomicalDataClient *)client withLocalStoredData:(CountryData *)countryData
+{
+    NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
+    if ([result count] > 0)
+    {
+        _economicalData = [[result allObjects] objectAtIndex:0];
+        
+        if(nil != _economicalData)
+        {
+            if((_economicalData.gdp && ![_economicalData.gdp isEqualToString:NOT_AVAILABLE_STRING]) &&
+               (_economicalData.gdppercapita && ![_economicalData.gdppercapita isEqualToString:NOT_AVAILABLE_STRING]) &&
+               (_economicalData.gnipercapita && ![_economicalData.gnipercapita isEqualToString:NOT_AVAILABLE_STRING]))
+            {
+                GDP = _economicalData.gdp ? _economicalData.gdp : NOT_AVAILABLE_STRING;
+                GDPPerCapita = _economicalData.gdppercapita ? _economicalData.gdppercapita : NOT_AVAILABLE_STRING;
+                GNIPerCapita = _economicalData.gnipercapita ? _economicalData.gnipercapita : NOT_AVAILABLE_STRING;
+                
+                [self loadData];
+                
+                GDP  = LOADING_STRING;
+                GDPPerCapita = LOADING_STRING;
+                GNIPerCapita = LOADING_STRING;
+                
+                return YES;
+            }
+        }
+    }
+    
+    GDP  = LOADING_STRING;
+    GDPPerCapita = LOADING_STRING;
+    GNIPerCapita = LOADING_STRING;
+    
+    return NO;
+}
+
+
+// |+|=======================================================================|+|
+// |+|                                                                       |+|
+// |+|    FUNCTION NAME: updateView   withRemoteData                         |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    DESCRIPTION:   default implementation                              |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    PARAMETERS:    none                                                |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|    RETURN VALUE:                                                      |+|
+// |+|                                                                       |+|
+// |+|                                                                       |+|
+// |+|=======================================================================|+|
+static NSString * const GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
+static NSString * const GDP_PER_CAPITA_INDICATOR_STRING = @"NY.GDP.PCAP.CD";//@"GDPPCKD";
+static NSString * const GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
+static UniChar dollar = 0x0024;
+- (BOOL)updateView:(EconomicalDataClient *)client withRemoteData:(CountryData *)countryData
+{
+    EconomyData *demoData = [[EconomyData alloc] initWithCurrency:Currency gdp:GDP gdppc:GDPPerCapita gnipc:GNIPerCapita];
+    
+    currentData = [demoData tr_tableRepresentation];
+    
+    [self.tableView reloadData];
+    
+    if(nil == countryData)
+    {
+        countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
+                                                                          predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
+    }
+    
+    _economicalData = (EconomicalData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([EconomicalData class])];
+    _economicalData.countryData = countryData;
+    _economicalData.year = _selectedYear;
+    
+    NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @[@"GDP", @"gdp"],
+                                           GDP_PER_CAPITA_INDICATOR_STRING: @[@"GDPPerCapita", @"gdppercapita"],
+                                           GNI_PER_CAPITA_INDICATOR_STRING: @[@"GNIPerCapita", @"gnipercapita"]};
+    
+    NSLog(@"currentData created !");
+    
+    [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        
+        [self getIndicatorData:key withCompletion:^(NSString *Data){
+            
+            //KVC
+            [self setValue:Data forKey:[obj objectAtIndex:0]];
+            [_economicalData setValue:Data forKey:[obj objectAtIndex:1]];
+            
+            [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
+                                                  predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
+                                             childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
+                                                      value:_economicalData
+                                                        key:@"economicalData"];
+            
+            [self loadData];
+        }];
+    }];
+    
+    
+    GDP          = LOADING_STRING;
+    GDPPerCapita = LOADING_STRING;
+    GNIPerCapita = LOADING_STRING;
+    
+    return YES;
+}
+
 
 @end
