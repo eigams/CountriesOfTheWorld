@@ -1,8 +1,8 @@
 platform :ios, '7.0'
 
 # Installation via CocoaPods from tagged version
-pod 'RestKit', '~> 0.21'
-pod 'GHUnit',  '~> 0.5.8'
+pod 'RestKit'
+pod 'GHUnit'
 pod 'MSCellAccessory'
 
 
