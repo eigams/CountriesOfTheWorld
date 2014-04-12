@@ -27,7 +27,7 @@ PODS:
 
 DEPENDENCIES:
   - GHUnit
-  - RestKit
+  - RestKit (~> 0.20)
 
 SPEC CHECKSUMS:
   AFNetworking: 61fdd49e2ffe6380378df37b3b6e70630bb9dd66
