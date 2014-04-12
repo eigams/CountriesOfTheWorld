@@ -13,11 +13,15 @@
 		</dict>
 		<key>Pods-ApigeeiOSSDK.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
 		<key>Pods-GHUnit.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>8</integer>
 		</dict>
@@ -30,6 +34,8 @@
 		</dict>
 		<key>Pods-MSCellAccessory.xcscheme</key>
 		<dict>
+			<key>isShown</key>
+			<false/>
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
