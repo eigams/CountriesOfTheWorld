@@ -1,9 +1,10 @@
-xcode_project: RKGeonames.xcodeproj # path to your xcodeproj folder
+xcode_workspace: RKGeonames.xcworkspace # path to your xcodeproj folder
 xcode_scheme: RKGeonames
 xcode_sdk: iphonesimulator7.0
 language: objective-c
 before_install:
   - brew update
+  - brew install xctool
   - brew install node
   - npm install -g grunt-cli appium
   - gem install cocoapods --no-ri --no-rdoc
@@ -13,11 +14,6 @@ install:
 branches:
   only:
     - master
-env:
-  global: 
-    - APP_NAME="RKGeonames"
-    - 'DEVELOPER_NAME="iPhone Distribution: Stefan Buretea ()"'
-    - PROFILE_NAME="Durban_Ad_Hoc"
 
 script:
   - xctool -workspace RKGeonames.xcworkspace -scheme RKGeonames -sdk iphonesimulator7.0 build test CONFIGURATION_BUILD_DIR="$(pwd)/build/products/\$CONFIGURATION\$EFFECTIVE_PLATFORM_NAME"

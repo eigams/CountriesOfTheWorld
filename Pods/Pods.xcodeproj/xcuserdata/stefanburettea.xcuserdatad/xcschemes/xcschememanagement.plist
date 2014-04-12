@@ -11,6 +11,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>Pods-ApigeeiOSSDK.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>Pods-GHUnit.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -66,6 +71,16 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0326614626504950970CD429</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>07B3DFAEB6704CD4898550D1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>0EA6DAC6A60F451DABAE9539</key>
 		<dict>
 			<key>primary</key>
@@ -76,7 +91,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>1ACA6A13B91E408AA72937D4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1CDCC75C517C450092F3D208</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>231D024F048C4D1BAE42EE31</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -102,6 +127,11 @@
 			<true/>
 		</dict>
 		<key>3E9922EB9404481C93ABFCB2</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>450F16DF4AD34F20AFBAAD9E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -171,7 +201,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D7B65E2558CB43A0B0DCFAB1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E094B0C47D0F42DE9A795B6A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E3394262F4274A1C80E9C2E5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>E6A2210813B34E9E9343E703</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9915636C6DE48459125A44F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -182,6 +232,11 @@
 			<true/>
 		</dict>
 		<key>F76CC4C451AD4670BE8C692D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FD8C1399DFA34C9E8D220601</key>
 		<dict>
 			<key>primary</key>
 			<true/>

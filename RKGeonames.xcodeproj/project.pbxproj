@@ -12,6 +12,7 @@
 		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
 		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
 		0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */; };
+		0C40AA9618EC85210037539E /* BouncePresentAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C40AA9518EC85210037539E /* BouncePresentAnimationController.m */; };
 		0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4368A91784298100B61F76 /* RKGeonamesUtils.m */; };
 		0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10917744BB800A48BA0 /* UIKit.framework */; };
 		0C4FA10C17744BB800A48BA0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10B17744BB800A48BA0 /* Foundation.framework */; };
@@ -28,6 +29,8 @@
 		0C68AF051775C8FE00A14896 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
 		0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */; };
 		0C69CE2C177C854A00951ADA /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C69CE29177C854A00951ADA /* world-map.png */; };
+		0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */; };
+		0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */; };
 		0CAA7DD217E330F000E5CB22 /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
 		0CAA7DD517E334BE00E5CB22 /* AdministrationData+TableRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD417E334BE00E5CB22 /* AdministrationData+TableRepresentation.m */; };
 		0CAA7DD817E355A000E5CB22 /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
@@ -76,6 +79,8 @@
 		0C376B0A17817AA100412F5F /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
 		0C37DB3E177D79A100F184BE /* RKCountryDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCountryDetailsViewController.h; sourceTree = "<group>"; };
 		0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCountryDetailsViewController.m; sourceTree = "<group>"; };
+		0C40AA9418EC85210037539E /* BouncePresentAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BouncePresentAnimationController.h; sourceTree = "<group>"; };
+		0C40AA9518EC85210037539E /* BouncePresentAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BouncePresentAnimationController.m; sourceTree = "<group>"; };
 		0C4368A81784298100B61F76 /* RKGeonamesUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RKGeonamesUtils.h; path = RKGeonames/RKGeonamesUtils.h; sourceTree = "<group>"; };
 		0C4368A91784298100B61F76 /* RKGeonamesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RKGeonamesUtils.m; path = RKGeonames/RKGeonamesUtils.m; sourceTree = "<group>"; };
 		0C4FA10617744BB800A48BA0 /* RKGeonames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKGeonames.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +107,10 @@
 		0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGSplashScreenViewController.m; sourceTree = "<group>"; };
 		0C69CE29177C854A00951ADA /* world-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "world-map.png"; path = "RKGeonames/world-map.png"; sourceTree = "<group>"; };
 		0C895E5C189490C700900269 /* Singleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
+		0CA4A71A18EC2AC500C6BE09 /* DemographicDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemographicDataClient.h; sourceTree = "<group>"; };
+		0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemographicDataClient.m; sourceTree = "<group>"; };
+		0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomicalDataClient.h; sourceTree = "<group>"; };
+		0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomicalDataClient.m; sourceTree = "<group>"; };
 		0CAA7DD017E330F000E5CB22 /* AdministrationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdministrationData.h; sourceTree = "<group>"; };
 		0CAA7DD117E330F000E5CB22 /* AdministrationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdministrationData.m; sourceTree = "<group>"; };
 		0CAA7DD317E334BE00E5CB22 /* AdministrationData+TableRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AdministrationData+TableRepresentation.h"; sourceTree = "<group>"; };
@@ -251,6 +260,8 @@
 		0CAA7DCF17E328EC00E5CB22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0CA4A71A18EC2AC500C6BE09 /* DemographicDataClient.h */,
+				0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */,
 				0CE4BE331888D735008EB49A /* Model.xcdatamodeld */,
 				0CFBA4C318A06845007764F0 /* EconomicalData.h */,
 				0CFBA4C418A06845007764F0 /* EconomicalData.m */,
@@ -280,6 +291,8 @@
 				0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */,
 				0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */,
 				0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */,
+				0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */,
+				0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -301,6 +314,8 @@
 				0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */,
 				0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */,
 				0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */,
+				0C40AA9418EC85210037539E /* BouncePresentAnimationController.h */,
+				0C40AA9518EC85210037539E /* BouncePresentAnimationController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -468,6 +483,7 @@
 				0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */,
 				0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */,
 				0C68AF051775C8FE00A14896 /* Country.m in Sources */,
+				0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */,
 				0CFBA4C218A06845007764F0 /* CountryData.m in Sources */,
 				0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */,
 				0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */,
@@ -480,6 +496,8 @@
 				0CFBA4BF18A06845007764F0 /* PopulationData.m in Sources */,
 				0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */,
 				0C376B0B17817AA100412F5F /* City.m in Sources */,
+				0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */,
+				0C40AA9618EC85210037539E /* BouncePresentAnimationController.m in Sources */,
 				0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */,
 				0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */,
 				0CFBA4C518A06845007764F0 /* EconomicalData.m in Sources */,

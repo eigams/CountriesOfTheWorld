@@ -706,9 +706,10 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     return [self.items count];
 }
 
+static const NSUInteger CELL_HEIGHT = 90;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90;
+    return CELL_HEIGHT;
 }
 
 - (RKGeonamesTableViewCell *)decorateCell:(RKGeonamesTableViewCell *)cell withCountryProperties:(CountryGeonames *)country

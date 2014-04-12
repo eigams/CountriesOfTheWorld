@@ -4,6 +4,8 @@ platform :ios, '7.0'
 pod 'RestKit', '~> 0.21'
 pod 'GHUnit',  '~> 0.5.8'
 pod 'MSCellAccessory'
+pod 'ApigeeiOSSDK'
+
 
 # Installation via CocoaPods over Git
 #pod 'RestKit', :git => 'https://github.com/RestKit/RestKit.git', :branch => 'development'

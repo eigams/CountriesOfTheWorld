@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BouncePresentAnimationController : NSObject
+#import <ApigeeiOSSDK/Apigee.h>
+
+@interface BouncePresentAnimationController : NSObject<UIViewControllerAnimatedTransitioning>
+
+@property (strong, nonatomic) ApigeeClient *apigeeClient; //object for initializing the SDK
+@property (strong, nonatomic) ApigeeMonitoringClient *monitoringClient; //client object for Apigee App Monitoring methods
+@property (strong, nonatomic) ApigeeDataClient *dataClient;	//client object for data methods
 
 @end
