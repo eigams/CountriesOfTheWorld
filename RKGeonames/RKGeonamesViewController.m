@@ -19,7 +19,7 @@
 #import "ManagedObjectStore.h"
 #import "CountryData.h"
 
-#import "MSCellAccessory.h"
+//#import "MSCellAccessory.h"
 
 @interface NSArray(CompareHelper)
 
