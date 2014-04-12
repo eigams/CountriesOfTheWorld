@@ -2,6 +2,8 @@ xcode_workspace: RKGeonames.xcworkspace # path to your xcodeproj folder
 xcode_scheme: RKGeonames
 xcode_sdk: iphonesimulator7.0
 language: objective-c
+before_script:
+  - export LANG=en_US.UTF-8
 before_install:
   - brew update
   - brew unlink xctool
