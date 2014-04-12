@@ -7,7 +7,6 @@ before_install:
   - brew unlink xctool
   - brew install xctool
   - brew install node
-  - npm install -g grunt-cli appium
   - gem install cocoapods --no-ri --no-rdoc
 install:
   - pod install
