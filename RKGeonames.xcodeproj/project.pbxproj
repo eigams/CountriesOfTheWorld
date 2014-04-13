@@ -59,7 +59,6 @@
 		0CD978751856C4D000838DBF /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
 		0CD978761856C4D000838DBF /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
 		0CD978771856C4D000838DBF /* EconomyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDD17E355F100E5CB22 /* EconomyData.m */; };
-		0CDDA16A18A329AD0093E6EE /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CDDA16918A329AD0093E6EE /* disclosure.png */; };
 		0CE4BE351888D735008EB49A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0CE4BE331888D735008EB49A /* Model.xcdatamodeld */; };
 		0CE4BE3A1888DAB6008EB49A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE4BE391888DAB6008EB49A /* CoreData.framework */; };
 		0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */; };
@@ -140,7 +139,6 @@
 		0CD978681856BEE700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesAPITests.m; sourceTree = "<group>"; };
 		0CD9786D1856C12700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		0CDDA16918A329AD0093E6EE /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = disclosure.png; path = ../../../../Downloads/disclosure.png; sourceTree = "<group>"; };
 		0CE4BE341888D735008EB49A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		0CE4BE391888DAB6008EB49A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectStore.h; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				0C1EB99D182096BF0093453C /* bandanaflag.jpg */,
-				0CDDA16918A329AD0093E6EE /* disclosure.png */,
 				0C4FA11117744BB800A48BA0 /* RKGeonames-Info.plist */,
 				0C4FA11217744BB800A48BA0 /* InfoPlist.strings */,
 				0C4FA11517744BB800A48BA0 /* main.m */,
@@ -420,7 +417,6 @@
 				0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */,
 				0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */,
 				0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */,
-				0CDDA16A18A329AD0093E6EE /* disclosure.png in Resources */,
 				0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */,
 				0C69CE2C177C854A00951ADA /* world-map.png in Resources */,
 			);
