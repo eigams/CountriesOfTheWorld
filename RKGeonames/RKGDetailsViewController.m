@@ -183,6 +183,8 @@ static const NSUInteger FLAG_HEIGHT = 211;
     self.navigationItem.rightBarButtonItem = barButton;
 }
 
+//message number 3
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: navigateHome                                        |+|
