@@ -209,10 +209,9 @@ static const int HOME_VIEW_INDEX = 3;
     UIViewController *vc = [self.navigationController.viewControllers objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)];
     [self.navigationController popToViewController:vc animated:YES];
 
-    SEL updateViewSelector = @selector(updateView);
-    if([vc respondsToSelector:updateViewSelector])
+    if([vc respondsToSelector:@selector(updateView)])
     {
-        [vc performSelector:updateViewSelector];
+        [vc performSelector:@selector(updateView)];
     }
 }
 
