@@ -214,6 +214,8 @@ static const int HOME_VIEW_INDEX = 3;
     }
 }
 
+//just some test message 
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: addBarButtons                                       |+|
