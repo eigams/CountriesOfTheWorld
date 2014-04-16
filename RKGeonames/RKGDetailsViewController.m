@@ -216,7 +216,8 @@ static const int HOME_VIEW_INDEX = 3;
     }
 }
 
-//just some test message 
+//just some test message
+//some more test messages
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
