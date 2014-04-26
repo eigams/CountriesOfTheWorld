@@ -265,9 +265,7 @@
 
             if(nil != image)
             {
-                NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
-                if(nil != newItem)
-                    [_flagImages addObject:newItem];
+                [_flagImages addObject:@{[country.countryCode lowercaseString]: image}];
             }
             
             //reload the flags only when loading the first 5 visible
@@ -338,7 +336,7 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)loadCoutryDataOfTheWeb:(void (^)(RKObjectRequestOperation *operation, NSArray *result))block
+- (void)loadCoutryDataOfTheWeb:(void (^)(NSArray *result))completion
 {
     RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping)
                                                                                withURL:COUNTRY_INFO_URL
@@ -369,7 +367,7 @@
             return [countryName1 compare:countryName2];
         }];
         
-        block(operation, rkItems);
+        completion(rkItems);
         
         [weakPtr.activityIndicator stopAnimating];
         
@@ -438,7 +436,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         __block RKGeonamesViewController *weakPtr = self;
         
         //update the local storage with data from the web
-        [self loadCoutryDataOfTheWeb:^(RKObjectRequestOperation *operation, NSArray *result) {
+        [self loadCoutryDataOfTheWeb:^(NSArray *result) {
             
             NSArray *compareResult = [weakPtr.items compare:result];
             if(compareResult == weakPtr.items)
@@ -462,7 +460,7 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     //load data from the web
     __block RKGeonamesViewController *weakPtr = self;
     
-    [self loadCoutryDataOfTheWeb:^(RKObjectRequestOperation *operation, NSArray *result) {
+    [self loadCoutryDataOfTheWeb:^(NSArray *result) {
         
         weakPtr.items = result;
         

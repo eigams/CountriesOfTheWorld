@@ -484,7 +484,6 @@ SingletonImplemetion(ManagedObjectStore);
     [self saveData:source updateMainContext:YES completion:saveBlock];
 }
 
-
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: init                                                |+|
