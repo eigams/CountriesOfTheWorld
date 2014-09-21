@@ -8,6 +8,7 @@ before_install:
   - brew update
   - brew unlink xctool
   - brew install xctool
+  - brew unlink node
   - brew install node
   - gem install cocoapods --no-ri --no-rdoc
 install:
