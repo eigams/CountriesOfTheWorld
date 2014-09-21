@@ -14,11 +14,18 @@
 
 @implementation RKGSplashScreenViewController
 
+- (void) dismiss:(BOOL)animated {
+    [self dismissViewControllerAnimated:animated
+                             completion:nil];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self performSelector:@selector(dismissModalViewControllerAnimated:) withObject:[NSNumber numberWithBool:YES] afterDelay:3.0];
+    [self performSelector:@selector(dismiss:)
+               withObject:[NSNumber numberWithBool:YES]
+               afterDelay:3.0];
 }
 
 @end

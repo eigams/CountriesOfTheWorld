@@ -11,13 +11,12 @@
 #import "MappingProvider.h"
 #import "WorldBankIndicator.h"
 #import "RKGeonamesUtils.h"
-#import "EconomyData+TableRepresentation.h"
 
 #import "ManagedObjectStore.h"
 #import "CountryData.h"
-#import "EconomicalData.h"
 
 #import "RKGeonamesConstants.h"
+#import "RKGeonames-Swift.h"
 
 @interface RKGEconomicsViewController ()
 {
@@ -640,16 +639,6 @@ static UniChar dollar = 0x0024;
     
     [self.tableView reloadData];
     
-    if(nil == countryData)
-    {
-        countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                          predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
-    }
-    
-    _economicalData = (EconomicalData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([EconomicalData class])];
-    _economicalData.countryData = countryData;
-    _economicalData.year = _selectedYear;
-    
     NSDictionary *bankIndicatorOutData = @{GDP_INDICATOR_STRING: @[@"GDP", @"gdp"],
                                            GDP_PER_CAPITA_INDICATOR_STRING: @[@"GDPPerCapita", @"gdppercapita"],
                                            GNI_PER_CAPITA_INDICATOR_STRING: @[@"GNIPerCapita", @"gnipercapita"]};
@@ -660,15 +649,7 @@ static UniChar dollar = 0x0024;
         
         [self getIndicatorData:key withCompletion:^(NSString *Data){
             
-            //KVC
             [self setValue:Data forKey:[obj objectAtIndex:0]];
-            [_economicalData setValue:Data forKey:[obj objectAtIndex:1]];
-            
-            [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
-                                                  predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
-                                             childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
-                                                      value:_economicalData
-                                                        key:@"economicalData"];
             
             [self loadData];
         }];

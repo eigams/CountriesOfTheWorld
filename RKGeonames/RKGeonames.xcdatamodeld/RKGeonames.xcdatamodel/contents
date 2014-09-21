@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="CountryData" representedClassName="CountryData" syncable="YES">
+    <entity name="CountryData" isAbstract="YES" syncable="YES">
         <attribute name="capitalCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="currency" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="east" optional="YES" attributeType="String" syncable="YES"/>
@@ -12,17 +12,17 @@
         <attribute name="surface" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timezone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="west" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="economicalData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EconomicalData" inverseName="countryData" inverseEntity="EconomicalData" syncable="YES"/>
-        <relationship name="populationData" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PopulationData" inverseName="countryData" inverseEntity="PopulationData" syncable="YES"/>
+        <relationship name="economicalData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EconomicalData" inverseName="countryData" inverseEntity="EconomicalData" syncable="YES"/>
+        <relationship name="populationData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PopulationData" inverseName="countryData" inverseEntity="PopulationData" syncable="YES"/>
     </entity>
-    <entity name="EconomicalData" representedClassName="EconomicalData" syncable="YES">
+    <entity name="EconomicalData" isAbstract="YES" syncable="YES">
         <attribute name="gdp" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gdppercapita" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="gnipercapita" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="year" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="countryData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CountryData" inverseName="economicalData" inverseEntity="CountryData" syncable="YES"/>
     </entity>
-    <entity name="PopulationData" representedClassName="PopulationData" syncable="YES">
+    <entity name="PopulationData" isAbstract="YES" syncable="YES">
         <attribute name="birthRate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deathRate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="growth" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,8 +31,8 @@
         <relationship name="countryData" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CountryData" inverseName="populationData" inverseEntity="CountryData" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CountryData" positionX="0" positionY="0" width="128" height="238"/>
-        <element name="EconomicalData" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="PopulationData" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="CountryData" positionX="-63" positionY="-18" width="128" height="238"/>
+        <element name="EconomicalData" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="PopulationData" positionX="-36" positionY="9" width="128" height="133"/>
     </elements>
 </model>

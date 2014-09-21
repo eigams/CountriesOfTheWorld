@@ -27,25 +27,22 @@ SingletonImplemetion(EconomicalDataClient)
         CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
                                                                                        predicate:[NSPredicate predicateWithFormat:@"name == %@", country]];
         
-        if(nil != countryData)
-        {
-            if([self.delegate respondsToSelector:@selector(updateView:withLocalStoredData:)])
-            {
-                if([self.delegate updateView:self withLocalStoredData:countryData])
-                {
+        if(nil != countryData) {
+            if([self.delegate respondsToSelector:@selector(updateView:withLocalStoredData:)]) {
+                if([self.delegate updateView:self withLocalStoredData:countryData]) {
                     return;
                 }
             }
         }
         
         // when no data is stored locally, get it from the net
-        if([self.delegate respondsToSelector:@selector(updateView:withRemoteData:)])
-        {
+        if([self.delegate respondsToSelector:@selector(updateView:withRemoteData:)]) {
+            
             [self.delegate updateView:self withRemoteData:countryData];
         }
     }
-    @catch (NSException *exception)
-    {
+    @catch (NSException *exception) {
+        
         NSLog(@"Eception caught: %@", exception);
     }
 }

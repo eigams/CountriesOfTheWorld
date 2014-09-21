@@ -19,6 +19,8 @@
 #import "ManagedObjectStore.h"
 #import "CountryData.h"
 
+#import "RKGeonames-Swift.h"
+
 //#import "MSCellAccessory.h"
 
 @interface NSArray(CompareHelper)
@@ -72,8 +74,8 @@
     }
     
     [setSource minusSet:setSnapshot];
-    if ([setSource count] > 0)
-    {
+    if ([setSource count] > 0) {
+        
         [source enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             CountryGeonames *cg = (CountryGeonames *)obj;
             if ([setSource containsObject:cg.name])
@@ -96,7 +98,7 @@
     NSUInteger  totalPages;
     NSUInteger  currentPageIndex;
     
-    NSMutableArray *_flagImages;
+    NSDictionary *_flagImages;
     
     dispatch_queue_t _queue;
 }
@@ -110,6 +112,7 @@
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL isSearchBarVisible;
+@property (nonatomic, weak) RKGeonamesDataController *dataController;
 
 - (IBAction) gotoSearch:(id)sender;
 - (void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
@@ -179,109 +182,6 @@
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: loadFromStorage                                     |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void)loadFromStorage:(NSArray *)cdItems
-{
-    NSMutableArray *sink = [NSMutableArray arrayWithCapacity:[cdItems count]];
-    [cdItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        CountryGeonames *cgo = [[CountryGeonames alloc] initWithManagedObject:obj];
-        [sink addObject:cgo];
-    }];
-    
-    self.items = [NSArray arrayWithArray:sink];
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: loadFlagImages                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void) loadFlagImages;
-{
-    [self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        CountryGeonames *country = obj;
-        
-        // process flags not cached already
-        NSString *flagURL = [NSString stringWithFormat:FLAG_URL, [country.countryCode lowercaseString]];
-        
-        __block CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                                               predicate:[NSPredicate predicateWithFormat:@"name = %@", country.name]];
-        
-        __block BOOL flagLoaded = ((countryData != nil) && (countryData.flagData));
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            NSString *pictureName = [[flagURL pathComponents] lastObject];
-            
-            UIImage* image;
-            if(NO == flagLoaded)
-            {
-                __block NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:flagURL]];
-                image = [UIImage imageWithData:imageData];
-                
-                [RKGeonamesUtils savePictureToDisk:pictureName data:imageData];
-                
-                //save the flagData member to disk
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
-                                                          predicate:[NSPredicate predicateWithFormat:@"name = %@", country.name]
-                                                              value:pictureName
-                                                                key:@"flagData"];
-                });
-            }
-            else
-            {
-                NSData *imageData = [RKGeonamesUtils loadPictureFromDisk:countryData.flagData];
-                image = [UIImage imageWithData:imageData];
-            }
-
-            if(nil != image)
-            {
-                [_flagImages addObject:@{[country.countryCode lowercaseString]: image}];
-            }
-            
-            //reload the flags only when loading the first 5 visible
-            static const int FIRST_VIIBLE_FLAGS = 10;
-            if (idx < FIRST_VIIBLE_FLAGS)
-            {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                });
-            }
-        });
-    }];
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
 // |+|    FUNCTION NAME: saveToCD                                            |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
@@ -316,6 +216,12 @@
         [country setValue:rkc.areaInSqKm forKey:@"surface"];
         
         [context save:nil];
+        
+        NSString *tmp = NSStringFromClass([CountryData class]);
+        
+        NSArray *items = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
+        
+        items = items;
     }];
 }
 
@@ -336,8 +242,8 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)loadCoutryDataOfTheWeb:(void (^)(NSArray *result))completion
-{
+- (void)loadCoutryDataOfTheWeb:(void (^)(NSArray *result))success failure:(void (^)())failure {
+    
     RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping)
                                                                                withURL:COUNTRY_INFO_URL
                                                                            pathPattern:nil
@@ -367,15 +273,13 @@
             return [countryName1 compare:countryName2];
         }];
         
-        completion(rkItems);
+        success(rkItems);
         
         [weakPtr.activityIndicator stopAnimating];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"ERROR: %@", error);
-        NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        [weakPtr.activityIndicator stopAnimating];
+        failure();
     }];
     
     [operation start];
@@ -406,8 +310,8 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
 {
     void (^setupBlock)(void) = ^{
         //array to hold the countries when using the search bar control
-        self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
-        _flagImages = [NSMutableArray arrayWithCapacity:[self.items count]];
+//        self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
+//        _flagImages = [NSMutableArray arrayWithCapacity:[self.items count]];
         
         NSLog(@"Before loading the flags");
         
@@ -416,7 +320,8 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
                                                   target:self
                                                   action:@selector(gotoSearch:)];
         
-        [self loadFlagImages];
+//        [self loadFlagImages];
+        _flagImages = [self.dataController loadFlags];
     };
     
     NSArray *locallyStoredItems = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
@@ -424,7 +329,8 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     //load data from the disk
     if([locallyStoredItems count] > 0)
     {
-        [self loadFromStorage:locallyStoredItems];
+        //[self loadFromStorage:locallyStoredItems];
+        self.items = [self.dataController loadFromStorage:locallyStoredItems];
         
         setupBlock();
         
@@ -439,19 +345,20 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         [self loadCoutryDataOfTheWeb:^(NSArray *result) {
             
             NSArray *compareResult = [weakPtr.items compare:result];
-            if(compareResult == weakPtr.items)
-            {
+            if(compareResult == weakPtr.items) {
                 return;
             }
             
             [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
             [weakPtr saveToDisk:compareResult];
             weakPtr.items = compareResult;
-
-            self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
-            _flagImages = [NSMutableArray arrayWithCapacity:[self.items count]];
             
-            [self loadFlagImages];
+            _flagImages = [self.dataController loadFlags];
+            
+            [weakPtr.activityIndicator stopAnimating];
+        } failure:^{
+            
+            [weakPtr.activityIndicator stopAnimating];
         }];
         
         return ;
@@ -464,9 +371,12 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         
         weakPtr.items = result;
         
-        [weakPtr saveToDisk:weakPtr.items];
+        [self.dataController loadFromStorage:result];
         
         setupBlock();
+    } failure:^{
+        
+        [weakPtr.activityIndicator stopAnimating];
     }];
 }
 
@@ -519,62 +429,26 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        self.selectedCountry = [self.filteredCountries objectAtIndex:indexPath.row];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(tableView == self.searchDisplayController.searchResultsTableView) {
+        
+        self.selectedCountry = [self.dataController.filteredCountries objectAtIndex:indexPath.row];
         
         [self.searchDisplayController setActive:NO animated:YES];
+    } else {
+        NSIndexPath *path = [self.tableView indexPathForSelectedRow];
+        
+        self.selectedCountry = [self.items objectAtIndex:path.row];
     }
     
-    [self performSegueWithIdentifier:@"CountryDetailsSegue" sender:self];
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CountryDetails"];
+    [vc performSelector:@selector(setTransitioningDelegate:) withObject:self];
+    [vc performSelector:@selector(setDetails:) withObject:self.selectedCountry];
+    
+    [self.navigationController pushViewController:vc animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: prepareForSegue                                     |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if(YES == [segue.identifier isEqualToString:@"CountryDetailsSegue"])
-    {
-        if(nil == self.selectedCountry)
-        {
-            NSIndexPath *path = [self.tableView indexPathForSelectedRow];
-            
-            self.selectedCountry = [self.items objectAtIndex:path.row];
-        }
-        
-        UIViewController *toVC = segue.destinationViewController;
-        toVC.transitioningDelegate = self;
-        [segue.destinationViewController setDetails:self.selectedCountry];
-        [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            UIImage *image = [obj objectForKey:[self.selectedCountry.countryCode lowercaseString]];
-            if(nil != image)
-            {
-                [segue.destinationViewController setBackgroundImage:image];
-                *stop = YES;
-            }
-        }];
-        
-        self.selectedCountry = nil;
-    }
 }
 
 // |+|=======================================================================|+|
@@ -624,7 +498,10 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     self.managedObjectStore = [ManagedObjectStore sharedInstance];
     
 //    [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
-    
+    self.dataController = self.tableView.dataSource;
+    self.dataController.tableView = self.tableView;
+    self.dataController.searchDisplayController = self.searchDisplayController;
+
     [self getGeonamesCountries:nil];
 }
 
@@ -653,91 +530,8 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
 
 #pragma mark - Table view data source
 
-// |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: numberOfSectionsInTableView                         |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
 
-// |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: numberOfRowsInSection                               |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    if(tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        return [self.filteredCountries count];
-    }
-    
-    return [self.items count];
-}
 
-static const NSUInteger CELL_HEIGHT = 90;
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CELL_HEIGHT;
-}
-
-- (RKGeonamesTableViewCell *)decorateCell:(RKGeonamesTableViewCell *)cell withCountryProperties:(CountryGeonames *)country
-{
-    cell.countryNameLabel.text = country.name;
-    cell.capitalCityLabel.text = country.capitalCity;
-    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-    
-//    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"disclosure.png"]];
-    
-    __block UIImage *flagImage;
-    
-    // we cache the flags to improve performance
-    [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        // when a flag has been cached already
-        // we just load it and return
-        if (nil != (flagImage = [obj objectForKey:[country.countryCode lowercaseString]]))
-        {
-            cell.flagImage.image = flagImage;
-//            cell.contentView.backgroundColor = [UIColor colorWithRed:0.76f green:0.81f blue:0.87f alpha:1];
-            
-            *stop = YES;
-            
-            return ;
-        }
-    }];
-    
-    return cell;
-}
 
 //0 % 5 -> 0
 //1 % 5 -> 1
@@ -780,12 +574,11 @@ static const NSUInteger CELL_HEIGHT = 90;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (UIColor *)colorForIndex:(NSInteger)index
-{
+- (UIColor *)colorForIndex:(NSInteger)index {
+    
     NSUInteger itemCount = self.items.count - 1;
     float indexDiv = index % 10;
-    if (indexDiv >= 5)
-    {
+    if (indexDiv >= 5) {
         indexDiv = 10 - indexDiv - 1;
     }
     
@@ -795,132 +588,13 @@ static const NSUInteger CELL_HEIGHT = 90;
     return [UIColor colorWithRed:(valR+.86f) green:(valG + 0.93f) blue:1 alpha:1];
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     cell.backgroundColor = [self colorForIndex:indexPath.row];
 }
 
 #define GRADIENT_COLOR_1    [[UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1.0] CGColor]
 #define GRADIENT_COLOR_2    [[UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:1.0] CGColor]
 
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: cellForRowAtIndexPath                               |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:   display the country's name, flag and capital        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"RKGeonamesTableViewCell";
-    __block RKGeonamesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if(nil == cell)
-    {
-        cell = [[RKGeonamesTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
-    }
-    
-    CountryGeonames *country = nil;
-    if(tableView == self.searchDisplayController.searchResultsTableView)
-    {
-        country = [self.filteredCountries objectAtIndex:indexPath.row];
-        
-        return [self decorateCell:cell withCountryProperties:country];
-    }
-    else
-    {
-        country = [self.items objectAtIndex:indexPath.row];
-        
-        cell.countryNameLabel.text = country.name;
-        cell.capitalCityLabel.text = country.capitalCity;
-        [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        
-        __block UIImage *flagImage;
-        
-        // we cache the flags to improve performance
-        [_flagImages enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-         
-            // when a flag has been cached already
-            // we just load it and return
-            if (nil != (flagImage = [obj objectForKey:[country.countryCode lowercaseString]]))
-            {
-                cell.flagImage.image = flagImage;
-                
-                *stop = YES;
-                
-                return ;
-            }
-        }];
-        
-        if(nil != flagImage)
-        {
-            return cell;
-        }
-        
-        NSLog(@"flagImage == nil");
-        
-        static UIImage *bandanaFlag = nil;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            bandanaFlag = [UIImage imageNamed:@"bandanaflag.jpg"];
-        });
-        
-        cell.flagImage.image = bandanaFlag;
-        
-        if(nil != country)
-        {
-            __block CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                                                   predicate:[NSPredicate predicateWithFormat:@"name = %@", country.name]];
-            
-            if(nil != countryData && countryData.flagData != nil)
-            {
-                NSData *imageData = [RKGeonamesUtils loadPictureFromDisk:countryData.flagData];
-                UIImage *image = [UIImage imageWithData:imageData];
-                NSDictionary *newItem = [NSDictionary dictionaryWithObject:image forKey:[country.countryCode lowercaseString]];
-                if(nil != newItem)
-                {
-                    [_flagImages addObject:newItem];
-                }
-                
-                cell.flagImage.image = image;
-            }
-        }
-    }
-    
-    return cell;
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: updateView                                          |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void)updateView;
-{
-    [self.tableView reloadData];
-}
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
@@ -939,45 +613,16 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (IBAction)gotoSearch:(id)sender
-{
-    [self.tableView scrollRectToVisible:CGRectMake(0,0,1,1) animated:YES];
+- (IBAction)gotoSearch:(id)sender {
     
-    if(NO == self.isSearchBarVisible)
-    {
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+    
+    if(NO == self.isSearchBarVisible) {
+        
         self.isSearchBarVisible = YES;
     }
     
     [self.searchBar becomeFirstResponder];
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: filterContentForSearchText                          |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope
-{
-    // Update the filtered array based on the search text and scope
-    
-    // Remove all objects from the filtered array
-    [self.filteredCountries removeAllObjects];
-    
-    //filter the array using the NSPredicate
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@", searchText];
-    self.filteredCountries = [NSMutableArray arrayWithArray:[self.items filteredArrayUsingPredicate:predicate]];
 }
 
 #pragma mark - UISearchDisplayController delegate methods
@@ -1000,9 +645,7 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 // |+|=======================================================================|+|
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
 {
-    // tells the table data to reload when the text changes
-    [self filterContentForSearchText:self.searchDisplayController.searchBar.text
-                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    [self.dataController searchDisplayController:controller shouldReloadTableForSearchScope:searchOption];
     
     return YES;
 }
@@ -1026,8 +669,7 @@ static NSString *const FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 // |+|=======================================================================|+|
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    [self filterContentForSearchText:searchString
-                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    [self.dataController searchDisplayController:controller shouldReloadTableForSearchString: searchString];
     
     return YES;
 }

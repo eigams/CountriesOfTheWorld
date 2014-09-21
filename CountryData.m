@@ -2,12 +2,12 @@
 //  CountryData.m
 //  RKGeonames
 //
-//  Created by Stefan Buretea on 2/3/14.
+//  Created by Stefan Buretea on 9/21/14.
 //  Copyright (c) 2014 Stefan Burettea. All rights reserved.
 //
 
 #import "CountryData.h"
-#import "PopulationData.h"
+#import "RKGeonames-Swift.h"
 
 
 @implementation CountryData

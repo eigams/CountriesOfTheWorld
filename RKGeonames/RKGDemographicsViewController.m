@@ -11,13 +11,12 @@
 #import "MappingProvider.h"
 #import "WorldBankIndicator.h"
 #import "RKGeonamesUtils.h"
-#import "DemographicData+TableRepresentation.h"
 
 #import "ManagedObjectStore.h"
 #import "CountryData.h"
-#import "PopulationData.h"
 
 #import "RKGeonamesConstants.h"
+#import "RKGeonames-Swift.h"
 
 static NSString * YEAR_TEXT = @"";
 
@@ -422,16 +421,6 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                            BIRTH_RATE_INDICATOR_STRING: @[@"birthRate", @"birthRate", [NSString stringWithFormat:@"%C", per_mille]],
                                            DEATH_RATE_INDICATOR_STRING: @[@"deathRate", @"deathRate", [NSString stringWithFormat:@"%C", per_mille]]};
     
-    if(nil == countryData)
-    {
-        countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                          predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]];
-    }
-    
-    _populationData = (PopulationData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([PopulationData class])];
-    _populationData.countryData = countryData;
-    _populationData.year = _selectedYear;
-    
     [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         
         NSArray *array = obj;
@@ -446,14 +435,7 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                       NSLog(@"Data: %@", Data);
                                       
                                       //KVC
-                                      [self setValue:Data forKey:[array objectAtIndex:0]];
-                                      [_populationData setValue:Data forKey:[array objectAtIndex:1]];
-                                      
-                                      [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
-                                                                            predicate:[NSPredicate predicateWithFormat:@"name == %@", self.country.name]
-                                                                       childPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]
-                                                                                value:_populationData
-                                                                                  key:@"populationData"];
+                                      [self setValue:Data forKey:[array firstObject]];
                                       
                                       LoadDataBlock();
                                   }

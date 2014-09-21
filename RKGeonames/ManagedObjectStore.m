@@ -8,7 +8,7 @@
 
 #import "ManagedObjectStore.h"
 
-static NSString *const EntityName = @"CountryData";
+static NSString *const EntityName = @"RKGeonames.CountryData";
 
 @interface NSFetchRequest(Helper)
 
@@ -511,9 +511,9 @@ SingletonImplemetion(ManagedObjectStore);
         NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"store.sqlite"];
         
         // remove old store if exists, when remodeling
-//        NSFileManager *fileManager = [NSFileManager defaultManager];
-//        if ([fileManager fileExistsAtPath:[storeURL path]])
-//            [fileManager removeItemAtURL:storeURL error:nil];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:[storeURL path]])
+            [fileManager removeItemAtURL:storeURL error:nil];
         
         NSManagedObjectModel *localmodel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
         

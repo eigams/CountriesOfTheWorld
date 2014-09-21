@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LHA-Ex-OkY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LHA-Ex-OkY">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
-        <!--Geonames View Controller - Countries-->
+        <!--Countries-->
         <scene sceneID="yGb-pV-t3l">
             <objects>
                 <tableViewController id="pjT-mS-2Gs" customClass="RKGeonamesViewController" sceneMemberID="viewController">
@@ -12,82 +12,85 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="foq-mv-U9C">
-                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search country" id="oTZ-M3-7CX">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
-                                <outlet property="delegate" destination="pjT-mS-2Gs" id="eLi-Lv-ecy"/>
+                                <outlet property="delegate" destination="pjT-mS-2Gs" id="2Vt-NB-ee3"/>
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="90" id="yCs-bi-zIS" customClass="RKGeonamesTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="RKGeonamesTableViewCell" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RKGeonamesTableViewCell" rowHeight="90" id="yCs-bi-zIS" customClass="RKGeonamesTableViewCell">
                                 <rect key="frame" x="0.0" y="130" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yCs-bi-zIS" id="apN-dz-BB0">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Country" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-Zo-EaO">
-                                            <rect key="frame" x="74" y="12" width="215" height="25"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="Country" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gvB-Zo-EaO">
+                                            <rect key="frame" x="95" y="10" width="215" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="215" id="Vc8-ed-ql7"/>
                                                 <constraint firstAttribute="height" constant="25" id="gls-Ud-Gyx"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Capital City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ld-JH-g8z">
-                                            <rect key="frame" x="74" y="56" width="161" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="161" id="j0e-61-Aol"/>
-                                                <constraint firstAttribute="height" constant="21" id="uTt-Xx-niX"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XyE-go-wzK">
-                                            <rect key="frame" x="9" y="12" width="54" height="40"/>
+                                            <rect key="frame" x="9" y="15" width="81" height="60"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="54" id="RQO-Tp-8gH"/>
-                                                <constraint firstAttribute="height" constant="39" id="nG0-XU-hx4"/>
+                                                <constraint firstAttribute="width" constant="81" id="RQO-Tp-8gH"/>
+                                                <constraint firstAttribute="height" constant="60" id="nG0-XU-hx4"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Capital City" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ld-JH-g8z">
+                                            <rect key="frame" x="95" y="55" width="161" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="161" id="j0e-61-Aol"/>
+                                                <constraint firstAttribute="height" constant="21" id="uTt-Xx-niX"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <constraints>
                                     <constraint firstItem="XyE-go-wzK" firstAttribute="leading" secondItem="yCs-bi-zIS" secondAttribute="leading" constant="9" id="BH9-d6-I0a"/>
                                     <constraint firstAttribute="bottom" secondItem="3Ld-JH-g8z" secondAttribute="bottom" constant="13" id="ErF-fZ-AQR"/>
                                     <constraint firstItem="XyE-go-wzK" firstAttribute="top" secondItem="yCs-bi-zIS" secondAttribute="top" constant="12" id="RKI-gf-Itq"/>
-                                    <constraint firstItem="gvB-Zo-EaO" firstAttribute="leading" secondItem="yCs-bi-zIS" secondAttribute="leading" constant="74" id="dSZ-WG-yEM"/>
-                                    <constraint firstItem="XyE-go-wzK" firstAttribute="top" secondItem="gvB-Zo-EaO" secondAttribute="top" id="jul-jV-vh7"/>
+                                    <constraint firstItem="gvB-Zo-EaO" firstAttribute="leading" secondItem="yCs-bi-zIS" secondAttribute="leading" constant="95" id="dSZ-WG-yEM"/>
                                     <constraint firstItem="3Ld-JH-g8z" firstAttribute="leading" secondItem="gvB-Zo-EaO" secondAttribute="leading" id="tWx-yP-ZN4"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="capitalCityLabel" destination="3Ld-JH-g8z" id="mT3-Ch-wTh"/>
                                     <outlet property="countryNameLabel" destination="gvB-Zo-EaO" id="rGG-3M-OPE"/>
                                     <outlet property="flagImage" destination="XyE-go-wzK" id="5lX-M3-Jas"/>
-                                    <segue destination="L5P-U8-AAO" kind="push" identifier="CountryDetailsSegue" id="XvA-3r-elr"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8eo-SA-x4l" id="nVw-3t-bmj"/>
+                            <outlet property="delegate" destination="pjT-mS-2Gs" id="XQQ-qF-DBu"/>
+                        </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Countries" id="cA2-xl-iXY"/>
                     <connections>
-                        <outlet property="searchBar" destination="foq-mv-U9C" id="ZwE-EJ-Suy"/>
-                        <outlet property="searchDisplayController" destination="cCj-9w-DP0" id="VLB-iF-XmG"/>
+                        <outlet property="searchBar" destination="oTZ-M3-7CX" id="DNF-bx-73Y"/>
+                        <outlet property="searchDisplayController" destination="3sg-kX-cgK" id="7DS-Xh-6zz"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="slc-l3-WYf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="cCj-9w-DP0">
+                <customObject id="8eo-SA-x4l" customClass="RKGeonamesDataController" customModule="RKGeonames" customModuleProvider="target"/>
+                <searchDisplayController id="3sg-kX-cgK">
                     <connections>
-                        <outlet property="delegate" destination="pjT-mS-2Gs" id="Z1D-hl-c3r"/>
-                        <outlet property="searchBar" destination="foq-mv-U9C" id="aTN-OU-RkZ"/>
-                        <outlet property="searchContentsController" destination="pjT-mS-2Gs" id="kXn-8I-83P"/>
-                        <outlet property="searchResultsDataSource" destination="pjT-mS-2Gs" id="emU-Sc-FC4"/>
-                        <outlet property="searchResultsDelegate" destination="pjT-mS-2Gs" id="7p5-pv-FCF"/>
+                        <outlet property="delegate" destination="pjT-mS-2Gs" id="yB2-lQ-MhJ"/>
+                        <outlet property="searchBar" destination="oTZ-M3-7CX" id="6b1-ma-aUD"/>
+                        <outlet property="searchContentsController" destination="pjT-mS-2Gs" id="sCy-Fo-g5c"/>
+                        <outlet property="searchResultsDataSource" destination="8eo-SA-x4l" id="JRb-SB-k4H"/>
+                        <outlet property="searchResultsDelegate" destination="pjT-mS-2Gs" id="G5C-PL-xDE"/>
                     </connections>
                 </searchDisplayController>
             </objects>
@@ -109,7 +112,7 @@
                                 <rect key="frame" x="0.0" y="1" width="320" height="210"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWk-Uk-fHU">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWk-Uk-fHU">
                                 <rect key="frame" x="35" y="320" width="250" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Demographics">
@@ -119,7 +122,7 @@
                                     <segue destination="mLC-l7-LKb" kind="push" identifier="DemographicsSegue" id="YhZ-vN-pCR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRI-ff-Vct">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRI-ff-Vct">
                                 <rect key="frame" x="35" y="260" width="250" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="GtI-l7-fJy"/>
@@ -132,7 +135,7 @@
                                     <segue destination="lDM-5P-R3M" kind="push" identifier="AdministrationSegue" id="hGL-fa-4MY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xF7-lQ-yrP">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xF7-lQ-yrP">
                                 <rect key="frame" x="35" y="380" width="250" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="Economics">
@@ -229,7 +232,6 @@
                             </tableView>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKh-Yp-boT">
                                 <rect key="frame" x="152" y="342" width="100" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -310,7 +312,6 @@
                             </tableView>
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vTK-TH-pbe">
                                 <rect key="frame" x="152" y="342" width="100" height="162"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

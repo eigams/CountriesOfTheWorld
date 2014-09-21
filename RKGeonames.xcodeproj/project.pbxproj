@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */; };
+		0C1A14C419CDCCE30023F655 /* AdministrationData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */; };
+		0C1A14C619CDD1DC0023F655 /* AdministrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */; };
 		0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C1EB99D182096BF0093453C /* bandanaflag.jpg */; };
 		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
 		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
@@ -24,18 +26,11 @@
 		0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA11F17744BB800A48BA0 /* Default-568h@2x.png */; };
 		0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA12117744BB800A48BA0 /* MainStoryboard.storyboard */; };
 		0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */; };
-		0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */; };
 		0C68AF051775C8FE00A14896 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
 		0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */; };
 		0C69CE2C177C854A00951ADA /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C69CE29177C854A00951ADA /* world-map.png */; };
 		0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */; };
 		0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */; };
-		0CAA7DD217E330F000E5CB22 /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
-		0CAA7DD517E334BE00E5CB22 /* AdministrationData+TableRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD417E334BE00E5CB22 /* AdministrationData+TableRepresentation.m */; };
-		0CAA7DD817E355A000E5CB22 /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
-		0CAA7DDB17E355C300E5CB22 /* DemographicData+TableRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDA17E355C300E5CB22 /* DemographicData+TableRepresentation.m */; };
-		0CAA7DDE17E355F100E5CB22 /* EconomyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDD17E355F100E5CB22 /* EconomyData.m */; };
-		0CAA7DE117E3560900E5CB22 /* EconomyData+TableRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */; };
 		0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */; };
 		0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91B1780335B00A148CB /* RKGDemographicsViewController.m */; };
 		0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */; };
@@ -56,19 +51,24 @@
 		0CD978721856C4D000838DBF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
 		0CD978731856C4D000838DBF /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
 		0CD978741856C4D000838DBF /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
-		0CD978751856C4D000838DBF /* AdministrationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD117E330F000E5CB22 /* AdministrationData.m */; };
-		0CD978761856C4D000838DBF /* DemographicData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DD717E355A000E5CB22 /* DemographicData.m */; };
-		0CD978771856C4D000838DBF /* EconomyData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CAA7DDD17E355F100E5CB22 /* EconomyData.m */; };
-		0CE4BE351888D735008EB49A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0CE4BE331888D735008EB49A /* Model.xcdatamodeld */; };
+		0CDD131119C85B3F00B4A547 /* RKGeonamesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD131019C85B3F00B4A547 /* RKGeonamesDataController.swift */; };
 		0CE4BE3A1888DAB6008EB49A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE4BE391888DAB6008EB49A /* CoreData.framework */; };
 		0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */; };
-		0CFBA4BF18A06845007764F0 /* PopulationData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4BE18A06845007764F0 /* PopulationData.m */; };
-		0CFBA4C218A06845007764F0 /* CountryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4C118A06845007764F0 /* CountryData.m */; };
-		0CFBA4C518A06845007764F0 /* EconomicalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFBA4C418A06845007764F0 /* EconomicalData.m */; };
+		0CF15D9019CED6A50085CB5D /* DemographicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15D8F19CED6A50085CB5D /* DemographicData.swift */; };
+		0CF15D9219CED8980085CB5D /* DemographicData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15D9119CED8980085CB5D /* DemographicData+TableRepresentation.swift */; };
+		0CF15D9419CEF6B30085CB5D /* EconomyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15D9319CEF6B30085CB5D /* EconomyData.swift */; };
+		0CF15D9619CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15D9519CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift */; };
+		0CF15D9919CEFB190085CB5D /* RKGeonamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15D9819CEFB190085CB5D /* RKGeonamesTableViewCell.m */; };
+		0CF15DA819CF33240085CB5D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15DA619CF33240085CB5D /* Model.xcdatamodeld */; };
+		0CF15DAE19CF5A7D0085CB5D /* EconomicalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15DAD19CF5A7D0085CB5D /* EconomicalData.swift */; };
+		0CF15DB019CF5A7E0085CB5D /* PopulationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15DAF19CF5A7E0085CB5D /* PopulationData.swift */; };
+		0CF15DB319CF5A8D0085CB5D /* CountryData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CF15DB219CF5A8D0085CB5D /* CountryData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AdministrationData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdministrationData.swift; sourceTree = "<group>"; };
 		0C1EB99D182096BF0093453C /* bandanaflag.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bandanaflag.jpg; sourceTree = "<group>"; };
 		0C1EB99F182099DA0093453C /* RKGeonamesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesConstants.h; sourceTree = "<group>"; };
 		0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldBankIndicator.h; sourceTree = "<group>"; };
@@ -95,8 +95,6 @@
 		0C4FA12217744BB800A48BA0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		0C4FA12C17744D7C00A48BA0 /* RKGeonamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesViewController.h; sourceTree = "<group>"; };
 		0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesViewController.m; sourceTree = "<group>"; };
-		0C68AF001775C84B00A14896 /* RKGeonamesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesTableViewCell.h; sourceTree = "<group>"; };
-		0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesTableViewCell.m; sourceTree = "<group>"; };
 		0C68AF031775C8FE00A14896 /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
 		0C68AF041775C8FE00A14896 /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
 		0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGSplashScreenViewController.h; sourceTree = "<group>"; };
@@ -107,18 +105,6 @@
 		0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemographicDataClient.m; sourceTree = "<group>"; };
 		0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomicalDataClient.h; sourceTree = "<group>"; };
 		0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomicalDataClient.m; sourceTree = "<group>"; };
-		0CAA7DD017E330F000E5CB22 /* AdministrationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdministrationData.h; sourceTree = "<group>"; };
-		0CAA7DD117E330F000E5CB22 /* AdministrationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdministrationData.m; sourceTree = "<group>"; };
-		0CAA7DD317E334BE00E5CB22 /* AdministrationData+TableRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AdministrationData+TableRepresentation.h"; sourceTree = "<group>"; };
-		0CAA7DD417E334BE00E5CB22 /* AdministrationData+TableRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AdministrationData+TableRepresentation.m"; sourceTree = "<group>"; };
-		0CAA7DD617E355A000E5CB22 /* DemographicData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemographicData.h; sourceTree = "<group>"; };
-		0CAA7DD717E355A000E5CB22 /* DemographicData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemographicData.m; sourceTree = "<group>"; };
-		0CAA7DD917E355C300E5CB22 /* DemographicData+TableRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DemographicData+TableRepresentation.h"; sourceTree = "<group>"; };
-		0CAA7DDA17E355C300E5CB22 /* DemographicData+TableRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DemographicData+TableRepresentation.m"; sourceTree = "<group>"; };
-		0CAA7DDC17E355F100E5CB22 /* EconomyData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomyData.h; sourceTree = "<group>"; };
-		0CAA7DDD17E355F100E5CB22 /* EconomyData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomyData.m; sourceTree = "<group>"; };
-		0CAA7DDF17E3560900E5CB22 /* EconomyData+TableRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EconomyData+TableRepresentation.h"; sourceTree = "<group>"; };
-		0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EconomyData+TableRepresentation.m"; sourceTree = "<group>"; };
 		0CCEC9171780334800A148CB /* RKGAdministrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGAdministrationViewController.h; sourceTree = "<group>"; };
 		0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGAdministrationViewController.m; sourceTree = "<group>"; };
 		0CCEC91A1780335B00A148CB /* RKGDemographicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGDemographicsViewController.h; sourceTree = "<group>"; };
@@ -139,16 +125,22 @@
 		0CD978681856BEE700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		0CD9786B1856BFD900838DBF /* RKGeonamesAPITests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesAPITests.m; sourceTree = "<group>"; };
 		0CD9786D1856C12700838DBF /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		0CE4BE341888D735008EB49A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		0CDD130F19C85B3E00B4A547 /* RKGeonames-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RKGeonames-Bridging-Header.h"; sourceTree = "<group>"; };
+		0CDD131019C85B3F00B4A547 /* RKGeonamesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKGeonamesDataController.swift; sourceTree = "<group>"; };
 		0CE4BE391888DAB6008EB49A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectStore.h; sourceTree = "<group>"; };
 		0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectStore.m; sourceTree = "<group>"; };
-		0CFBA4BD18A06845007764F0 /* PopulationData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopulationData.h; sourceTree = "<group>"; };
-		0CFBA4BE18A06845007764F0 /* PopulationData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopulationData.m; sourceTree = "<group>"; };
-		0CFBA4C018A06845007764F0 /* CountryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryData.h; sourceTree = "<group>"; };
-		0CFBA4C118A06845007764F0 /* CountryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryData.m; sourceTree = "<group>"; };
-		0CFBA4C318A06845007764F0 /* EconomicalData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomicalData.h; sourceTree = "<group>"; };
-		0CFBA4C418A06845007764F0 /* EconomicalData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomicalData.m; sourceTree = "<group>"; };
+		0CF15D8F19CED6A50085CB5D /* DemographicData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemographicData.swift; sourceTree = "<group>"; };
+		0CF15D9119CED8980085CB5D /* DemographicData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DemographicData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0CF15D9319CEF6B30085CB5D /* EconomyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EconomyData.swift; sourceTree = "<group>"; };
+		0CF15D9519CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EconomyData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0CF15D9719CEFB190085CB5D /* RKGeonamesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesTableViewCell.h; sourceTree = "<group>"; };
+		0CF15D9819CEFB190085CB5D /* RKGeonamesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesTableViewCell.m; sourceTree = "<group>"; };
+		0CF15DA719CF33240085CB5D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		0CF15DAD19CF5A7D0085CB5D /* EconomicalData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EconomicalData.swift; sourceTree = "<group>"; };
+		0CF15DAF19CF5A7E0085CB5D /* PopulationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopulationData.swift; sourceTree = "<group>"; };
+		0CF15DB119CF5A8D0085CB5D /* CountryData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountryData.h; sourceTree = "<group>"; };
+		0CF15DB219CF5A8D0085CB5D /* CountryData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountryData.m; sourceTree = "<group>"; };
 		B487009349BE4E35B272E03C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -183,6 +175,8 @@
 		0C4FA0FD17744BB800A48BA0 = {
 			isa = PBXGroup;
 			children = (
+				0CF15DB119CF5A8D0085CB5D /* CountryData.h */,
+				0CF15DB219CF5A8D0085CB5D /* CountryData.m */,
 				0C895E5C189490C700900269 /* Singleton.h */,
 				0C4368A81784298100B61F76 /* RKGeonamesUtils.h */,
 				0C4368A91784298100B61F76 /* RKGeonamesUtils.m */,
@@ -227,10 +221,10 @@
 				0CCEC9261780890A00A148CB /* Controllers */,
 				0C4FA11817744BB800A48BA0 /* AppDelegate.h */,
 				0C4FA11917744BB800A48BA0 /* AppDelegate.m */,
+				0CF15D9719CEFB190085CB5D /* RKGeonamesTableViewCell.h */,
+				0CF15D9819CEFB190085CB5D /* RKGeonamesTableViewCell.m */,
 				0C4FA12117744BB800A48BA0 /* MainStoryboard.storyboard */,
 				0C4FA11017744BB800A48BA0 /* Supporting Files */,
-				0C68AF001775C84B00A14896 /* RKGeonamesTableViewCell.h */,
-				0C68AF011775C84B00A14896 /* RKGeonamesTableViewCell.m */,
 				0C1EB99F182099DA0093453C /* RKGeonamesConstants.h */,
 			);
 			path = RKGeonames;
@@ -254,15 +248,11 @@
 		0CAA7DCF17E328EC00E5CB22 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0CF15DA619CF33240085CB5D /* Model.xcdatamodeld */,
+				0CF15DAF19CF5A7E0085CB5D /* PopulationData.swift */,
+				0CF15DAD19CF5A7D0085CB5D /* EconomicalData.swift */,
 				0CA4A71A18EC2AC500C6BE09 /* DemographicDataClient.h */,
 				0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */,
-				0CE4BE331888D735008EB49A /* Model.xcdatamodeld */,
-				0CFBA4C318A06845007764F0 /* EconomicalData.h */,
-				0CFBA4C418A06845007764F0 /* EconomicalData.m */,
-				0CFBA4C018A06845007764F0 /* CountryData.h */,
-				0CFBA4C118A06845007764F0 /* CountryData.m */,
-				0CFBA4BD18A06845007764F0 /* PopulationData.h */,
-				0CFBA4BE18A06845007764F0 /* PopulationData.m */,
 				0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */,
 				0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */,
 				0C376B0917817AA100412F5F /* City.h */,
@@ -271,22 +261,16 @@
 				0CCEC9241780883B00A148CB /* Timezone.m */,
 				0C68AF031775C8FE00A14896 /* Country.h */,
 				0C68AF041775C8FE00A14896 /* Country.m */,
-				0CAA7DD017E330F000E5CB22 /* AdministrationData.h */,
-				0CAA7DD117E330F000E5CB22 /* AdministrationData.m */,
-				0CAA7DD317E334BE00E5CB22 /* AdministrationData+TableRepresentation.h */,
-				0CAA7DD417E334BE00E5CB22 /* AdministrationData+TableRepresentation.m */,
-				0CAA7DD617E355A000E5CB22 /* DemographicData.h */,
-				0CAA7DD717E355A000E5CB22 /* DemographicData.m */,
-				0CAA7DD917E355C300E5CB22 /* DemographicData+TableRepresentation.h */,
-				0CAA7DDA17E355C300E5CB22 /* DemographicData+TableRepresentation.m */,
-				0CAA7DDC17E355F100E5CB22 /* EconomyData.h */,
-				0CAA7DDD17E355F100E5CB22 /* EconomyData.m */,
-				0CAA7DDF17E3560900E5CB22 /* EconomyData+TableRepresentation.h */,
-				0CAA7DE017E3560900E5CB22 /* EconomyData+TableRepresentation.m */,
 				0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */,
 				0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */,
 				0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */,
 				0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */,
+				0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */,
+				0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */,
+				0CF15D8F19CED6A50085CB5D /* DemographicData.swift */,
+				0CF15D9119CED8980085CB5D /* DemographicData+TableRepresentation.swift */,
+				0CF15D9319CEF6B30085CB5D /* EconomyData.swift */,
+				0CF15D9519CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -296,6 +280,7 @@
 			children = (
 				0C4FA12C17744D7C00A48BA0 /* RKGeonamesViewController.h */,
 				0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */,
+				0CDD131019C85B3F00B4A547 /* RKGeonamesDataController.swift */,
 				0CCEC920178034A100A148CB /* RKGDetailsViewController.h */,
 				0CCEC921178034A100A148CB /* RKGDetailsViewController.m */,
 				0CCEC91D1780336E00A148CB /* RKGEconomicsViewController.h */,
@@ -308,6 +293,7 @@
 				0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */,
 				0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */,
 				0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */,
+				0CDD130F19C85B3E00B4A547 /* RKGeonames-Bridging-Header.h */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -468,35 +454,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C1A14C619CDD1DC0023F655 /* AdministrationData.swift in Sources */,
 				0C4FA11617744BB800A48BA0 /* main.m in Sources */,
-				0CE4BE351888D735008EB49A /* Model.xcdatamodeld in Sources */,
 				0C4FA11A17744BB800A48BA0 /* AppDelegate.m in Sources */,
 				0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */,
-				0C68AF021775C84B00A14896 /* RKGeonamesTableViewCell.m in Sources */,
+				0CF15DB319CF5A8D0085CB5D /* CountryData.m in Sources */,
+				0C1A14C419CDCCE30023F655 /* AdministrationData+TableRepresentation.swift in Sources */,
+				0CF15D9219CED8980085CB5D /* DemographicData+TableRepresentation.swift in Sources */,
 				0C68AF051775C8FE00A14896 /* Country.m in Sources */,
 				0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */,
-				0CFBA4C218A06845007764F0 /* CountryData.m in Sources */,
 				0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */,
+				0CDD131119C85B3F00B4A547 /* RKGeonamesDataController.swift in Sources */,
+				0CF15D9019CED6A50085CB5D /* DemographicData.swift in Sources */,
+				0CF15DAE19CF5A7D0085CB5D /* EconomicalData.swift in Sources */,
 				0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */,
 				0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */,
 				0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */,
 				0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */,
+				0CF15D9919CEFB190085CB5D /* RKGeonamesTableViewCell.m in Sources */,
 				0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */,
+				0CF15DA819CF33240085CB5D /* Model.xcdatamodeld in Sources */,
+				0CF15DB019CF5A7E0085CB5D /* PopulationData.swift in Sources */,
+				0CF15D9419CEF6B30085CB5D /* EconomyData.swift in Sources */,
 				0CCEC9251780883B00A148CB /* Timezone.m in Sources */,
 				0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */,
-				0CFBA4BF18A06845007764F0 /* PopulationData.m in Sources */,
 				0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */,
 				0C376B0B17817AA100412F5F /* City.m in Sources */,
 				0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */,
+				0CF15D9619CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift in Sources */,
 				0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */,
 				0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */,
-				0CFBA4C518A06845007764F0 /* EconomicalData.m in Sources */,
-				0CAA7DD217E330F000E5CB22 /* AdministrationData.m in Sources */,
-				0CAA7DD517E334BE00E5CB22 /* AdministrationData+TableRepresentation.m in Sources */,
-				0CAA7DD817E355A000E5CB22 /* DemographicData.m in Sources */,
-				0CAA7DDB17E355C300E5CB22 /* DemographicData+TableRepresentation.m in Sources */,
-				0CAA7DDE17E355F100E5CB22 /* EconomyData.m in Sources */,
-				0CAA7DE117E3560900E5CB22 /* EconomyData+TableRepresentation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,15 +492,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CD978741856C4D000838DBF /* Country.m in Sources */,
-				0CD978771856C4D000838DBF /* EconomyData.m in Sources */,
 				0CD9786C1856BFD900838DBF /* RKGeonamesAPITests.m in Sources */,
 				0CD978481856BEBE00838DBF /* main.m in Sources */,
 				0CD978721856C4D000838DBF /* City.m in Sources */,
 				0CD9786F1856C22100838DBF /* RKGeonamesUtils.m in Sources */,
 				0CD978731856C4D000838DBF /* Timezone.m in Sources */,
 				0CD978711856C4D000838DBF /* WorldBankIndicator.m in Sources */,
-				0CD978761856C4D000838DBF /* DemographicData.m in Sources */,
-				0CD978751856C4D000838DBF /* AdministrationData.m in Sources */,
 				0CD978701856C4B700838DBF /* MappingProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,10 +595,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B487009349BE4E35B272E03C /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RKGeonames/RKGeonames-Prefix.pch";
 				INFOPLIST_FILE = "RKGeonames/RKGeonames-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RKGeonames/RKGeonames-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -623,11 +612,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B487009349BE4E35B272E03C /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RKGeonames/RKGeonames-Prefix.pch";
 				INFOPLIST_FILE = "RKGeonames/RKGeonames-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "RKGeonames/RKGeonames-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -715,12 +708,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0CE4BE331888D735008EB49A /* Model.xcdatamodeld */ = {
+		0CF15DA619CF33240085CB5D /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0CE4BE341888D735008EB49A /* Model.xcdatamodel */,
+				0CF15DA719CF33240085CB5D /* Model.xcdatamodel */,
 			);
-			currentVersion = 0CE4BE341888D735008EB49A /* Model.xcdatamodel */;
+			currentVersion = 0CF15DA719CF33240085CB5D /* Model.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

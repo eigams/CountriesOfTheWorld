@@ -10,14 +10,15 @@
 
 #import "MappingProvider.h"
 #import "RKGeonamesUtils.h"
-#import "AdministrationData+TableRepresentation.h"
+#import "CountryData.h"
 #import "Timezone.h"
 #import "City.h"
 
 #import "ManagedObjectStore.h"
-#import "CountryData.h"
+#import "RKGeonames-Swift.h"
 
 #import "RKGeonamesConstants.h"
+#import "RKGeonames-Swift.h"
 
 @interface RKGAdministrationViewController ()
 {

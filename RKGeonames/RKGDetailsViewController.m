@@ -10,7 +10,7 @@
 
 #import "RKGeonamesUtils.h"
 #import "RKGeonamesConstants.h"
-#import "CountryData.h"
+#import "RKGeonames-Swift.h"
 
 @interface RKGDetailsViewController ()
 
@@ -112,14 +112,14 @@ static const NSUInteger INDICATOR_HEGHT = 30;
     
     [self.activityIndicator startAnimating];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+//        dispatch_async(dispatch_get_main_queue(), ^{
             [self.mapView loadRequest:urlRequest];
             self.mapView.alpha = 1;
-        });
-    });
+//        });
+//    });
 }
 
 // |+|=======================================================================|+|
@@ -209,8 +209,7 @@ static const int HOME_VIEW_INDEX = 3;
     UIViewController *vc = [self.navigationController.viewControllers objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)];
     [self.navigationController popToViewController:vc animated:YES];
 
-    if([vc respondsToSelector:@selector(updateView)])
-    {
+    if([vc respondsToSelector:@selector(updateView)]) {
         [vc performSelector:@selector(updateView)];
     }
 }
