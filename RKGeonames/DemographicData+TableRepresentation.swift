@@ -12,7 +12,7 @@ extension DemographicData {
     
     func tr_tableRepresentation() -> NSDictionary {
         
-        return ["titles" : ["Capital", "Surface", "CurrentTime", "TimeZone"],
+        return ["titles" : ["Total Population", "Population Growth", "Birth Rate", "Death Rate"],
                 "values" : [self.self.totalPopulation, self.self.populationGrowth, self.self.birthRate, self.self.deathRate]]
     }
 }

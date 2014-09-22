@@ -412,6 +412,11 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     [super viewWillAppear:animated];
 }
 
+static const NSUInteger CELL_HEIGHT = 90;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return CELL_HEIGHT;
+}
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: didSelectRowAtIndexPath                             |+|
@@ -497,7 +502,6 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     
     self.managedObjectStore = [ManagedObjectStore sharedInstance];
     
-//    [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
     self.dataController = self.tableView.dataSource;
     self.dataController.tableView = self.tableView;
     self.dataController.searchDisplayController = self.searchDisplayController;
