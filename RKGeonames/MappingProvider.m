@@ -9,9 +9,11 @@
 #import "MappingProvider.h"
 
 #import "Country.h"
-#import "Timezone.h"
-#import "City.h"
-#import "WorldBankIndicator.h"
+//#import "Timezone.h"
+//#import "City.h"
+//#import "WorldBankIndicator.h"
+
+#import "RKGeonames-Swift.h"
 
 #pragma mark - Mapping Provider
 
@@ -301,7 +303,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) cityMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[City class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKGCity class]];
     
     [mapping addAttributeMappingsFromArray:@[@"fcodeName", @"toponymName", @"countrycode", @"fcl", @"fclName", @"name", @"wikipedia", @"lng", @"fcode", @"geonameId", @"lat", @"population"]];
     
@@ -327,7 +329,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) wbIndicatorMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[Indicator class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKGIndicator class]];
     
     [mapping addAttributeMappingsFromArray:@[@"id", @"value"]];
     
@@ -353,7 +355,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) wbCountryMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[WBCountry class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKGWorldBankCountry class]];
     
     [mapping addAttributeMappingsFromArray:@[@"id", @"value"]];
     
@@ -379,7 +381,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) worldBankIndicatorMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[WorldBankIndicator class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKGWorldBankIndicator class]];
     
     [mapping addAttributeMappingsFromArray:@[@"value", @"decimal", @"date"]];
     
@@ -408,7 +410,7 @@
 // |+|=======================================================================|+|
 + (RKMapping *) worldBankIndicatorArrayMapping
 {
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[WorldBankIndicatorArray class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKGWorldBankIndicatorArray class]];
     
     [mapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:nil toKeyPath:@"indicators" withMapping:[MappingProvider worldBankIndicatorMapping]]];
     

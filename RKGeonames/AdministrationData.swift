@@ -29,7 +29,12 @@ class AdministrationData : NSObject {
     
     class func data() -> AdministrationData {
         
-        return AdministrationData(capitalCity: "" as NSString!, surface: "" as NSString!, currentTime: "" as NSString!, timeZone: "" as NSString!, sunrise: "" as NSString!, sunset: "" as NSString!)
+        return AdministrationData(capitalCity: "" as NSString!,
+                                  surface: "" as NSString!,
+                                    currentTime: "" as NSString!,
+                                    timeZone: "" as NSString!,
+                                    sunrise: "" as NSString!,
+                                    sunset: "" as NSString!)
     }
     
 }

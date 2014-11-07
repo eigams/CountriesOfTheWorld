@@ -160,13 +160,13 @@
 // |+|=======================================================================|+|
 static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/countries/%@/indicators/%@?format=json&date=%@:%@";
 + (void) fetchWorldBankIndicator:(NSString *)indicator
-                  forCountryCode:(NSString *)countryCode
-                         forYear:(NSString *)year
-                        withType:(int)type
-                         andText:(NSString *)text
-                     withCompletion:(void (^)(NSString *Sink))handler
-                        failure:(void (^)(void))failure
-{
+                     countryCode:(NSString *)countryCode
+                            year:(NSString *)year
+                            type:(int)type
+                            text:(NSString *)text
+                         success:(void (^)(NSString *Sink))handler
+                         failure:(void (^)(void))failure {
+    
     NSString *urlString = [NSString stringWithFormat:WORLD_BANK_INDICATOR_URL, countryCode, indicator, year, year];
     
     NSLog(@"urlString: %@", urlString);
@@ -184,11 +184,10 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
             return ;
         }
         
-        WorldBankIndicatorArray *wbiarray = [mappingResult.array objectAtIndex:0];
-        WorldBankIndicator *wbi = [wbiarray.indicators objectAtIndex:0];
+        WorldBankIndicatorArray *wbiarray = [mappingResult.array firstObject];
+        WorldBankIndicator *wbi = [wbiarray.indicators firstObject];
         
-        if(nil != wbi.value)
-        {
+        if(nil != wbi.value) {
             NSLog(@"wbi :%@", wbi.value);
             
             NSString *additionalText = [NSString stringWithFormat:@"%@%@",
@@ -196,8 +195,7 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
             
             handler(additionalText);
         }
-        else
-        {
+        else {
             handler(@"N/A");
         }
         

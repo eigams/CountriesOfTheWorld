@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="LHA-Ex-OkY">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -108,38 +109,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZg-Hf-fpd">
+                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lZg-Hf-fpd" customClass="RKGWebView">
                                 <rect key="frame" x="0.0" y="1" width="320" height="210"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bWk-Uk-fHU">
-                                <rect key="frame" x="35" y="320" width="250" height="34"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <state key="normal" title="Demographics">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="35" y="320" width="250" height="40"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="10"/>
+                                <state key="normal" title="DEMOGRAPHICS" backgroundImage="blue-button-bg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="mLC-l7-LKb" kind="push" identifier="DemographicsSegue" id="YhZ-vN-pCR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rRI-ff-Vct">
-                                <rect key="frame" x="35" y="260" width="250" height="34"/>
+                                <rect key="frame" x="35" y="260" width="250" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="250" id="GtI-l7-fJy"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                <state key="normal" title="Administration">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="10"/>
+                                <state key="normal" title="ADMINISTRATION" backgroundImage="blue-button-bg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <segue destination="lDM-5P-R3M" kind="push" identifier="AdministrationSegue" id="hGL-fa-4MY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xF7-lQ-yrP">
-                                <rect key="frame" x="35" y="380" width="250" height="34"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <state key="normal" title="Economics">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="35" y="380" width="250" height="40"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="10"/>
+                                <state key="normal" title="ECONOMICS" backgroundImage="blue-button-bg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="fkA-Ri-Nnc" kind="push" identifier="EconomicsSegue" id="6MO-rz-Ame"/>
@@ -182,25 +186,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LnE-Ok-qMK">
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LnE-Ok-qMK" customClass="RKGWebView">
                                 <rect key="frame" x="0.0" y="1" width="320" height="210"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" ambiguous="YES" misplaced="YES" text="data available in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYD-x3-SHP">
-                                <rect key="frame" x="64" y="439" width="89" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="FY6-fM-vdH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="WzI-Ku-Otr">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="35" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="WzI-Ku-Otr">
                                 <rect key="frame" x="6" y="241" width="308" height="140"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="308" id="AIw-Wh-Z6V"/>
-                                </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="cell" textLabel="ktU-dL-23J" detailTextLabel="D4u-BN-c2t" style="IBUITableViewCellStyleValue1" id="VIC-Hq-a5B">
                                         <rect key="frame" x="0.0" y="55" width="308" height="35"/>
@@ -233,14 +225,14 @@
                             <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKh-Yp-boT">
                                 <rect key="frame" x="152" y="342" width="100" height="162"/>
                             </pickerView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="data available in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYD-x3-SHP">
+                                <rect key="frame" x="50" y="412" width="89" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="LnE-Ok-qMK" firstAttribute="leading" secondItem="F6u-v2-H2I" secondAttribute="leading" id="77b-zt-Fox"/>
-                            <constraint firstItem="LnE-Ok-qMK" firstAttribute="trailing" secondItem="F6u-v2-H2I" secondAttribute="trailing" id="KEn-Y5-ISU"/>
-                            <constraint firstItem="WzI-Ku-Otr" firstAttribute="centerX" secondItem="LnE-Ok-qMK" secondAttribute="centerX" id="Nmu-mc-M4u"/>
-                            <constraint firstItem="LnE-Ok-qMK" firstAttribute="top" secondItem="F6u-v2-H2I" secondAttribute="top" constant="1" id="PBn-y6-whz"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dZr-ao-SmB"/>
                     <connections>
@@ -265,12 +257,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Gk-u3-bIw">
+                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Gk-u3-bIw" customClass="RKGWebView">
                                 <rect key="frame" x="0.0" y="1" width="320" height="210"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="data available in " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhu-F3-S6O">
-                                <rect key="frame" x="64" y="439" width="90" height="22"/>
+                                <rect key="frame" x="50" y="412" width="90" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -345,7 +337,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ua5-2Y-uSO">
+                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ua5-2Y-uSO" customClass="RKGWebView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </webView>
@@ -449,6 +441,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="blue-button-bg" width="1" height="40"/>
         <image name="world-map.png" width="640" height="960"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -11,13 +11,10 @@
 #import "Singleton.h"
 
 @class DemographicDataClient;
-@class CountryData;
 
 @protocol DemographicDataClientDelegate <NSObject>
 
-@optional
-- (BOOL)updateView:(DemographicDataClient *)client withLocalStoredData:(CountryData *)countryData;
-- (BOOL)updateView:(DemographicDataClient *)client withRemoteData:(CountryData *)countryData;
+- (BOOL)updateView:(DemographicDataClient *)client;
 
 @end
 

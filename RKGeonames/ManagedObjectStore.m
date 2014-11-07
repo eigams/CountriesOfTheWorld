@@ -479,9 +479,82 @@ SingletonImplemetion(ManagedObjectStore);
     return;
 }
 
-- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock
-{
+- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock {
+    
     [self saveData:source updateMainContext:YES completion:saveBlock];
+}
+
+
+- (void)handleMigration:(NSManagedObjectModel *)managedObjectModel {
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"store.sqlite"];
+
+    // psc for the model
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+    
+    NSError *error = nil;
+    // check if database needs to be updated
+    NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType
+                                                                                              URL:storeURL
+                                                                                            error:&error];
+    if(nil != error) {
+        NSLog(@"ERROR : %@", error);
+        
+        return ;
+    }
+    
+    NSManagedObjectModel *destinationModel = [persistentStoreCoordinator managedObjectModel];
+    
+    // remove old store if exists, when remodeling
+    if (NO == [destinationModel isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata]) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        
+        if ([fileManager fileExistsAtPath:[storeURL path]]) {
+            [fileManager removeItemAtURL:storeURL error:nil];
+        }
+    }
+    
+    return ;
+}
+
+
+- (void)setupCoreDataStack {
+    
+    // Create NSManagedObjectModel and NSPersistentStoreCoordinator
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
+    NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    [self handleMigration:managedObjectModel];
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"store.sqlite"];
+    
+    //setup the persistet store coordinator
+    NSPersistentStoreCoordinator *storeCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+    
+    NSError *error;
+    if( ![storeCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                        configuration:nil
+                                                  URL:storeURL
+                                              options:nil
+                                                error:&error]) {
+        if(nil != error) {
+            NSLog(@"ERROR: Error adding the persistent store coordinator: %@", error);
+        }
+    }
+    
+    //this context will only be used to write data to disk
+    _writeContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [_writeContext setPersistentStoreCoordinator:storeCoordinator];
+    
+    //the managed object context can manage undo, but we dont need it for now
+    [_writeContext setUndoManager:nil];
+    
+    // create the main ctx with concurrency type NSMainQueueConcurrencyType
+    _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    [_mainContext setParentContext:_writeContext];
+    
+    _privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [_privateContext setParentContext:_mainContext];
+    [_privateContext setUndoManager:nil];
 }
 
 // |+|=======================================================================|+|
@@ -500,44 +573,13 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (id)init
-{
+- (id)init {
+    
     self = [super init];
     
-    if(self)
-    {
-        // Create NSManagedObjectModel and NSPersistentStoreCoordinator
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
-        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"store.sqlite"];
+    if(self) {
         
-        // remove old store if exists, when remodeling
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:[storeURL path]])
-            [fileManager removeItemAtURL:storeURL error:nil];
-        
-        NSManagedObjectModel *localmodel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-        
-        NSPersistentStoreCoordinator *storeCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:localmodel];
-        [storeCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                       configuration:nil
-                                                 URL:storeURL
-                                             options:nil
-                                               error:nil];
-        
-        //this context will only be used to write data to disk
-        _writeContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_writeContext setPersistentStoreCoordinator:storeCoordinator];
-        
-        //the managed object context can manage undo, but we dont need it for now
-        [_writeContext setUndoManager:nil];
-        
-        // create the main ctx with concurrency type NSMainQueueConcurrencyType
-        _mainContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        [_mainContext setParentContext:_writeContext];
-        
-        _privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_privateContext setParentContext:_mainContext];
-        [_privateContext setUndoManager:nil];
+        [self setupCoreDataStack];
     }
     
     return self;
@@ -559,8 +601,8 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (NSManagedObject *)fetchItem:(NSString *)entity predicate:(NSPredicate *)predicate
-{
+- (NSManagedObject *)fetchItem:(NSString *)entity predicate:(NSPredicate *)predicate{
+    
     NSManagedObjectContext *currentContext = [NSThread isMainThread] ? _mainContext : _privateContext;
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entity
@@ -569,8 +611,8 @@ SingletonImplemetion(ManagedObjectStore);
     
     NSError *error;
     NSArray *results = [currentContext executeFetchRequest:request error:&error];
-    if(nil != error)
-    {
+    if(nil != error) {
+        
         NSLog(@"Error occured: %@", error);
         
         return nil;
@@ -602,8 +644,8 @@ SingletonImplemetion(ManagedObjectStore);
 {
     //try to find the object in the store
     NSManagedObject *obj = [self fetchItem:entity predicate:predicate];
-    if(nil == obj)
-    {
+    if(nil == obj) {
+        
         NSLog(@"Object not found !");
         
         return NO;

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RKGeonamesViewController.h"
 
 @implementation AppDelegate
 
@@ -15,7 +16,26 @@
     // Override point for customization after application launch.
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    NSLog(@"Calling Application Bundle ID: %@", sourceApplication);
+    NSLog(@"URL scheme:%@", [url scheme]);
+    NSLog(@"URL host:%@", [url host]);
+    NSLog(@"URL query: %@", [url query]);
+    
+    RKGeonamesViewController *rkgVC = (RKGeonamesViewController *)[(UINavigationController *)self.window.rootViewController topViewController];
+    NSArray *params = [[url query] componentsSeparatedByString:@"&"];
+    NSArray *countries = [params filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF contains %@", @"country="]];
+    if([countries count] > 0) {
+        NSString *countryCode = [[countries firstObject] substringFromIndex:[[countries firstObject] rangeOfString:@"country="].length];
+        
+        [rkgVC selectCountry:countryCode];
+    }
+    
+    return YES;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

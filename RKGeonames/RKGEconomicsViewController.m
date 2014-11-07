@@ -38,8 +38,6 @@
 
 @implementation RKGEconomicsViewController
 
-@synthesize items;
-
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: currenciesD                                         |+|
@@ -226,7 +224,7 @@
                     @"YER": @"Yemen Rial",
                     @"ZAR": @"South Africa Rand",
                     @"ZMW": @"Zambia Kwacha",
-                    @"ZWD": @"Zimbabwe Dollar"};
+                    @"ZWL": @"Zimbabwe Dollar"};
     });
     
     return currency;
@@ -311,15 +309,16 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) getIndicatorData:(NSString *)indicator withCompletion:(void (^)(NSString *Data))completion
-{
+- (void) getIndicatorData:(NSString *)indicator
+               completion:(void (^)(NSString *Data))completion {
+    
     [RKGeonamesUtils fetchWorldBankIndicator:indicator
-                              forCountryCode:self.country.countryCode
-                                     forYear:(_selectedYear == nil) ? @"2011" : _selectedYear
-                                    withType:TYPE_FLOAT
-                                     andText:[NSString stringWithFormat:@" %C", dollar]
-                                 withCompletion:completion
-                                    failure:^{
+                                 countryCode:self.country.countryCode
+                                        year:(_selectedYear == nil) ? @"2011" : _selectedYear
+                                        type:TYPE_FLOAT
+                                        text:[NSString stringWithFormat:@" %C", dollar]
+                                     success:completion
+                                     failure:^{
                                         currentData = [[EconomyData data] tr_tableRepresentation];
                                         
                                         [self.tableView reloadData];
@@ -345,7 +344,7 @@
 // |+|=======================================================================|+|
 - (void) getData
 {
-    EconomicalDataClient *client = [EconomicalDataClient sharedInstance];
+    RKEconomicalDataClient *client = [RKEconomicalDataClient sharedInstance];
     client.delegate = self;
     
     [client getDataForCountry:self.country.name];
@@ -377,17 +376,23 @@ static const int START_YEAR = 1970;
     self.yearPicker.delegate = self;
     self.yearPicker.dataSource = self;
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy"];
+    static NSDateFormatter *dateFormatter = nil;
+    static NSNumberFormatter *numberFormatter = nil;
     
-    NSString *yearString = [formatter stringFromDate:[NSDate date]];
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSNumber *number = [f numberFromString:yearString];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy"];
+        
+        numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    });
+    
+    NSString *yearString = [dateFormatter stringFromDate:[NSDate date]];
+    NSNumber *number = [numberFormatter numberFromString:yearString];
     
     NSMutableArray *sink = [NSMutableArray array];
-    for(int i = [number intValue] - 1; i >= START_YEAR; --i)
-    {
+    for(int i = [number intValue] - 1; i >= START_YEAR; --i) {
         [sink addObject:[NSString stringWithFormat:@"%d",i]];
     }
     
@@ -477,8 +482,7 @@ static const int START_YEAR = 1970;
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 // returns the number of 'columns' to display.
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
 
@@ -557,58 +561,6 @@ static const int START_YEAR = 1970;
 
 #pragma mark - EconomicsDataDelegates
 
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: updateView   withLocalStoredData                    |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:   default implementation                              |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (BOOL)updateView:(EconomicalDataClient *)client withLocalStoredData:(CountryData *)countryData
-{
-    NSSet *result = [countryData.economicalData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
-    if ([result count] > 0)
-    {
-        _economicalData = [[result allObjects] objectAtIndex:0];
-        
-        if(nil != _economicalData)
-        {
-            if((_economicalData.gdp && ![_economicalData.gdp isEqualToString:NOT_AVAILABLE_STRING]) &&
-               (_economicalData.gdppercapita && ![_economicalData.gdppercapita isEqualToString:NOT_AVAILABLE_STRING]) &&
-               (_economicalData.gnipercapita && ![_economicalData.gnipercapita isEqualToString:NOT_AVAILABLE_STRING]))
-            {
-                GDP = _economicalData.gdp ? _economicalData.gdp : NOT_AVAILABLE_STRING;
-                GDPPerCapita = _economicalData.gdppercapita ? _economicalData.gdppercapita : NOT_AVAILABLE_STRING;
-                GNIPerCapita = _economicalData.gnipercapita ? _economicalData.gnipercapita : NOT_AVAILABLE_STRING;
-                
-                [self loadData];
-                
-                GDP  = LOADING_STRING;
-                GDPPerCapita = LOADING_STRING;
-                GNIPerCapita = LOADING_STRING;
-                
-                return YES;
-            }
-        }
-    }
-    
-    GDP  = LOADING_STRING;
-    GDPPerCapita = LOADING_STRING;
-    GNIPerCapita = LOADING_STRING;
-    
-    return NO;
-}
-
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -631,7 +583,7 @@ static NSString * const GDP_INDICATOR_STRING = @"NY.GDP.MKTP.CD";
 static NSString * const GDP_PER_CAPITA_INDICATOR_STRING = @"NY.GDP.PCAP.CD";//@"GDPPCKD";
 static NSString * const GNI_PER_CAPITA_INDICATOR_STRING = @"NY.GNP.PCAP.CD";
 static UniChar dollar = 0x0024;
-- (BOOL)updateView:(EconomicalDataClient *)client withRemoteData:(CountryData *)countryData
+- (BOOL)updateView:(RKEconomicalDataClient *)client
 {
     EconomyData *demoData = [[EconomyData alloc] initWithCurrency:Currency gdp:GDP gdppc:GDPPerCapita gnipc:GNIPerCapita];
     
@@ -647,14 +599,13 @@ static UniChar dollar = 0x0024;
     
     [bankIndicatorOutData enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         
-        [self getIndicatorData:key withCompletion:^(NSString *Data){
+        [self getIndicatorData:key completion:^(NSString *Data) {
             
-            [self setValue:Data forKey:[obj objectAtIndex:0]];
+            [self setValue:Data forKey:[obj firstObject]];
             
             [self loadData];
         }];
     }];
-    
     
     GDP          = LOADING_STRING;
     GDPPerCapita = LOADING_STRING;

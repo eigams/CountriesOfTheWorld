@@ -21,29 +21,10 @@ static NSString *const POPULATION_GROWTH_INDICATOR_STRING = @"SP.POP.GROW";
 static NSString *const BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
 static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 - (void) getDataForCountry:(NSString *)country
-{
-    //
-    //try to load the data from local storage
-    //
-        
-    CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
-                                                                                   predicate:[NSPredicate predicateWithFormat:@"name == %@", country]];
-    
-    if(nil != countryData)
-    {
-        if([self.delegate respondsToSelector:@selector(updateView:withLocalStoredData:)])
-        {
-            if([self.delegate updateView:self withLocalStoredData:countryData])
-            {
-                return;
-            }
-        }        
-    }
-    
+{    
     // when no data is stored locally, get it from the net
-    if([self.delegate respondsToSelector:@selector(updateView:withRemoteData:)])
-    {
-        [self.delegate updateView:self withRemoteData:countryData];
+    if([self.delegate respondsToSelector:@selector(updateView:)]){
+        [self.delegate updateView:self];
     }    
 }
 

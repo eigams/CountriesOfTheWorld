@@ -91,7 +91,7 @@ static const UniChar perThousand = 0x2031;
     //try to load the data from local storage
     //
     
-    DemographicDataClient *client = [DemographicDataClient sharedInstance];
+    RKGDemographicDataClient *client = [RKGDemographicDataClient sharedInstance];
     client.delegate = self;
     
     [client getDataForCountry:self.country.name];
@@ -309,76 +309,6 @@ static const UniChar per_mille = 0x2030;
 
 #pragma mark - DemographicDataDelegates
 
-// |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: updateView   withLocalStoredData                    |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:   default implementation                              |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:    none                                                |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (BOOL)updateView:(DemographicDataClient *)client withLocalStoredData:(CountryData *)countryData
-{
-    void (^LoadDataBlock)() = ^{
-        
-        DemographicData *demoData = [[DemographicData alloc] initWithTotalPopulation:totalPopulation
-                                                                    populationGrowth:populationGrowth
-                                                                           birthRate:birthRate
-                                                                           deathRate:deathRate];
-        
-        currentData = [demoData tr_tableRepresentation];
-        
-        [self.tableView reloadData];
-        
-    };
-    
-    NSSet *result = [countryData.populationData filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"year == %@", _selectedYear]];
-    if ([result count] > 0)
-    {
-        _populationData = [[result allObjects] objectAtIndex:0];
-        
-        if(nil != _populationData)
-        {
-            if ((_populationData.total && ![_populationData.total isEqualToString:NOT_AVAILABLE_STRING]) &&
-                (_populationData.growth && ![_populationData.growth isEqualToString:NOT_AVAILABLE_STRING]) &&
-                (_populationData.birthRate && ![_populationData.birthRate isEqualToString:NOT_AVAILABLE_STRING]) &&
-                (_populationData.deathRate && ![_populationData.deathRate isEqualToString:NOT_AVAILABLE_STRING]))
-            {
-                totalPopulation = _populationData.total ? _populationData.total : NOT_AVAILABLE_STRING;
-                populationGrowth = _populationData.growth ? _populationData.growth : NOT_AVAILABLE_STRING;
-                birthRate = _populationData.birthRate ? _populationData.birthRate : NOT_AVAILABLE_STRING;
-                deathRate = _populationData.deathRate ? _populationData.deathRate : NOT_AVAILABLE_STRING;
-                
-                LoadDataBlock();
-                
-                totalPopulation  = LOADING_STRING;
-                populationGrowth = LOADING_STRING;
-                birthRate        = LOADING_STRING;
-                deathRate        = LOADING_STRING;
-                
-                return YES;
-            }
-        }
-    }
-    
-    totalPopulation  = LOADING_STRING;
-    populationGrowth = LOADING_STRING;
-    birthRate        = LOADING_STRING;
-    deathRate        = LOADING_STRING;
-    
-    return NO;
-}
-
-
 static NSString *const TOTAL_POPULATION_INDICATOR_STRING = @"SP.POP.TOTL";
 static NSString *const POPULATION_GROWTH_INDICATOR_STRING = @"SP.POP.GROW";
 static NSString *const BIRTH_RATE_INDICATOR_STRING = @"SP.DYN.CBRT.IN";
@@ -400,7 +330,7 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL)updateView:(DemographicDataClient *)client withRemoteData:(CountryData *)countryData
+- (BOOL)updateView:(RKGDemographicDataClient *)client
 {
     void (^LoadDataBlock)() = ^{
         
@@ -426,11 +356,11 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
         NSArray *array = obj;
         
         [RKGeonamesUtils fetchWorldBankIndicator:key
-                                  forCountryCode:self.country.countryCode
-                                         forYear:_selectedYear
-                                        withType:TYPE_FLOAT
-                                         andText:[array objectAtIndex:2]
-                                  withCompletion:^(NSString *Data){
+                                     countryCode:self.country.countryCode
+                                            year:_selectedYear
+                                            type:TYPE_FLOAT
+                                            text:[array objectAtIndex:2]
+                                         success:^(NSString *Data){
                                       
                                       NSLog(@"Data: %@", Data);
                                       
@@ -440,7 +370,7 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                       LoadDataBlock();
                                   }
                                          failure:^(){
-                                             [self setValue:@"N/A" forKey:[array objectAtIndex:0]];
+                                             [self setValue:@"N/A" forKey:[array firstObject]];
                                              
                                              LoadDataBlock();
                                          }];

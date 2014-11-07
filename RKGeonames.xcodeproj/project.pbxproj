@@ -8,11 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		0C0BDCED181F819B00E36E70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */; };
+		0C18B60B19D4A9430064F1C6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C18B60A19D4A9430064F1C6 /* Images.xcassets */; };
 		0C1A14C419CDCCE30023F655 /* AdministrationData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */; };
 		0C1A14C619CDD1DC0023F655 /* AdministrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */; };
+		0C1A816819D2DC70000DEDCA /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A816719D2DC70000DEDCA /* Timezone.swift */; };
+		0C1A816A19D2DEC6000DEDCA /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A816919D2DEC6000DEDCA /* City.swift */; };
+		0C1A816C19D2E003000DEDCA /* WorlBankIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A816B19D2E003000DEDCA /* WorlBankIndicator.swift */; };
+		0C1A816E19D2E5BA000DEDCA /* DemographicDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A816D19D2E5BA000DEDCA /* DemographicDataClient.swift */; };
 		0C1EB99E182096BF0093453C /* bandanaflag.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0C1EB99D182096BF0093453C /* bandanaflag.jpg */; };
-		0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
-		0C376B0B17817AA100412F5F /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
+		0C31017A19D0E1E600AEF44E /* RKGSplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C31017919D0E1E600AEF44E /* RKGSplashScreenViewController.m */; };
+		0C32CA7919D172F700E03C79 /* RKEconomicalDataClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C32CA7819D172F700E03C79 /* RKEconomicalDataClient.swift */; };
 		0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */; };
 		0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4368A91784298100B61F76 /* RKGeonamesUtils.m */; };
 		0C4FA10A17744BB800A48BA0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10917744BB800A48BA0 /* UIKit.framework */; };
@@ -27,16 +32,13 @@
 		0C4FA12317744BB800A48BA0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C4FA12117744BB800A48BA0 /* MainStoryboard.storyboard */; };
 		0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */; };
 		0C68AF051775C8FE00A14896 /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
-		0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */; };
 		0C69CE2C177C854A00951ADA /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C69CE29177C854A00951ADA /* world-map.png */; };
-		0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */; };
-		0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */; };
 		0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */; };
 		0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91B1780335B00A148CB /* RKGDemographicsViewController.m */; };
 		0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */; };
 		0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC921178034A100A148CB /* RKGDetailsViewController.m */; };
-		0CCEC9251780883B00A148CB /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
 		0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC92817808DBD00A148CB /* MappingProvider.m */; };
+		0CD8A0FA1A0CEF55004D4801 /* RKGWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD8A0F91A0CEF55004D4801 /* RKGWebView.m */; };
 		0CD9783E1856BEBE00838DBF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10B17744BB800A48BA0 /* Foundation.framework */; };
 		0CD9783F1856BEBE00838DBF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10D17744BB800A48BA0 /* CoreGraphics.framework */; };
 		0CD978401856BEBE00838DBF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C4FA10917744BB800A48BA0 /* UIKit.framework */; };
@@ -47,9 +49,6 @@
 		0CD9786E1856C12700838DBF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD9786D1856C12700838DBF /* libPods.a */; };
 		0CD9786F1856C22100838DBF /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C4368A91784298100B61F76 /* RKGeonamesUtils.m */; };
 		0CD978701856C4B700838DBF /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC92817808DBD00A148CB /* MappingProvider.m */; };
-		0CD978711856C4D000838DBF /* WorldBankIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */; };
-		0CD978721856C4D000838DBF /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C376B0A17817AA100412F5F /* City.m */; };
-		0CD978731856C4D000838DBF /* Timezone.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CCEC9241780883B00A148CB /* Timezone.m */; };
 		0CD978741856C4D000838DBF /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C68AF041775C8FE00A14896 /* Country.m */; };
 		0CDD131119C85B3F00B4A547 /* RKGeonamesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDD131019C85B3F00B4A547 /* RKGeonamesDataController.swift */; };
 		0CE4BE3A1888DAB6008EB49A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CE4BE391888DAB6008EB49A /* CoreData.framework */; };
@@ -67,14 +66,18 @@
 
 /* Begin PBXFileReference section */
 		0C0BDCEC181F819B00E36E70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		0C18B60A19D4A9430064F1C6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AdministrationData+TableRepresentation.swift"; sourceTree = "<group>"; };
 		0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdministrationData.swift; sourceTree = "<group>"; };
+		0C1A816719D2DC70000DEDCA /* Timezone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
+		0C1A816919D2DEC6000DEDCA /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		0C1A816B19D2E003000DEDCA /* WorlBankIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorlBankIndicator.swift; sourceTree = "<group>"; };
+		0C1A816D19D2E5BA000DEDCA /* DemographicDataClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemographicDataClient.swift; sourceTree = "<group>"; };
 		0C1EB99D182096BF0093453C /* bandanaflag.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bandanaflag.jpg; sourceTree = "<group>"; };
 		0C1EB99F182099DA0093453C /* RKGeonamesConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesConstants.h; sourceTree = "<group>"; };
-		0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldBankIndicator.h; sourceTree = "<group>"; };
-		0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldBankIndicator.m; sourceTree = "<group>"; };
-		0C376B0917817AA100412F5F /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
-		0C376B0A17817AA100412F5F /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		0C31017819D0E1E600AEF44E /* RKGSplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGSplashScreenViewController.h; sourceTree = "<group>"; };
+		0C31017919D0E1E600AEF44E /* RKGSplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGSplashScreenViewController.m; sourceTree = "<group>"; };
+		0C32CA7819D172F700E03C79 /* RKEconomicalDataClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKEconomicalDataClient.swift; sourceTree = "<group>"; };
 		0C37DB3E177D79A100F184BE /* RKCountryDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCountryDetailsViewController.h; sourceTree = "<group>"; };
 		0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCountryDetailsViewController.m; sourceTree = "<group>"; };
 		0C4368A81784298100B61F76 /* RKGeonamesUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RKGeonamesUtils.h; path = RKGeonames/RKGeonamesUtils.h; sourceTree = "<group>"; };
@@ -97,14 +100,8 @@
 		0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesViewController.m; sourceTree = "<group>"; };
 		0C68AF031775C8FE00A14896 /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
 		0C68AF041775C8FE00A14896 /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
-		0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGSplashScreenViewController.h; sourceTree = "<group>"; };
-		0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGSplashScreenViewController.m; sourceTree = "<group>"; };
 		0C69CE29177C854A00951ADA /* world-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "world-map.png"; path = "RKGeonames/world-map.png"; sourceTree = "<group>"; };
 		0C895E5C189490C700900269 /* Singleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
-		0CA4A71A18EC2AC500C6BE09 /* DemographicDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemographicDataClient.h; sourceTree = "<group>"; };
-		0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemographicDataClient.m; sourceTree = "<group>"; };
-		0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EconomicalDataClient.h; sourceTree = "<group>"; };
-		0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EconomicalDataClient.m; sourceTree = "<group>"; };
 		0CCEC9171780334800A148CB /* RKGAdministrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGAdministrationViewController.h; sourceTree = "<group>"; };
 		0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGAdministrationViewController.m; sourceTree = "<group>"; };
 		0CCEC91A1780335B00A148CB /* RKGDemographicsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGDemographicsViewController.h; sourceTree = "<group>"; };
@@ -113,10 +110,10 @@
 		0CCEC91E1780336E00A148CB /* RKGEconomicsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGEconomicsViewController.m; sourceTree = "<group>"; };
 		0CCEC920178034A100A148CB /* RKGDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGDetailsViewController.h; sourceTree = "<group>"; };
 		0CCEC921178034A100A148CB /* RKGDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGDetailsViewController.m; sourceTree = "<group>"; };
-		0CCEC9231780883B00A148CB /* Timezone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timezone.h; sourceTree = "<group>"; };
-		0CCEC9241780883B00A148CB /* Timezone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Timezone.m; sourceTree = "<group>"; };
 		0CCEC92717808DBD00A148CB /* MappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MappingProvider.h; path = RKGeonames/MappingProvider.h; sourceTree = "<group>"; };
 		0CCEC92817808DBD00A148CB /* MappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MappingProvider.m; path = RKGeonames/MappingProvider.m; sourceTree = "<group>"; };
+		0CD8A0F81A0CEF55004D4801 /* RKGWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RKGWebView.h; path = RKGeonames/RKGWebView.h; sourceTree = "<group>"; };
+		0CD8A0F91A0CEF55004D4801 /* RKGWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RKGWebView.m; path = RKGeonames/RKGWebView.m; sourceTree = "<group>"; };
 		0CD9783D1856BEBE00838DBF /* RKGeonamesTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKGeonamesTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CD978431856BEBE00838DBF /* RKGeonamesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RKGeonamesTests-Info.plist"; sourceTree = "<group>"; };
 		0CD978451856BEBE00838DBF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -175,6 +172,9 @@
 		0C4FA0FD17744BB800A48BA0 = {
 			isa = PBXGroup;
 			children = (
+				0CD8A0F81A0CEF55004D4801 /* RKGWebView.h */,
+				0CD8A0F91A0CEF55004D4801 /* RKGWebView.m */,
+				0C18B60A19D4A9430064F1C6 /* Images.xcassets */,
 				0CF15DB119CF5A8D0085CB5D /* CountryData.h */,
 				0CF15DB219CF5A8D0085CB5D /* CountryData.m */,
 				0C895E5C189490C700900269 /* Singleton.h */,
@@ -251,26 +251,21 @@
 				0CF15DA619CF33240085CB5D /* Model.xcdatamodeld */,
 				0CF15DAF19CF5A7E0085CB5D /* PopulationData.swift */,
 				0CF15DAD19CF5A7D0085CB5D /* EconomicalData.swift */,
-				0CA4A71A18EC2AC500C6BE09 /* DemographicDataClient.h */,
-				0CA4A71B18EC2AC500C6BE09 /* DemographicDataClient.m */,
-				0C2247AD1781B74F00EA3AFF /* WorldBankIndicator.h */,
-				0C2247AE1781B74F00EA3AFF /* WorldBankIndicator.m */,
-				0C376B0917817AA100412F5F /* City.h */,
-				0C376B0A17817AA100412F5F /* City.m */,
-				0CCEC9231780883B00A148CB /* Timezone.h */,
-				0CCEC9241780883B00A148CB /* Timezone.m */,
 				0C68AF031775C8FE00A14896 /* Country.h */,
 				0C68AF041775C8FE00A14896 /* Country.m */,
 				0CE51784189B21CE008F8F51 /* ManagedObjectStore.h */,
 				0CE51785189B21CE008F8F51 /* ManagedObjectStore.m */,
-				0CA4A71D18EC3A7E00C6BE09 /* EconomicalDataClient.h */,
-				0CA4A71E18EC3A7E00C6BE09 /* EconomicalDataClient.m */,
 				0C1A14C319CDCCE30023F655 /* AdministrationData+TableRepresentation.swift */,
 				0C1A14C519CDD1DC0023F655 /* AdministrationData.swift */,
 				0CF15D8F19CED6A50085CB5D /* DemographicData.swift */,
 				0CF15D9119CED8980085CB5D /* DemographicData+TableRepresentation.swift */,
 				0CF15D9319CEF6B30085CB5D /* EconomyData.swift */,
 				0CF15D9519CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift */,
+				0C32CA7819D172F700E03C79 /* RKEconomicalDataClient.swift */,
+				0C1A816719D2DC70000DEDCA /* Timezone.swift */,
+				0C1A816919D2DEC6000DEDCA /* City.swift */,
+				0C1A816B19D2E003000DEDCA /* WorlBankIndicator.swift */,
+				0C1A816D19D2E5BA000DEDCA /* DemographicDataClient.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -278,6 +273,8 @@
 		0CCEC9261780890A00A148CB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0C31017819D0E1E600AEF44E /* RKGSplashScreenViewController.h */,
+				0C31017919D0E1E600AEF44E /* RKGSplashScreenViewController.m */,
 				0C4FA12C17744D7C00A48BA0 /* RKGeonamesViewController.h */,
 				0C4FA12D17744D7C00A48BA0 /* RKGeonamesViewController.m */,
 				0CDD131019C85B3F00B4A547 /* RKGeonamesDataController.swift */,
@@ -291,8 +288,6 @@
 				0CCEC9181780334800A148CB /* RKGAdministrationViewController.m */,
 				0C37DB3E177D79A100F184BE /* RKCountryDetailsViewController.h */,
 				0C37DB3F177D79A100F184BE /* RKCountryDetailsViewController.m */,
-				0C69CE23177C624C00951ADA /* RKGSplashScreenViewController.h */,
-				0C69CE24177C624C00951ADA /* RKGSplashScreenViewController.m */,
 				0CDD130F19C85B3E00B4A547 /* RKGeonames-Bridging-Header.h */,
 			);
 			name = Controllers;
@@ -399,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C4FA11417744BB800A48BA0 /* InfoPlist.strings in Resources */,
+				0C18B60B19D4A9430064F1C6 /* Images.xcassets in Resources */,
 				0C4FA11C17744BB800A48BA0 /* Default.png in Resources */,
 				0C4FA11E17744BB800A48BA0 /* Default@2x.png in Resources */,
 				0C4FA12017744BB800A48BA0 /* Default-568h@2x.png in Resources */,
@@ -460,29 +456,30 @@
 				0C4FA12E17744D7C00A48BA0 /* RKGeonamesViewController.m in Sources */,
 				0CF15DB319CF5A8D0085CB5D /* CountryData.m in Sources */,
 				0C1A14C419CDCCE30023F655 /* AdministrationData+TableRepresentation.swift in Sources */,
+				0C32CA7919D172F700E03C79 /* RKEconomicalDataClient.swift in Sources */,
 				0CF15D9219CED8980085CB5D /* DemographicData+TableRepresentation.swift in Sources */,
 				0C68AF051775C8FE00A14896 /* Country.m in Sources */,
-				0CA4A71F18EC3A7E00C6BE09 /* EconomicalDataClient.m in Sources */,
-				0C69CE25177C624C00951ADA /* RKGSplashScreenViewController.m in Sources */,
 				0CDD131119C85B3F00B4A547 /* RKGeonamesDataController.swift in Sources */,
+				0C1A816819D2DC70000DEDCA /* Timezone.swift in Sources */,
 				0CF15D9019CED6A50085CB5D /* DemographicData.swift in Sources */,
 				0CF15DAE19CF5A7D0085CB5D /* EconomicalData.swift in Sources */,
 				0C37DB40177D79A100F184BE /* RKCountryDetailsViewController.m in Sources */,
 				0CCEC9191780334800A148CB /* RKGAdministrationViewController.m in Sources */,
 				0CCEC91C1780335B00A148CB /* RKGDemographicsViewController.m in Sources */,
+				0C1A816C19D2E003000DEDCA /* WorlBankIndicator.swift in Sources */,
 				0CCEC91F1780336E00A148CB /* RKGEconomicsViewController.m in Sources */,
+				0CD8A0FA1A0CEF55004D4801 /* RKGWebView.m in Sources */,
 				0CF15D9919CEFB190085CB5D /* RKGeonamesTableViewCell.m in Sources */,
 				0CCEC922178034A100A148CB /* RKGDetailsViewController.m in Sources */,
+				0C1A816E19D2E5BA000DEDCA /* DemographicDataClient.swift in Sources */,
 				0CF15DA819CF33240085CB5D /* Model.xcdatamodeld in Sources */,
 				0CF15DB019CF5A7E0085CB5D /* PopulationData.swift in Sources */,
 				0CF15D9419CEF6B30085CB5D /* EconomyData.swift in Sources */,
-				0CCEC9251780883B00A148CB /* Timezone.m in Sources */,
+				0C1A816A19D2DEC6000DEDCA /* City.swift in Sources */,
 				0CCEC92917808DBD00A148CB /* MappingProvider.m in Sources */,
 				0CE51786189B21CE008F8F51 /* ManagedObjectStore.m in Sources */,
-				0C376B0B17817AA100412F5F /* City.m in Sources */,
-				0CA4A71C18EC2AC500C6BE09 /* DemographicDataClient.m in Sources */,
 				0CF15D9619CEF6DD0085CB5D /* EconomyData+TableRepresentation.swift in Sources */,
-				0C2247AF1781B74F00EA3AFF /* WorldBankIndicator.m in Sources */,
+				0C31017A19D0E1E600AEF44E /* RKGSplashScreenViewController.m in Sources */,
 				0C4368AA1784298100B61F76 /* RKGeonamesUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,10 +491,7 @@
 				0CD978741856C4D000838DBF /* Country.m in Sources */,
 				0CD9786C1856BFD900838DBF /* RKGeonamesAPITests.m in Sources */,
 				0CD978481856BEBE00838DBF /* main.m in Sources */,
-				0CD978721856C4D000838DBF /* City.m in Sources */,
 				0CD9786F1856C22100838DBF /* RKGeonamesUtils.m in Sources */,
-				0CD978731856C4D000838DBF /* Timezone.m in Sources */,
-				0CD978711856C4D000838DBF /* WorldBankIndicator.m in Sources */,
 				0CD978701856C4B700838DBF /* MappingProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

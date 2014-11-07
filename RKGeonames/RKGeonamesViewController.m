@@ -31,41 +31,39 @@
 
 @implementation NSArray(CompareHelper)
 
--(NSArray *)compare:(NSArray *)source;
+- (NSArray *)compare:(NSArray *)source;
 {
+    if(nil == source || [source count] < 1) {
+        return nil;
+    }
+    
     //save a copy to process later
-    NSMutableArray *snapshot = [NSMutableArray arrayWithArray:self];
+    NSMutableArray *snapshot = [self mutableCopy];
     
-    NSMutableSet *setSelf = [NSMutableSet set];
-    NSMutableSet *setSource = [NSMutableSet set];
+    NSMutableSet *sourceSet = [NSMutableSet set];
     
-    [source enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-
-        CountryGeonames *cg = (CountryGeonames *)obj;
-        [setSource addObject:cg.name];
-    }];
+    for (CountryGeonames *obj in source) {
+        [sourceSet addObject:obj.name];
+    }
     
-    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        
-        CountryGeonames *cg = (CountryGeonames *)obj;
-        [setSelf addObject:cg.name];
-    }];
+    NSMutableSet *selfSet = [NSMutableSet setWithCapacity:[self count]];
+    for(CountryGeonames *obj in self){
+        [selfSet addObject:obj.name];
+    }
     
-    NSSet *setSnapshot = [NSSet setWithSet:setSelf];
+    NSSet *setSnapshot = [NSSet setWithSet:selfSet];
     
-    //compare sets to determine any possible differences
-    [setSelf minusSet:setSource];
-    if([setSelf count] == 0)
-    {
+    //compare sets to determine possible differences
+    [selfSet minusSet:sourceSet];
+    if([selfSet count] == 0) {
         return self;
     }
     
-    if ([setSelf count] > 0)
-    {
+    if ([selfSet count] > 0) {
+        
         [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             CountryGeonames *cg = (CountryGeonames *)obj;
-            if ([setSelf containsObject:cg.name])
-            {
+            if ([selfSet containsObject:cg.name]) {
                 [snapshot removeObject:cg];
             }
         }];
@@ -73,13 +71,12 @@
         return [NSArray arrayWithArray:snapshot];
     }
     
-    [setSource minusSet:setSnapshot];
-    if ([setSource count] > 0) {
+    [sourceSet minusSet:setSnapshot];
+    if ([sourceSet count] > 0) {
         
         [source enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             CountryGeonames *cg = (CountryGeonames *)obj;
-            if ([setSource containsObject:cg.name])
-            {
+            if ([sourceSet containsObject:cg.name]) {
                 [snapshot addObject:cg];
             }
         }];
@@ -109,8 +106,8 @@
 @property (nonatomic, strong) CountryGeonames *selectedCountry;
 @property (nonatomic, strong) ManagedObjectStore *managedObjectStore;
 
-@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, weak) IBOutlet UISearchBar *searchBar;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL isSearchBarVisible;
 @property (nonatomic, weak) RKGeonamesDataController *dataController;
 
@@ -120,12 +117,6 @@
 @end
 
 @implementation RKGeonamesViewController
-
-//@synthesize items;
-//@synthesize countries;
-//@synthesize filteredCountries;
-//@synthesize isSearchBarVisible;
-//@synthesize selectedCountry;
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
@@ -181,114 +172,6 @@
 }
 
 // |+|=======================================================================|+|
-// |+|                                                                       |+|
-// |+|    FUNCTION NAME: saveToCD                                            |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void)saveToDisk:(NSArray *)source
-{
-    [[ManagedObjectStore sharedInstance] saveData:source completion:^(id obj, NSManagedObjectContext *context) {
-        
-        CountryData *country = (CountryData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([CountryData class])];
-        
-        CountryGeonames *rkc = (CountryGeonames *)obj;
-        
-        [country setValue:rkc.name forKey:@"name"];
-        [country setValue:rkc.capitalCity forKey:@"capitalCity"];
-        [country setValue:rkc.countryCode forKey:@"iso2Code"];
-        [country setValue:rkc.north forKey:@"north"];
-        [country setValue:rkc.south forKey:@"south"];
-        [country setValue:rkc.east forKey:@"east"];
-        [country setValue:rkc.west forKey:@"west"];
-        [country setValue:rkc.currency forKey:@"currency"];
-        [country setValue:rkc.areaInSqKm forKey:@"surface"];
-        
-        [context save:nil];
-        
-        NSString *tmp = NSStringFromClass([CountryData class]);
-        
-        NSArray *items = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
-        
-        items = items;
-    }];
-}
-
-// |+|=======================================================================|+|
-// |+|                                                                       |+|`
-// |+|    FUNCTION NAME: loadCoutryDataOfTheWeb                              |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    DESCRIPTION:                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    PARAMETERS:                                                        |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|    RETURN VALUE:                                                      |+|
-// |+|                                                                       |+|
-// |+|                                                                       |+|
-// |+|=======================================================================|+|
-- (void)loadCoutryDataOfTheWeb:(void (^)(NSArray *result))success failure:(void (^)())failure {
-    
-    RKObjectRequestOperation *operation = [RKGeonamesUtils setupObjectRequestOperation:@selector(geonamesCountryMapping)
-                                                                               withURL:COUNTRY_INFO_URL
-                                                                           pathPattern:nil
-                                                                            andKeyPath:@"geonames"];
-    
-    //load data from the web
-    __block RKGeonamesViewController *weakPtr = self;
-    
-    static NSPredicate *predicate;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        //sort out countries without a valid capital city name
-        predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-            return [[evaluatedObject capitalCity] length] > 0;
-        }];
-    });
-    
-    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-        
-        NSArray *rkItems = [mappingResult.array filteredArrayUsingPredicate:predicate];
-        
-        rkItems = [rkItems sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            NSString *countryName1 = [(CountryGeonames *)obj1 name];
-            NSString *countryName2 = [(CountryGeonames *)obj2 name];
-            
-            return [countryName1 compare:countryName2];
-        }];
-        
-        success(rkItems);
-        
-        [weakPtr.activityIndicator stopAnimating];
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        
-        failure();
-    }];
-    
-    [operation start];
-    
-    [self.activityIndicator startAnimating];
-    [self.view addSubview:self.activityIndicator];
-}
-
-// |+|=======================================================================|+|
 // |+|                                                                       |+|`
 // |+|    FUNCTION NAME: getGeonamesCountries                                |+|
 // |+|                                                                       |+|
@@ -305,13 +188,9 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfoJSON?username=sbpuser";
 - (void) getGeonamesCountries:(id)sender
 {
     void (^setupBlock)(void) = ^{
-        //array to hold the countries when using the search bar control
-//        self.filteredCountries = [NSMutableArray arrayWithCapacity:[self.items count]];
-//        _flagImages = [NSMutableArray arrayWithCapacity:[self.items count]];
         
         NSLog(@"Before loading the flags");
         
@@ -320,16 +199,17 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
                                                   target:self
                                                   action:@selector(gotoSearch:)];
         
-//        [self loadFlagImages];
         _flagImages = [self.dataController loadFlags];
     };
+    
+    [self.activityIndicator startAnimating];
+    [self.view addSubview:self.activityIndicator];
     
     NSArray *locallyStoredItems = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
     
     //load data from the disk
-    if([locallyStoredItems count] > 0)
-    {
-        //[self loadFromStorage:locallyStoredItems];
+    if([locallyStoredItems count] > 0) {
+        
         self.items = [self.dataController loadFromStorage:locallyStoredItems];
         
         setupBlock();
@@ -342,21 +222,17 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
         __block RKGeonamesViewController *weakPtr = self;
         
         //update the local storage with data from the web
-        [self loadCoutryDataOfTheWeb:^(NSArray *result) {
+        [self.dataController loadRemoteData:^(NSArray *result) {
             
             NSArray *compareResult = [weakPtr.items compare:result];
             if(compareResult == weakPtr.items) {
                 return;
             }
             
-            [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
-            [weakPtr saveToDisk:compareResult];
-            weakPtr.items = compareResult;
-            
             _flagImages = [self.dataController loadFlags];
             
             [weakPtr.activityIndicator stopAnimating];
-        } failure:^{
+        } failure:^(NSError *error){
             
             [weakPtr.activityIndicator stopAnimating];
         }];
@@ -367,14 +243,16 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
     //load data from the web
     __block RKGeonamesViewController *weakPtr = self;
     
-    [self loadCoutryDataOfTheWeb:^(NSArray *result) {
+    [self.dataController loadRemoteData:^(NSArray *result) {
         
         weakPtr.items = result;
         
         [self.dataController loadFromStorage:result];
         
         setupBlock();
-    } failure:^{
+        
+        [weakPtr.activityIndicator stopAnimating];
+    } failure:^(NSError *error){
         
         [weakPtr.activityIndicator stopAnimating];
     }];
@@ -397,12 +275,13 @@ static NSString * const COUNTRY_INFO_URL = @"http://api.geonames.org/countryInfo
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static NSString *const SPLASHSCREEN_VIEWCONTROLLER = @"SplashScreenViewController";
 - (void)viewWillAppear:(BOOL)animated
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        RKGSplashScreenViewController *splashScreenViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SplashScreenViewController"];
-        
+        RKGSplashScreenViewController *splashScreenViewController = [self.storyboard instantiateViewControllerWithIdentifier:SPLASHSCREEN_VIEWCONTROLLER];
+
         splashScreenViewController.modalPresentationStyle = UIModalPresentationFormSheet;
         splashScreenViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         
@@ -442,9 +321,7 @@ static const NSUInteger CELL_HEIGHT = 90;
         
         [self.searchDisplayController setActive:NO animated:YES];
     } else {
-        NSIndexPath *path = [self.tableView indexPathForSelectedRow];
-        
-        self.selectedCountry = [self.items objectAtIndex:path.row];
+        self.selectedCountry = [self.items objectAtIndex:indexPath.row];
     }
     
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CountryDetails"];
@@ -560,6 +437,35 @@ static const NSUInteger CELL_HEIGHT = 90;
 //17 % 5 -> 2
 //18 % 5 -> 1
 //19 % 5 -> 0
+
+- (NSIndexPath *)indexPathForCountry:(NSString *)countryCode {
+    if(nil == countryCode || [countryCode length] < 1) {
+        return [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    
+    if(nil == self.items || [self.items count] < 1) {
+        return [NSIndexPath indexPathForRow:0 inSection:0];
+    }
+    
+    __block NSUInteger countryIndex = 0;
+    [self.items enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        
+        NSString *localCountryCode = [(CountryGeonames *)obj countryCode];
+        if(YES == [countryCode isEqualToString:[localCountryCode lowercaseString]]) {
+            countryIndex = idx;
+            
+            *stop = YES;
+        }
+    }];
+    
+    return [NSIndexPath indexPathForRow:countryIndex inSection:0];
+}
+
+- (void)selectCountry:(NSString *)countryCode {
+    
+    NSIndexPath *indexPath = [self indexPathForCountry:countryCode];
+    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+}
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|

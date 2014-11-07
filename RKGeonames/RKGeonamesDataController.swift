@@ -11,14 +11,14 @@ import UIKit
 
 class RKGeonamesDataController : NSObject, UITableViewDataSource {
     
-    private var countries: NSMutableArray?
+    private var countries: NSArray?
     private var flags: NSMutableDictionary
     var tableView: UITableView?
     var searchDisplayController: UISearchDisplayController!
     var filteredCountries: NSArray!
     
     override init()  {
-        countries = NSMutableArray()
+        countries = NSArray()
         flags = NSMutableDictionary()
         filteredCountries = NSArray()
     }
@@ -46,7 +46,7 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
         }
         
         
-        var country: CountryGeonames = countries?.objectAtIndex(indexPath.row) as CountryGeonames
+        var country: CountryGeonames = self.countries?.objectAtIndex(indexPath.row) as CountryGeonames
         
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;        
@@ -79,7 +79,8 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     func filterContentForSearchText(searchText: String) {
     
         let resultPredicate = NSPredicate(format: "name contains[c] %@", searchText)
-        filteredCountries = countries!.filteredArrayUsingPredicate(resultPredicate) as NSArray!
+        
+        filteredCountries = self.countries!.filteredArrayUsingPredicate(resultPredicate) as NSArray!
     }
     
     
@@ -97,41 +98,27 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     
     func loadFromStorage(items: NSArray?) -> NSArray! {
         
-        if items == nil {
+        if items?.count < 1 {
             return nil
         }
         
-        if items!.count < 1 {
-            return nil
-        }
-        
-        countries = NSMutableArray(capacity: items!.count)
+        var sink = NSMutableArray(capacity: items!.count)
         
         for item in items! {
-            let countryGeonames = CountryGeonames()
-            
-            countryGeonames.name = item.name;
-            countryGeonames.currency = item.currency;
-            countryGeonames.capitalCity = item.capitalCity;
-            countryGeonames.areaInSqKm = item.surface;
-            countryGeonames.north = item.north;
-            countryGeonames.south = item.south;
-            countryGeonames.east = item.east;
-            countryGeonames.west = item.west;
-            countryGeonames.countryCode = item.countryCode;
-            
-            countries?.addObject(countryGeonames)
+            sink.addObject(item)
         }
         
+        self.countries = sink.copy() as? NSArray
         flags = NSMutableDictionary(capacity: countries!.count)
         
-        return countries?.copy() as NSArray
+        return self.countries!
     }
     
     func getName(classType:AnyClass) -> String {
         
         let classString = NSStringFromClass(classType.self)
-        let range = classString.rangeOfString(".", options: NSStringCompareOptions.CaseInsensitiveSearch, range: Range<String.Index>(start:classString.startIndex, end: classString.endIndex), locale: nil)
+        let range = classString.rangeOfString(".", options: NSStringCompareOptions.CaseInsensitiveSearch,
+                                                     range: Range<String.Index>(start:classString.startIndex, end: classString.endIndex), locale: nil)
         
         if range == nil {
             return classString
@@ -143,9 +130,7 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     func loadFlags() -> NSDictionary {
         
         var items: NSArray = ManagedObjectStore.sharedInstance().allItems(getName(CountryData)) as NSArray
-        
         var index = 0
-        let maxIndex = 10
         
         for country in countries! {
             
@@ -166,6 +151,38 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
             task.resume()
         }
         
-        return flags.copy() as NSDictionary
+        return self.flags.copy() as NSDictionary
+    }    
+    
+    func loadRemoteData(success: ((results: NSArray) -> Void),
+                        failure: ((error:NSError) -> Void)) -> Void {
+        
+        var operation = RKGeonamesUtils.setupObjectRequestOperation(NSSelectorFromString("geonamesCountryMapping"),
+                                                                    withURL: "http://api.geonames.org/countryInfoJSON?username=sbpuser",
+                                                                    pathPattern: nil,
+                                                                    andKeyPath: "geonames");
+                            
+        let predicate = NSPredicate(format: "SELF.capitalCity != ''")
+                            
+        operation.setCompletionBlockWithSuccess({ (operation: RKObjectRequestOperation!, mappingResult: RKMappingResult!) -> Void in
+
+                                                    var rkItems = mappingResult.array() as NSArray
+                                                    rkItems = rkItems.filteredArrayUsingPredicate(predicate)
+            
+                                                    rkItems = rkItems.sortedArrayUsingComparator({ (obj1: AnyObject!, obj2: AnyObject!) -> NSComparisonResult in
+                                                        var cgo1: CountryGeonames = obj1 as CountryGeonames
+                                                        var cgo2: CountryGeonames = obj2 as CountryGeonames
+                                                        return cgo1.name.compare(cgo2.name)
+                                                    })
+            
+                                                    success(results: rkItems);
+            
+                                                }, failure: { (operation: RKObjectRequestOperation!, error: NSError!) -> Void in
+                                                    failure(error: error);
+                                                }
+        )
+                            
+        operation.start();
     }
+    
 }

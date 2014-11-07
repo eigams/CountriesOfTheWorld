@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "RKGDetailsViewController.h"
 
-#import "EconomicalDataClient.h"
+#import "RKGeonames-Swift.h"
 
-@interface RKGEconomicsViewController : RKGDetailsViewController<EconomicalDataClientDelegate>
+@interface RKGEconomicsViewController : RKGDetailsViewController<RKGEconomicalDataClientDelegate>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *yearPicker;
 

@@ -11,5 +11,6 @@
 @interface RKGeonamesViewController : UITableViewController<UISearchBarDelegate, UISearchDisplayDelegate>
 
 - (void)updateView;
+- (void)selectCountry:(NSString *)countryCode;
 
 @end

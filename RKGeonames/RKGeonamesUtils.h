@@ -16,11 +16,11 @@
                                                 andKeyPath:(NSString *)keyPath;
 
 + (void) fetchWorldBankIndicator:(NSString *)indicator
-                  forCountryCode:(NSString *)countryCode
-                         forYear:(NSString *)year
-                        withType:(int)type
-                         andText:(NSString *)text
-                     withCompletion:(void (^)(NSString *Sink))handler
+                     countryCode:(NSString *)countryCode
+                            year:(NSString *)year
+                            type:(int)type
+                            text:(NSString *)text
+                         success:(void (^)(NSString *Sink))handler
                          failure:(void (^)(void))failure;
 
 + (BOOL)savePictureToDisk:(NSString *)name data:(NSData *)pictureData;

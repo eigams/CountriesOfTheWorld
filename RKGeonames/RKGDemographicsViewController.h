@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "RKGDetailsViewController.h"
 
-#import "DemographicDataClient.h"
+//#import "DemographicDataClient.h"
+#import "RKGeonames-Swift.h"
 
-@interface RKGDemographicsViewController : RKGDetailsViewController<DemographicDataClientDelegate>
+@interface RKGDemographicsViewController : RKGDetailsViewController<RKGDemographicDataClientDelegate>
 
 @property (weak, nonatomic) IBOutlet UIPickerView *yearPicker;
 

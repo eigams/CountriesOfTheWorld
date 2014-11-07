@@ -11,8 +11,8 @@
 #import "MappingProvider.h"
 #import "RKGeonamesUtils.h"
 #import "CountryData.h"
-#import "Timezone.h"
-#import "City.h"
+//#import "Timezone.h"
+//#import "City.h"
 
 #import "ManagedObjectStore.h"
 #import "RKGeonames-Swift.h"
@@ -89,17 +89,20 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
                                                                                pathPattern:nil
                                                                                 andKeyPath:@"geonames"];
 
+        static NSPredicate *predicate;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            predicate = [NSPredicate predicateWithFormat:@"(%@ contains name) AND (countrycode == %@)", self.country.capitalCity, self.country.countryCode];
+        });
+        
         [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
             NSArray *citiesArray = mappingResult.array;
             
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%@ contains name) AND (countrycode == %@)", self.country.capitalCity, self.country.countryCode];
-            
             NSArray *filteredItems = [citiesArray filteredArrayUsingPredicate:predicate];
-            if ((nil != filteredItems) && [filteredItems count])
-            {
-                City *city = [filteredItems objectAtIndex:0];
-                if(nil != city)
-                {
+            if ((nil != filteredItems) && [filteredItems count]) {
+                
+                RKGCity *city = [filteredItems firstObject];
+                if(nil != city) {
                     [self getTimezoneData:@[[NSNumber numberWithFloat:[city.lat floatValue]], [NSNumber numberWithFloat:[city.lng floatValue]]]];
                 }
             }
