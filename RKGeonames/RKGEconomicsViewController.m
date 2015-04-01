@@ -371,8 +371,8 @@ static const int START_YEAR = 1970;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)setupPicker
-{
+- (void)setupPicker {
+    
     self.yearPicker.delegate = self;
     self.yearPicker.dataSource = self;
     
@@ -400,6 +400,7 @@ static const int START_YEAR = 1970;
     
     [self.yearPicker reloadAllComponents];
     [self.yearPicker selectRow:2 inComponent:0 animated:YES];
+    self.yearPicker.showsSelectionIndicator = NO;
     
     _selectedYear = [_pickerData objectAtIndex:[self.yearPicker selectedRowInComponent:0]];
 }
@@ -421,8 +422,8 @@ static const int START_YEAR = 1970;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     

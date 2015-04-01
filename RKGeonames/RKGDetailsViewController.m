@@ -12,10 +12,12 @@
 #import "RKGeonamesConstants.h"
 #import "RKGeonames-Swift.h"
 
-@interface RKGDetailsViewController ()
+#import "RKGWebView.h"
 
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@interface RKGDetailsViewController ()<RKGWebViewDelegate>
+
 @property (nonatomic, strong) UIImage *bgImage;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -40,8 +42,7 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) setDetails:(CountryGeonames *)Country
-{
+- (void) setDetails:(CountryGeonames *)Country {
     self.country = Country;
 }
 
@@ -66,7 +67,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        _zoomedIn = NO;
     }
     return self;
 }
@@ -88,39 +89,71 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size=320x150&&sensor=false&path=weight:3|fillcolor:|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f";
+static NSString *MAP_VIEW_URL = @"http://maps.google.com/maps/api/staticmap?size=%ux%u&&sensor=false&path=weight:3|fillcolor:|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f|%.02f,%.02f&scale=4";
 static const NSUInteger INDICATOR_WIDTH = 30;
 static const NSUInteger INDICATOR_HEGHT = 30;
-- (void) setupMapView
-{
-    float lah = [self.country.north floatValue] + .5,
-          lal = [self.country.south floatValue] - .5,
-          loh = [self.country.east floatValue] + .5,
-          lol = [self.country.west floatValue] - .5;
-    
-    NSString *urlString = [NSString stringWithFormat:MAP_VIEW_URL, lah, loh, lah, lol, lal, lol, lal, loh, lah, loh];
-    
-    NSLog(@"urlString: %@", urlString);
-    
+- (void) setupMapView {
     self.mapView.delegate = self;
-    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame: CGRectMake(self.mapView.frame.size.width/2 - INDICATOR_WIDTH/2,
-                                                                                        self.mapView.frame.size.height/2 + INDICATOR_HEGHT/2,
-                                                                                        INDICATOR_WIDTH, INDICATOR_HEGHT)];
-    self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    self.mapView.rkgdelegate = self;
+//    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame: CGRectMake(self.mapView.frame.size.width/2 - INDICATOR_WIDTH/2,
+//                                                                                        self.mapView.frame.size.height/2 + INDICATOR_HEGHT/2,
+//                                                                                        INDICATOR_WIDTH, INDICATOR_HEGHT)];
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.activityIndicator setTranslatesAutoresizingMaskIntoConstraints:NO];
     
     [self.mapView addSubview:self.activityIndicator];
+
+    // Center horizontally
+    
+    NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superview]-(<=1)-[label]"
+                                                                     options: NSLayoutFormatAlignAllCenterX
+                                                                     metrics: nil
+                                                                       views: @{@"superview":self.mapView, @"label":self.activityIndicator}];
+    
+    [self.mapView addConstraints:constraints];
+    
+    // Center vertically
+    constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superview]-(<=1)-[label]"
+                                                                   options: NSLayoutFormatAlignAllCenterY
+                                                                   metrics: nil
+                                                                     views: @{@"superview":self.mapView, @"label":self.activityIndicator}];
+    
+    [self.mapView addConstraints:constraints];
     
     [self.activityIndicator startAnimating];
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.mapView loadRequest:urlRequest];
-            self.mapView.alpha = 1;
-//        });
-//    });
+    self.mapView.scalesPageToFit = YES;
+    [self.mapView loadRequest:[self mapNoZoom]];
+    self.mapView.alpha = 1;
+    
 }
+
+- (NSURLRequest *)mapURLRequest:(NSUInteger)width height:(NSUInteger)height {
+    
+    float lah = [self.country.north floatValue] + .5,
+    lal = [self.country.south floatValue] - .5,
+    loh = [self.country.east floatValue] + .5,
+    lol = [self.country.west floatValue] - .5;
+    
+    NSString *urlString = [NSString stringWithFormat:MAP_VIEW_URL, width, height, lah, loh, lah, lol, lal, lol, lal, loh, lah, loh];
+    
+    return [NSURLRequest requestWithURL:[NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+}
+
+- (NSURLRequest *)mapZoomIn {
+    static const NSUInteger ZOOMIN_WIDTH = 570;
+    static const NSUInteger ZOOMIN_HEIGHT = 570;
+    
+    return [self mapURLRequest:ZOOMIN_WIDTH height:ZOOMIN_HEIGHT];
+}
+
+- (NSURLRequest *)mapNoZoom {
+    static const NSUInteger NOZOOM_WIDTH = 5700;
+    static const NSUInteger NOZOOM_HEIGHT = 5700;
+    
+    return [self mapURLRequest:NOZOOM_WIDTH height:NOZOOM_HEIGHT];
+}
+
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
@@ -143,8 +176,7 @@ static NSString *COUNTRY_FLAG_URL = @"http://www.geonames.org/flags/x/%@.gif";
 static const NSUInteger FLAG_Y_POS = 211;
 static const NSUInteger FLAG_WIDTH = 320;
 static const NSUInteger FLAG_HEIGHT = 211;
-- (void)setBackgroundImage:(UIImage *)image
-{
+- (void)setBackgroundImage:(UIImage *)image {
     self.bgImage = image;
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:self.bgImage];
@@ -154,6 +186,17 @@ static const NSUInteger FLAG_HEIGHT = 211;
     imageView.contentMode = UIViewContentModeScaleToFill;
 
     [self.view addSubview:imageView];
+}
+
++ (UIImage*)imageWithImage:(UIImage*)image
+              scaledToSize:(CGSize)newSize {
+    
+    UIGraphicsBeginImageContext( newSize );
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
 }
 
 // |+|=======================================================================|+|
@@ -173,17 +216,23 @@ static const NSUInteger FLAG_HEIGHT = 211;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)addHomeButton:(id)target selector:(SEL)action;
-{
-    // add the "Back" button to the navigation bar
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Home"
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:target
-                                                                  action:action];
-    self.navigationItem.rightBarButtonItem = barButton;
+- (UIBarButtonItem *)addHomeButton:(id)target selector:(SEL)action {
+    
+    UIImage *image = [[UIImage imageNamed:@"home_icon.png"] imageWithRenderingMode:UIImageRenderingModeAutomatic];
+    
+    CGSize newSize;
+    newSize.width = 25;
+    newSize.height = 25;
+    
+    // add the "Home" button to the navigation bar
+    UIBarButtonItem *homeBarButton = [[UIBarButtonItem alloc] initWithImage:[[self class] imageWithImage:image scaledToSize:newSize]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:target
+                                                                 action:action];
+    self.navigationItem.rightBarButtonItem = homeBarButton;
+    
+    return homeBarButton;
 }
-
-//message number 3
 
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
@@ -203,8 +252,8 @@ static const NSUInteger FLAG_HEIGHT = 211;
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
 static const int HOME_VIEW_INDEX = 3;
-- (void) navigateHome;
-{
+- (void) navigateHome {
+    
     NSInteger noOfViewControllers = [self.navigationController.viewControllers count];
     UIViewController *vc = [self.navigationController.viewControllers objectAtIndex:(noOfViewControllers - HOME_VIEW_INDEX)];
     [self.navigationController popToViewController:vc animated:YES];
@@ -236,19 +285,19 @@ static const int HOME_VIEW_INDEX = 3;
 // |+|=======================================================================|+|
 - (void)addBarButtons:(SEL)refreshSelector
 {
-//    [self addHomeButton];
+    UIBarButtonItem *homeBarButton = [self addHomeButton];
     // add the "Back" button to the navigation bar
-    UIBarButtonItem *homeBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Home"
-                                                                  style:UIBarButtonItemStyleBordered
-                                                                 target:self
-                                                                 action:@selector(navigateHome)];
+//    UIBarButtonItem *homeBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Home"
+//                                                                  style:UIBarButtonItemStyleBordered
+//                                                                 target:self
+//                                                                 action:@selector(navigateHome)];
     
     // add the "Back" button to the navigation bar
-    UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                                                                target:self
-                                                                                action:refreshSelector];
+//    UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+//                                                                                target:self
+//                                                                                action:refreshSelector];
     
-    self.navigationItem.rightBarButtonItems = @[homeBarButton, refreshBarButton];
+    self.navigationItem.rightBarButtonItems = @[homeBarButton];
 }
 
 // |+|=======================================================================|+|
@@ -268,9 +317,8 @@ static const int HOME_VIEW_INDEX = 3;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)addHomeButton;
-{
-    [self addHomeButton:self selector:@selector(navigateHome)];
+- (UIBarButtonItem *)addHomeButton {
+    return [self addHomeButton:self selector:@selector(navigateHome)];
 }
 
 - (void)setupTextFieldView
@@ -302,6 +350,21 @@ static NSString *YEAR_TEXT = @"";
     [super viewDidLoad];
     
     [self setupMapView];
+    
+//    NSDictionary *variables = NSDictionaryOfVariableBindings(self.activityIndicator, self.mapView);
+//    NSArray *constraints =
+//    [NSLayoutConstraint constraintsWithVisualFormat:@"V:[mapView]-(<=1)-[activityIndicator]"
+//                                            options: NSLayoutFormatAlignAllCenterX
+//                                            metrics:nil
+//                                              views:variables];
+//    [self.view addConstraints:constraints];
+//    
+//    constraints =
+//    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[mapView]-(<=1)-[activityIndicator]"
+//                                            options: NSLayoutFormatAlignAllCenterY
+//                                            metrics:nil
+//                                              views:variables];
+//    [self.view addConstraints:constraints];
     
     self.title = self.country.name;
 
@@ -397,22 +460,20 @@ static NSString *YEAR_TEXT = @"";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
+static NSString *const CELLNAME = @"cell";
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CELLNAME];
     
-    if (!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CELLNAME];
     }
     
     cell.textLabel.text = currentData[@"titles"][indexPath.row];
     cell.detailTextLabel.text = currentData[@"values"][indexPath.row];
-    if(YES == [currentData[@"values"][indexPath.row] isEqualToString:LOADING_STRING])
-    {
+    if(YES == [currentData[@"values"][indexPath.row] isEqualToString:LOADING_STRING]) {
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
-        if(nil != spinner)
-        {
+        if(nil != spinner) {
             return cell;
         }
         
@@ -423,11 +484,9 @@ static NSString *YEAR_TEXT = @"";
         
         [spinner startAnimating];
     }
-    else
-    {
-        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
+    else {
         
-        NSLog(@"cell.detailTextLabel.text: %@", cell.detailTextLabel.text);
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
         
         [spinner stopAnimating];
         cell.accessoryView = nil;
@@ -463,9 +522,43 @@ static NSString *YEAR_TEXT = @"";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityIndicator stopAnimating];
+}
+
+- (void)zoomInWithAffine {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.mapView.transform = CGAffineTransformScale(self.mapView.transform, 2, 3);
+    }];
+}
+
+- (void)zoomOutWithAffine {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.mapView.transform = CGAffineTransformScale(self.mapView.transform, .5, .33);
+    }];
+}
+
+- (void)setupControlsWithZoom:(BOOL)zoomIn {
+    
+}
+
+static BOOL _zoomedIn = NO;
+- (void)didDoubleTapWebView {
+  
+    if(_zoomedIn) {
+        [self zoomOutWithAffine];
+    } else {
+        [self zoomInWithAffine];
+    }
+  
+//    [self.mapView loadRequest:[self mapNoZoom]];
+    [self.mapView loadRequest:_zoomedIn ? [self mapNoZoom] : [self mapZoomIn]];
+    
+    [self setupControlsWithZoom:_zoomedIn];
+    
+//    self.
+    _zoomedIn = !_zoomedIn;
+    self.mapView.alpha = 1;
 }
 
 @end

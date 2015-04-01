@@ -279,9 +279,26 @@ typedef void(^PerformBlock_t)(void);
     return [documentDirectory stringByAppendingPathComponent:@"store.data"];
 }
 
+- (NSManagedObject *)managedObjectOfType:(NSString *)entity inContext:(NSManagedObjectContext *)managedObjectContext {
+    
+    @try {
+        
+        NSEntityDescription *description = [NSEntityDescription entityForName:entity inManagedObjectContext:managedObjectContext];
+        
+        Class class = NSClassFromString(entity);
+        
+        return [[class alloc] initWithEntity:description insertIntoManagedObjectContext:managedObjectContext];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Exception caught: %@", exception);
+        
+        return nil;
+    }
+}
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
-// |+|    FUNCTION NAME: managedObject                                       |+|
+// |+|    FUNCTION NAME: managedObjectOfType                                 |+|
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|    DESCRIPTION:                                                       |+|
@@ -295,20 +312,15 @@ typedef void(^PerformBlock_t)(void);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (NSManagedObject *)managedObjectOfType:(NSString *)entity;
-{
-    @try
-    {
+- (NSManagedObject *)managedObjectOfType:(NSString *)entity {
+    
+    @try {
+        
         NSManagedObjectContext *managedObjectContext = [NSThread isMainThread] ? _mainContext : _privateContext;
         
-        NSEntityDescription *description = [NSEntityDescription entityForName:entity inManagedObjectContext:managedObjectContext];
-        
-        Class class = NSClassFromString(entity);
-        
-        return [[class alloc] initWithEntity:description insertIntoManagedObjectContext:managedObjectContext];
+        return [self managedObjectOfType:entity inContext:managedObjectContext];
     }
-    @catch (NSException *exception)
-    {
+    @catch (NSException *exception) {
         NSLog(@"Exception caught: %@", exception);
     }
 }
@@ -338,13 +350,11 @@ typedef void(^PerformBlock_t)(void);
     NSError *error = nil;
     NSArray *allObjects = [_mainContext executeFetchRequest:request error:&error];
     
-    if (error)
-    {
+    if (error) {
         NSLog(@"Error occurred while saving: %@", [error localizedDescription]);
     }
     
-    for(NSManagedObject *object in allObjects)
-    {
+    for(NSManagedObject *object in allObjects) {
         [_mainContext deleteObject:object];
     }
     
@@ -407,18 +417,15 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)saveDataInContext:(void(^)(NSManagedObjectContext *context))saveBlock updateMainContext:(BOOL)update
-{
-    //    __block CountryStore *weakPtr = self;
+- (void)saveDataInContext:(void(^)(NSManagedObjectContext *context))saveBlock updateMainContext:(BOOL)update {
     
     // perform a heavy write block on the child context
     [_privateContext performBlockAndWait:^{
         
         saveBlock(_privateContext);
         
-        if(YES == update)
-        {
-            //[weakPtr saveChanges];
+        if(YES == update) {
+            
             [_mainContext performBlock:^{
                 [_mainContext save:nil];
             }];
@@ -426,6 +433,35 @@ SingletonImplemetion(ManagedObjectStore);
             NSLog(@"Done write test: Saving parent");
         }
     }];
+    
+    return;
+}
+
+- (void)save {
+    
+    if([NSThread isMainThread]) {
+        
+        [_mainContext performBlock:^{
+            
+            [_mainContext save];
+            
+            [self writeToDisk];
+        }];
+        
+    } else {
+        // perform a heavy write block on the child context
+        [_privateContext performBlock:^{
+            
+            [_privateContext save];
+            
+            //[weakPtr saveChanges];
+            [_mainContext performBlock:^{
+                [_mainContext save];
+                
+                [self writeToDisk];
+            }];
+        }];
+    }
     
     return;
 }
@@ -446,44 +482,52 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)saveData:(id)source updateMainContext:(BOOL)update completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock
-{
-    // perform a heavy write block on the child context
-    [_privateContext performBlock:^{
+- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock {
+
+    if([NSThread isMainThread]) {
         
-        if ([source isKindOfClass:[NSArray class]])
-        {
-            for (id obj in source)
-            {
-                saveBlock(obj, _privateContext);
+        [_mainContext performBlock:^{
+            
+            if ([source isKindOfClass:[NSArray class]]) {
+                
+                for (id obj in source) {
+                    saveBlock(obj, _privateContext);
+                }
             }
-        }
-        else
-        {
-            saveBlock(source, _privateContext);
-        }
+            else {
+                saveBlock(source, _privateContext);
+            }
+            
+            [_mainContext save];
+            
+            [self writeToDisk];
+        }];
         
-        if(YES == update)
-        {
+    } else {
+        // perform a heavy write block on the child context
+        [_privateContext performBlock:^{
+            
+            if ([source isKindOfClass:[NSArray class]]) {
+                
+                for (id obj in source) {
+                    saveBlock(obj, _privateContext);
+                }
+            }
+            else {
+                saveBlock(source, _privateContext);
+            }
+            
             //[weakPtr saveChanges];
             [_mainContext performBlock:^{
                 [_mainContext save];
                 
                 [self writeToDisk];
             }];
-        }
-    }];
-    
-    [self writeToDisk];
+        }];
+    }
     
     return;
 }
-
-- (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock {
-    
-    [self saveData:source updateMainContext:YES completion:saveBlock];
-}
-
 
 - (void)handleMigration:(NSManagedObjectModel *)managedObjectModel {
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"store.sqlite"];
@@ -787,8 +831,8 @@ SingletonImplemetion(ManagedObjectStore);
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)writeToDisk
-{
+- (void)writeToDisk {
+    
     NSManagedObjectContext *writeManagedObjectContext = _writeContext;
     NSManagedObjectContext *mainManagedObjectContext = _mainContext;
     
@@ -803,12 +847,15 @@ SingletonImplemetion(ManagedObjectStore);
         [writeManagedObjectContext performBlock:^{
             
             NSError *error;
-            if ([writeManagedObjectContext hasChanges] && ![writeManagedObjectContext save:&error])
-            {
+            if ([writeManagedObjectContext hasChanges] && ![writeManagedObjectContext save:&error]) {
                 NSLog(@"Error saving context: %@", [error userInfo]);
             }
         }];
     }];
+}
+
+- (NSManagedObjectContext *)mainContext {
+    return _mainContext;
 }
 
 // |+|=======================================================================|+|
@@ -839,8 +886,7 @@ SingletonImplemetion(ManagedObjectStore);
     
     NSArray *results = [_mainContext executeFetchRequest:request error:&error];
     
-    if(nil != error)
-    {
+    if(nil != error) {
         NSLog(@"Error loading data from CD: %@", [error localizedDescription]);
     }
     

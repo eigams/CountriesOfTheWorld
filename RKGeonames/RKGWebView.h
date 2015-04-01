@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RKGWebViewDelegate <NSObject>
+
+@optional
+- (void)didDoubleTapWebView;
+
+@end
+
 @interface RKGWebView : UIWebView<UIGestureRecognizerDelegate>
+
+@property (nonatomic, weak) id<RKGWebViewDelegate> rkgdelegate;
 
 @end

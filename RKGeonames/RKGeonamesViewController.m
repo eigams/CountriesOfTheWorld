@@ -89,7 +89,7 @@
 
 @end
 
-@interface RKGeonamesViewController () <UIViewControllerTransitioningDelegate>
+@interface RKGeonamesViewController () <UIViewControllerTransitioningDelegate, NSFetchedResultsControllerDelegate>
 {
     NSUInteger  totalCountries;
     NSUInteger  totalPages;
@@ -110,6 +110,8 @@
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL isSearchBarVisible;
 @property (nonatomic, weak) RKGeonamesDataController *dataController;
+
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 - (IBAction) gotoSearch:(id)sender;
 - (void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
@@ -171,6 +173,68 @@
     self.tableView.bounds = newBounds;
 }
 
+- (void) setupFetchResultController {
+    if(self.fetchedResultsController == nil) {
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([CountryData class])];
+        
+        NSSortDescriptor *sortd = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+        
+        [request setSortDescriptors:[NSArray arrayWithObject:sortd]];
+        
+        self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:nil
+                                                                            managedObjectContext:[[ManagedObjectStore sharedInstance] mainContext]
+                                                                              sectionNameKeyPath:nil
+                                                                                       cacheName:nil];
+    }
+    
+    [self.fetchedResultsController setDelegate:self];
+    
+    NSError *error;
+    [self.fetchedResultsController performFetch:&error];
+    if(error) {
+        NSLog(@"FETCHRESULTSCONTROLLER: Failed to perform fetch !!!");
+        
+        NSLog(@"%@ %@", error, error.localizedDescription);
+    }
+    
+}
+
+- (CountryData *)managedObjectWithData:(CountryGeonames *)data {
+    
+    CountryData *managedObject = (CountryData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([CountryData class])];
+    
+    managedObject.capitalCity = data.capitalCity;
+    managedObject.currency = data.currency;
+    managedObject.east = data.east;
+//    managedObject.flagData = data.f
+    managedObject.iso2Code = data.countryCode;
+    managedObject.name = data.name;
+    managedObject.north = data.north;
+    managedObject.south = data.south;
+    managedObject.surface = data.areaInSqKm;
+//    managedObject.timezone =
+    managedObject.west = data.west;
+
+    return managedObject;
+}
+
+- (NSArray *)dataFromManagedObjects:(NSArray *)managedObjects {
+    
+    if([managedObjects count] < 1) {
+        return nil;
+    }
+    
+    NSMutableArray *sink = [NSMutableArray arrayWithCapacity:[managedObjects count]];
+    for(CountryData *cd in managedObjects) {
+        
+        CountryGeonames *cg = [[CountryGeonames alloc] initWithManagedObject:cd];
+        
+        [sink addObject:cg];
+    }
+    
+    return [sink copy];
+}
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
 // |+|    FUNCTION NAME: getGeonamesCountries                                |+|
@@ -205,12 +269,14 @@
     [self.activityIndicator startAnimating];
     [self.view addSubview:self.activityIndicator];
     
+//    [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
+    
     NSArray *locallyStoredItems = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
     
     //load data from the disk
     if([locallyStoredItems count] > 0) {
         
-        self.items = [self.dataController loadFromStorage:locallyStoredItems];
+        self.items = [self.dataController setCountries:[self dataFromManagedObjects:locallyStoredItems]];
         
         setupBlock();
         
@@ -243,13 +309,23 @@
     //load data from the web
     __block RKGeonamesViewController *weakPtr = self;
     
-    [self.dataController loadRemoteData:^(NSArray *result) {
+    [self.dataController loadRemoteData:^(NSArray *results) {
         
-        weakPtr.items = result;
+        weakPtr.items = results;
         
-        [self.dataController loadFromStorage:result];
+        [self.dataController setCountries:results];
         
         setupBlock();
+        
+        NSMutableArray *sink = [NSMutableArray arrayWithCapacity:results.count];
+        
+        for (CountryGeonames *cg in results) {
+            CountryData *managedObject = [self managedObjectWithData:cg];
+            
+            [sink addObject:managedObject];
+        }
+        
+        [[ManagedObjectStore sharedInstance] save];
         
         [weakPtr.activityIndicator stopAnimating];
     } failure:^(NSError *error){
@@ -553,8 +629,7 @@ static const NSUInteger CELL_HEIGHT = 90;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
+- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     [self.dataController searchDisplayController:controller shouldReloadTableForSearchScope:searchOption];
     
     return YES;
@@ -577,11 +652,20 @@ static const NSUInteger CELL_HEIGHT = 90;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
+- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self.dataController searchDisplayController:controller shouldReloadTableForSearchString: searchString];
     
     return YES;
+}
+
+#pragma mark - NSFetchControllerDelegate methods
+
+- (void) controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView beginUpdates];
+}
+
+- (void) controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    [self.tableView endUpdates];
 }
 
 @end

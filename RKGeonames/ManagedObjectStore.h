@@ -36,8 +36,11 @@ SingletonInterface(ManagedObjectStore);
 
 - (void)saveData:(id)source updateMainContext:(BOOL)update completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock;
 - (void)saveData:(id)source completion:(void(^)(id obj, NSManagedObjectContext *context))saveBlock;
+- (void)save;
 
 - (void)writeToDisk;
+
+- (NSManagedObjectContext *)mainContext;
 
 
 @end

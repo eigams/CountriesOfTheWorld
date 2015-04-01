@@ -18,6 +18,7 @@
     singleFingerDoubleTap.delegate = self;
     
     [self addGestureRecognizer:singleFingerDoubleTap];
+//    self.scalesPageToFit = YES;
 }
 
 - (id)initWithCoder:(NSCoder*)coder
@@ -41,6 +42,7 @@
 
 -(void)handleSingleFingerDoubleTap:(id)sender {
     NSLog(@"Doulble click detected !");
+    [self.rkgdelegate didDoubleTapWebView];    
 }
 
 
@@ -50,6 +52,7 @@
     if (touch.tapCount == 2) {
         //put you zooming action here
         NSLog(@"Doulble click detected !");
+        [self.rkgdelegate didDoubleTapWebView];
     }
 }
 

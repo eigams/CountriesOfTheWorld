@@ -43,6 +43,8 @@
 	</array>
 	<key>UILaunchImageFile</key>
 	<string>world-map</string>
+	<key>UILaunchStoryboardName</key>
+	<string>MainStoryboard</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>

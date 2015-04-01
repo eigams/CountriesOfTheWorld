@@ -20,8 +20,7 @@
 #import "RKGeonamesConstants.h"
 #import "RKGeonames-Swift.h"
 
-@interface RKGAdministrationViewController ()
-{
+@interface RKGAdministrationViewController () {
     NSString *_timezoneString;
 }
 
@@ -118,8 +117,7 @@ static NSString *GET_CITY_URL = @"http://api.geonames.org/citiesJSON?north=%@&so
         
         [operation start];
     }
-    @catch (NSException *exception)
-    {
+    @catch (NSException *exception) {
         NSLog(@"Execption caught: %@", [exception reason]);
         
         currentData = [[AdministrationData data] tr_tableRepresentation];
@@ -157,15 +155,15 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
     static NSString *timeZone = nil;
     
     [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-        if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1))
-        {
+        
+        if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1)) {
             return ;
         }
         
         self.timezone = [mappingResult.array objectAtIndex:0];
 
-        if(YES == [_timezoneString isEqualToString:LOADING_STRING])
-        {
+        if(YES == [_timezoneString isEqualToString:LOADING_STRING]) {
+            
             timeZone = [NSString stringWithFormat:@"GMT%@", [self.timezone.gmtOffset intValue] < 0 ? self.timezone.gmtOffset : [NSString stringWithFormat:@"+%@", self.timezone.gmtOffset]];
             
             [[ManagedObjectStore sharedInstance] updateItem:NSStringFromClass([CountryData class])
@@ -173,8 +171,8 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
                                                       value:timeZone
                                                         key:@"timezone"];
         }
-        else
-        {
+        else {
+            
             timeZone = _timezoneString;
         }
         
@@ -183,7 +181,7 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
                                                                                 currentTime:self.timezone.time
                                                                                 timeZone:timeZone
                                                                                 sunrise:self.timezone.sunrise
-                                                                                sunset:self.timezone.sunset];
+                                                                                 sunset:self.timezone.sunset];
         currentData = [adminData tr_tableRepresentation];
         
         [self.tableView reloadData];
@@ -251,8 +249,8 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)setDefaults
-{
+- (void)setDefaults {
+    
     NSString *surface = [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]] numberStyle:NSNumberFormatterDecimalStyle];
     
     CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
@@ -320,12 +318,9 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

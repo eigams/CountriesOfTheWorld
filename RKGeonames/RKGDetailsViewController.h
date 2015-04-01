@@ -12,14 +12,16 @@
 
 //@protocol DemographicDataClientDelegate;
 
-@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
-{
-    NSDictionary *currentData;    
+@class RKGWebView;
+
+@interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+    
+    NSDictionary *currentData;
 }
 
 @property (nonatomic, strong) CountryGeonames *country;
 
-@property (nonatomic, strong) IBOutlet UIWebView *mapView;
+@property (nonatomic, strong) IBOutlet RKGWebView *mapView;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 - (void) setDetails:(CountryGeonames *)Country;
@@ -27,5 +29,6 @@
 - (void)setupTextFieldView;
 
 - (void)setBackgroundImage:(UIImage *)image;
+- (void)setupControlsWithZoom:(BOOL)zoomIn;
 
 @end

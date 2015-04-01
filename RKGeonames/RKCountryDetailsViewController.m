@@ -10,8 +10,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "RKGAdministrationViewController.h"
 
+#import "RKGeonames-Swift.h"
 
 @interface RKCountryDetailsViewController ()
+
+@property (strong, nonatomic) SideBarMenu* sideBarMenu;
 
 @end
 
@@ -139,6 +142,8 @@ static NSString * const EconomicsSegue = @"EconomicsSegue";
 {
     [super viewDidLoad];
     
+    self.sideBarMenu = [[SideBarMenu alloc] initWithSourceView:self.view menuItems:@[@"ADMINISTRATION", @"DEMOGRAPHICS", @"ECONOMICS"] menuImages:@[@"administration", @"population", @"economics"]];
+    
     [self addBackButton];
 }
 
@@ -163,6 +168,12 @@ static NSString * const EconomicsSegue = @"EconomicsSegue";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupControlsWithZoom:(BOOL)zoomIn {
+    self.buttonAdministration.hidden = !zoomIn;
+    self.buttonDemographics.hidden = !zoomIn;
+    self.buttonEconomics.hidden = !zoomIn;
 }
 
 @end

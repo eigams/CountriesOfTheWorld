@@ -1,4 +1,4 @@
-//
+    //
 //  RKGeonamesDataController.swift
 //  RKGeonames
 //
@@ -36,22 +36,27 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell: RKGeonamesTableViewCell = self.tableView?.dequeueReusableCellWithIdentifier("RKGeonamesTableViewCell") as RKGeonamesTableViewCell
+        let cell: RKGeonamesTableViewCell = self.tableView?.dequeueReusableCellWithIdentifier("RKGeonamesTableViewCell") as! RKGeonamesTableViewCell
 
         if tableView == searchDisplayController.searchResultsTableView {
             
-            var country = filteredCountries.objectAtIndex(indexPath.row) as CountryGeonames
+            let country = filteredCountries.objectAtIndex(indexPath.row) as? CountryGeonames
             
-            return decorateCell(cell, country: country)
+            if let unwrapped = country {
+                return decorateCell(cell, country: unwrapped)
+            } else {
+                return UITableViewCell()
+            }
         }
         
         
-        var country: CountryGeonames = self.countries?.objectAtIndex(indexPath.row) as CountryGeonames
+        var country: CountryGeonames = self.countries?.objectAtIndex(indexPath.row) as! CountryGeonames
         
         cell.countryNameLabel.text = country.name;
         cell.capitalCityLabel.text = country.capitalCity;        
         
         var image: UIImage? = flags[country.countryCode] as? UIImage
+        cell.flagImage.contentMode = UIViewContentMode.ScaleToFill
         cell.flagImage.image = image
         
         return cell
@@ -96,20 +101,14 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     }
     
     
-    func loadFromStorage(items: NSArray?) -> NSArray! {
+    func setCountries(items: NSArray?) -> NSArray! {
         
         if items?.count < 1 {
             return nil
         }
         
-        var sink = NSMutableArray(capacity: items!.count)
-        
-        for item in items! {
-            sink.addObject(item)
-        }
-        
-        self.countries = sink.copy() as? NSArray
-        flags = NSMutableDictionary(capacity: countries!.count)
+        self.countries = (items as NSArray!).copy() as? NSArray
+        self.flags = NSMutableDictionary(capacity: self.countries!.count)
         
         return self.countries!
     }
@@ -132,18 +131,18 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
         var items: NSArray = ManagedObjectStore.sharedInstance().allItems(getName(CountryData)) as NSArray
         var index = 0
         
-        for country in countries! {
+        for country in self.countries! {
             
             println(country)
             let flagURL = "http://www.geonames.org/flags/x/\((country.countryCode as NSString).lowercaseString).gif"
             
             var session = NSURLSession.sharedSession()
-            let url = NSURL.URLWithString(flagURL)
+            let url = NSURL(string:flagURL) as NSURL!
             var task = session.dataTaskWithURL(url, completionHandler: {data, response, error -> Void in
                 
-                self.flags[country.countryCode] = UIImage(data: data)
-                
-                self.tableView?.reloadData()
+                if nil == error {
+                    self.flags[country.countryCode] = UIImage(data: data)
+                }
                 
                 return
             })
@@ -151,7 +150,9 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
             task.resume()
         }
         
-        return self.flags.copy() as NSDictionary
+        self.tableView?.reloadData()
+        
+        return self.flags.copy() as! NSDictionary
     }    
     
     func loadRemoteData(success: ((results: NSArray) -> Void),
@@ -162,18 +163,21 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
                                                                     pathPattern: nil,
                                                                     andKeyPath: "geonames");
                             
-        let predicate = NSPredicate(format: "SELF.capitalCity != ''")
+        let predicate = NSPredicate(format: "SELF.capitalCity != ''") as NSPredicate!
                             
         operation.setCompletionBlockWithSuccess({ (operation: RKObjectRequestOperation!, mappingResult: RKMappingResult!) -> Void in
 
                                                     var rkItems = mappingResult.array() as NSArray
                                                     rkItems = rkItems.filteredArrayUsingPredicate(predicate)
             
-                                                    rkItems = rkItems.sortedArrayUsingComparator({ (obj1: AnyObject!, obj2: AnyObject!) -> NSComparisonResult in
-                                                        var cgo1: CountryGeonames = obj1 as CountryGeonames
-                                                        var cgo2: CountryGeonames = obj2 as CountryGeonames
-                                                        return cgo1.name.compare(cgo2.name)
-                                                    })
+                                                    rkItems = sorted(rkItems) {
+                                                        (obj1, obj2) in
+                                                        
+                                                        let cgo1 = obj1 as! CountryGeonames
+                                                        let cgo2 = obj2 as! CountryGeonames
+                                                        
+                                                        return cgo1.name < cgo2.name
+                                                    }
             
                                                     success(results: rkItems);
             
