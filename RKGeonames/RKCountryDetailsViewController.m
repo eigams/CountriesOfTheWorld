@@ -126,6 +126,11 @@ static NSString* const LOADING = @"loading ...";
     }];
     self.pickerView.hidden = YES;
     
+    CGAffineTransform t0 = CGAffineTransformMakeTranslation (0, 2*self.pickerView.bounds.size.height/3);
+    CGAffineTransform s0 = CGAffineTransformMakeScale       (1.0, 0.66);
+    CGAffineTransform t1 = CGAffineTransformMakeTranslation (0, -2*self.pickerView.bounds.size.height/3);
+    self.pickerView.transform = CGAffineTransformConcat          (t0, CGAffineTransformConcat(s0, t1));
+    
     [self.dataController setCountryData:self.country];
     [self.dataController setAdministrationDataDefaults];
     [self.dataController getAdministrationData:^(NSError *error) {
@@ -241,10 +246,30 @@ static NSString* const LOADING = @"loading ...";
 
 #pragma mark - UIPickerView
 
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    UILabel* tView = (UILabel*)view;
+    if (!tView) {
+        
+        tView = [[UILabel alloc] init];
+        [tView setFont:[UIFont fontWithName:@"Arial" size:24]];
+
+        [tView setTextAlignment:UITextAlignmentCenter];
+        tView.numberOfLines=1;
+        tView.textColor = [UIColor whiteColor];
+    }
+    
+    // Fill the label text here
+    tView.text=[[self.dataController pickerData] objectAtIndex:row];
+    return tView;
+}
+
+
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     NSString *title = [[self.dataController pickerData] objectAtIndex:row];
-    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:title attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    UIFont *font = [UIFont fontWithName:@"Palatino-Roman" size:11.0];
+    NSDictionary *attributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName:[UIColor whiteColor]};
+    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:title attributes:attributes];
     
     return attString;
 }

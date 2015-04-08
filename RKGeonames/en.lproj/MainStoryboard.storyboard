@@ -246,9 +246,9 @@
                                 </connections>
                             </tableView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mKs-3V-Gxo">
-                                <rect key="frame" x="30" y="464" width="540" height="162"/>
+                                <rect key="frame" x="30" y="509" width="540" height="162"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="YuK-zN-CHw"/>
+                                    <constraint firstAttribute="height" constant="80" id="YuK-zN-CHw"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="vH5-d1-esb" id="U6y-DZ-XHz"/>
@@ -259,7 +259,7 @@
                         <color key="backgroundColor" red="0.21960784310000001" green="0.3294117647" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="pGS-Us-R5T" firstAttribute="leading" secondItem="TFU-bM-2jQ" secondAttribute="leading" constant="21" id="84j-eM-1Rs"/>
-                            <constraint firstAttribute="bottom" secondItem="mKs-3V-Gxo" secondAttribute="bottom" constant="-10" id="GDj-6O-NHz"/>
+                            <constraint firstAttribute="bottom" secondItem="mKs-3V-Gxo" secondAttribute="bottom" constant="-30" id="GDj-6O-NHz"/>
                             <constraint firstAttribute="width" secondItem="V0X-kE-LbG" secondAttribute="width" id="H01-5k-14z"/>
                             <constraint firstAttribute="trailingMargin" secondItem="scP-bM-Bpl" secondAttribute="trailing" constant="5" id="Hqm-NV-RFG"/>
                             <constraint firstItem="Kru-t7-Ufc" firstAttribute="top" secondItem="pGS-Us-R5T" secondAttribute="bottom" constant="20" id="Jcf-CQ-UcK"/>
