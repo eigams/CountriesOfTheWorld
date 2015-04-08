@@ -36,8 +36,7 @@
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-+ (RKMapping *) regionMapping
-{
++ (RKMapping *) regionMapping {
     RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[Region class]];
     
     [mapping addAttributeMappingsFromArray:@[@"id", @"value"]];

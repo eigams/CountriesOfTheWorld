@@ -23,76 +23,8 @@
 
 #import "RKGeonames-Swift.h"
 
-//#import "MSCellAccessory.h"
-
-@interface NSArray(CompareHelper)
-
-- (NSArray *)compare:(NSArray *)array;
-
-@end
-
-@implementation NSArray(CompareHelper)
-
-- (NSArray *)compare:(NSArray *)source;
-{
-    if(nil == source || [source count] < 1) {
-        return nil;
-    }
+@interface RKGeonamesViewController () <UIViewControllerTransitioningDelegate> {
     
-    //save a copy to process later
-    NSMutableArray *snapshot = [self mutableCopy];
-    
-    NSMutableSet *sourceSet = [NSMutableSet set];
-    
-    for (CountryGeonames *obj in source) {
-        [sourceSet addObject:obj.name];
-    }
-    
-    NSMutableSet *selfSet = [NSMutableSet setWithCapacity:[self count]];
-    for(CountryGeonames *obj in self){
-        [selfSet addObject:obj.name];
-    }
-    
-    NSSet *setSnapshot = [NSSet setWithSet:selfSet];
-    
-    //compare sets to determine possible differences
-    [selfSet minusSet:sourceSet];
-    if([selfSet count] == 0) {
-        return self;
-    }
-    
-    if ([selfSet count] > 0) {
-        
-        [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            CountryGeonames *cg = (CountryGeonames *)obj;
-            if ([selfSet containsObject:cg.name]) {
-                [snapshot removeObject:cg];
-            }
-        }];
-        
-        return [NSArray arrayWithArray:snapshot];
-    }
-    
-    [sourceSet minusSet:setSnapshot];
-    if ([sourceSet count] > 0) {
-        
-        [source enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            CountryGeonames *cg = (CountryGeonames *)obj;
-            if ([sourceSet containsObject:cg.name]) {
-                [snapshot addObject:cg];
-            }
-        }];
-        
-        return [NSArray arrayWithArray:snapshot];
-    }
-    
-    return nil;
-}
-
-@end
-
-@interface RKGeonamesViewController () <UIViewControllerTransitioningDelegate, NSFetchedResultsControllerDelegate>
-{
     NSUInteger  totalCountries;
     NSUInteger  totalPages;
     NSUInteger  currentPageIndex;
@@ -106,14 +38,12 @@
 @property (nonatomic, strong) NSMutableArray *countries;
 @property (nonatomic, strong) NSMutableArray *filteredCountries;
 @property (nonatomic, strong) CountryGeonames *selectedCountry;
-@property (nonatomic, strong) ManagedObjectStore *managedObjectStore;
 
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, assign) BOOL isSearchBarVisible;
 @property (nonatomic, weak) RKGeonamesDataController *dataController;
 
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 - (IBAction) gotoSearch:(id)sender;
 - (void) filterContentForSearchText:(NSString *)searchText scope:(NSString *)scope;
@@ -175,68 +105,6 @@
     self.tableView.bounds = newBounds;
 }
 
-- (void) setupFetchResultController {
-    if(self.fetchedResultsController == nil) {
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:NSStringFromClass([CountryData class])];
-        
-        NSSortDescriptor *sortd = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-        
-        [request setSortDescriptors:[NSArray arrayWithObject:sortd]];
-        
-        self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:nil
-                                                                            managedObjectContext:[[ManagedObjectStore sharedInstance] mainContext]
-                                                                              sectionNameKeyPath:nil
-                                                                                       cacheName:nil];
-    }
-    
-    [self.fetchedResultsController setDelegate:self];
-    
-    NSError *error;
-    [self.fetchedResultsController performFetch:&error];
-    if(error) {
-        NSLog(@"FETCHRESULTSCONTROLLER: Failed to perform fetch !!!");
-        
-        NSLog(@"%@ %@", error, error.localizedDescription);
-    }
-    
-}
-
-- (CountryData *)managedObjectWithData:(CountryGeonames *)data {
-    
-    CountryData *managedObject = (CountryData *)[[ManagedObjectStore sharedInstance] managedObjectOfType:NSStringFromClass([CountryData class])];
-    
-    managedObject.capitalCity = data.capitalCity;
-    managedObject.currency = data.currency;
-    managedObject.east = data.east;
-//    managedObject.flagData = data.f
-    managedObject.iso2Code = data.countryCode;
-    managedObject.name = data.name;
-    managedObject.north = data.north;
-    managedObject.south = data.south;
-    managedObject.surface = data.areaInSqKm;
-//    managedObject.timezone =
-    managedObject.west = data.west;
-
-    return managedObject;
-}
-
-- (NSArray *)dataFromManagedObjects:(NSArray *)managedObjects {
-    
-    if([managedObjects count] < 1) {
-        return nil;
-    }
-    
-    NSMutableArray *sink = [NSMutableArray arrayWithCapacity:[managedObjects count]];
-    for(CountryData *cd in managedObjects) {
-        
-        CountryGeonames *cg = [[CountryGeonames alloc] initWithManagedObject:cd];
-        
-        [sink addObject:cg];
-    }
-    
-    return [sink copy];
-}
-
 // |+|=======================================================================|+|
 // |+|                                                                       |+|`
 // |+|    FUNCTION NAME: getGeonamesCountries                                |+|
@@ -271,42 +139,6 @@
     [self.activityIndicator startAnimating];
     [self.view addSubview:self.activityIndicator];
     
-//    [[ManagedObjectStore sharedInstance] removeAll:NSStringFromClass([CountryData class])];
-    
-    NSArray *locallyStoredItems = [[ManagedObjectStore sharedInstance] allItems:NSStringFromClass([CountryData class])];
-    
-    //load data from the disk
-    if([locallyStoredItems count] > 0) {
-        
-        self.items = [self.dataController setCountries:[self dataFromManagedObjects:locallyStoredItems]];
-        
-        setupBlock();
-        
-        [self.activityIndicator stopAnimating];
-        
-        //load from the web and if new items available merge them in the main storage
-        //update the gui
-        
-        __block RKGeonamesViewController *weakPtr = self;
-        
-        //update the local storage with data from the web
-        [self.dataController loadRemoteData:^(NSArray *result) {
-            
-            NSArray *compareResult = [weakPtr.items compare:result];
-            if(compareResult == weakPtr.items) {
-                return;
-            }
-            
-            _flagImages = [self.dataController loadFlags];
-            
-            [weakPtr.activityIndicator stopAnimating];
-        } failure:^(NSError *error){
-            
-            [weakPtr.activityIndicator stopAnimating];
-        }];
-        
-        return ;
-    }
     
     //load data from the web
     __block RKGeonamesViewController *weakPtr = self;
@@ -318,16 +150,6 @@
         [self.dataController setCountries:results];
         
         setupBlock();
-        
-        NSMutableArray *sink = [NSMutableArray arrayWithCapacity:results.count];
-        
-        for (CountryGeonames *cg in results) {
-            CountryData *managedObject = [self managedObjectWithData:cg];
-            
-            [sink addObject:managedObject];
-        }
-        
-        [[ManagedObjectStore sharedInstance] save];
         
         [weakPtr.activityIndicator stopAnimating];
     } failure:^(NSError *error){
@@ -428,33 +250,11 @@ static const NSUInteger CELL_HEIGHT = 90;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    // add the "Back" button to the navigation bar
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                                             style:UIBarButtonItemStyleBordered
-                                                             target:nil
-                                                             action:nil];
-    self.navigationItem.backBarButtonItem = backButton;
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                              target:self
-                                              action:@selector(getGeonamesCountries:)];
+- (void)viewDidLoad {
     
     [super viewDidLoad];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont fontWithName:@"Arial-BoldMT" size:14];
-    label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-    label.textAlignment = UITextAlignmentCenter;
-    label.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1];
-    self.navigationItem.titleView = label;
-    label.text = @"COUNTRIES OF THE WORLD";
-    [label sizeToFit];
     
+    [self setNavigatioBarTitle];
     [self setupSearchBar];
     
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -466,13 +266,24 @@ static const NSUInteger CELL_HEIGHT = 90;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor blackColor];
     
-    self.managedObjectStore = [ManagedObjectStore sharedInstance];
-    
     self.dataController = self.tableView.dataSource;
     self.dataController.tableView = self.tableView;
     self.dataController.searchDisplayController = self.searchDisplayController;
 
     [self getGeonamesCountries:nil];
+}
+
+- (void)setNavigatioBarTitle {
+
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont fontWithName:@"Arial-BoldMT" size:14];
+    label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1];
+    self.navigationItem.titleView = label;
+    label.text = @"COUNTRIES OF THE WORLD";
+    [label sizeToFit];
 }
 
 // |+|=======================================================================|+|

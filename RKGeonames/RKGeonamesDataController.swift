@@ -128,12 +128,8 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
     
     func loadFlags() -> NSDictionary {
         
-        var items: NSArray = ManagedObjectStore.sharedInstance().allItems(getName(CountryData)) as NSArray
-        var index = 0
-        
         for country in self.countries! {
             
-            println(country)
             let flagURL = "http://www.geonames.org/flags/x/\((country.countryCode as NSString).lowercaseString).gif"
             
             var session = NSURLSession.sharedSession()
@@ -142,6 +138,8 @@ class RKGeonamesDataController : NSObject, UITableViewDataSource {
                 
                 if nil == error {
                     self.flags[country.countryCode] = UIImage(data: data)
+                    
+                    self.tableView?.reloadData()
                 }
                 
                 return
