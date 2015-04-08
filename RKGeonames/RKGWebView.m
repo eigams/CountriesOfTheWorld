@@ -12,12 +12,10 @@
 
 - (void) initGestureRecognizer {
     
-    UITapGestureRecognizer *singleFingerDoubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleFingerDoubleTap:)];
-    singleFingerDoubleTap.numberOfTouchesRequired = 1;
-    singleFingerDoubleTap.numberOfTapsRequired = 2;
-    singleFingerDoubleTap.delegate = self;
+    return;
     
-    [self addGestureRecognizer:singleFingerDoubleTap];
+    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinch:)];
+    [self addGestureRecognizer:pinchGesture];
 //    self.scalesPageToFit = YES;
 }
 
@@ -40,25 +38,17 @@
     return self;
 }
 
--(void)handleSingleFingerDoubleTap:(id)sender {
-    NSLog(@"Doulble click detected !");
-    [self.rkgdelegate didDoubleTapWebView];    
-}
-
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+-(void)handlePinch:(UIPinchGestureRecognizer *)recognizer {
     
-    UITouch *touch = [[event allTouches] anyObject];
-    if (touch.tapCount == 2) {
-        //put you zooming action here
-        NSLog(@"Doulble click detected !");
-        [self.rkgdelegate didDoubleTapWebView];
+    if([recognizer scale] < 1) {
+        NSLog(@"pinch in");
     }
+    else {
+        NSLog(@"pinch out");
+    }
+    
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
 
 /*
 // Only override drawRect: if you perform custom drawing.

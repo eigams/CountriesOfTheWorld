@@ -15,13 +15,14 @@
                                             pathPattern:(NSString *)pathPattern
                                                 andKeyPath:(NSString *)keyPath;
 
++ (void) getDataWithOperation:(RKObjectRequestOperation *)operation completion:(void (^)(NSArray *, NSError *))completion;
+
 + (void) fetchWorldBankIndicator:(NSString *)indicator
                      countryCode:(NSString *)countryCode
                             year:(NSString *)year
                             type:(int)type
                             text:(NSString *)text
-                         success:(void (^)(NSString *Sink))handler
-                         failure:(void (^)(void))failure;
+                         completion:(void (^)(NSString *sink, NSError *error))completion;
 
 + (BOOL)savePictureToDisk:(NSString *)name data:(NSData *)pictureData;
 + (NSData *)loadPictureFromDisk:(NSString *)pictureName;

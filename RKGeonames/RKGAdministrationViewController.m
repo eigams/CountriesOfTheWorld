@@ -15,7 +15,6 @@
 //#import "City.h"
 
 #import "ManagedObjectStore.h"
-#import "RKGeonames-Swift.h"
 
 #import "RKGeonamesConstants.h"
 #import "RKGeonames-Swift.h"
@@ -251,7 +250,14 @@ static NSString *GET_TIMEZONE_URL = @"http://api.geonames.org/timezoneJSON?lat=%
 // |+|=======================================================================|+|
 - (void)setDefaults {
     
-    NSString *surface = [NSNumberFormatter localizedStringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]] numberStyle:NSNumberFormatterDecimalStyle];
+    static NSNumberFormatter *numberFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    });
+    
+    NSString *surface = [numberFormatter stringFromNumber:[NSNumber numberWithFloat:[self.country.areaInSqKm floatValue]]];
     
     CountryData *countryData = (CountryData *)[[ManagedObjectStore sharedInstance] fetchItem:NSStringFromClass([CountryData class])
                                                                                    predicate:[NSPredicate predicateWithFormat:@"name = %@", self.country.name]];

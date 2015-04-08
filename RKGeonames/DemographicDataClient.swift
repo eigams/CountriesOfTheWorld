@@ -8,12 +8,6 @@
 
 import Foundation
 
-@objc(RKGDemographicDataClientDelegate)
-protocol RKGDemographicDataClientDelegate {
-
-    func updateView(client: RKGDemographicDataClient) -> Bool
-}
-
 class RKGDemographicDataClient: NSObject {
     
     class var TOTAL_POPULATION_INDICATOR_STRING: NSString {
@@ -45,9 +39,7 @@ class RKGDemographicDataClient: NSObject {
         return Static.instance!
     }
     
-    var delegate: RKGDemographicDataClientDelegate?
-    
-    func getDataForCountry(country: NSString) {
-        delegate?.updateView(self)
+    func getDataForCountry(country: NSString, completion: () -> Void) {
+        completion()
     }
 }

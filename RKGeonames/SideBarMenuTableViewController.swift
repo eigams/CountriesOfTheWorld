@@ -45,7 +45,7 @@ class SideBarMenuTableViewController: UITableViewController, SideBarMenuViewCont
         
         cell!.textLabel?.text = tableData[indexPath.row]
         cell!.imageView?.image = UIImage(named: self.tableDataImages[indexPath.row])
-        cell!.imageView?.tintColor = UIColor.whiteColor()
+        cell!.imageView?.tintColor = UIColor.blueColor()
         
         return cell!
     }

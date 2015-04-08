@@ -12,7 +12,7 @@
 //#import "DemographicDataClient.h"
 #import "RKGeonames-Swift.h"
 
-@interface RKGDemographicsViewController : RKGDetailsViewController<RKGDemographicDataClientDelegate>
+@interface RKGDemographicsViewController : RKGDetailsViewController
 
 @property (weak, nonatomic) IBOutlet UIPickerView *yearPicker;
 

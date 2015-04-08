@@ -15,11 +15,10 @@
 @class RKGWebView;
 
 @interface RKGDetailsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate, UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
-    
-    NSDictionary *currentData;
 }
 
 @property (nonatomic, strong) CountryGeonames *country;
+@property (nonatomic, strong) NSDictionary *currentData;
 
 @property (nonatomic, strong) IBOutlet RKGWebView *mapView;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

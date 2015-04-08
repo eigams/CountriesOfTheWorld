@@ -12,7 +12,7 @@ extension EconomyData {
     
     func tr_tableRepresentation () -> NSDictionary {
         
-        return ["titles": ["Currency", "GDP", "GDP per Capita", "GNI per Capita"],
+        return ["titles": ["CURRENCY", "GDP", "GDP per Capita", "GNI per Capita"],
                 "values": [self.currency, self.gdp, self.gdppc, self.gnipc]]
     }
     

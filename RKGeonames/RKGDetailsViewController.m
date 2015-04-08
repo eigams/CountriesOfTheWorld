@@ -438,8 +438,8 @@ static NSString *YEAR_TEXT = @"";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     return [currentData[@"titles"] count];
 }
 
@@ -469,8 +469,14 @@ static NSString *const CELLNAME = @"cell";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CELLNAME];
     }
     
+    cell.backgroundColor = [UIColor clearColor];
     cell.textLabel.text = currentData[@"titles"][indexPath.row];
+    cell.textLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0.5 alpha:1];
+    cell.textLabel.font = [UIFont boldSystemFontOfSize:11];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0 green:0 blue:0.5 alpha:1];
     cell.detailTextLabel.text = currentData[@"values"][indexPath.row];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+    
     if(YES == [currentData[@"values"][indexPath.row] isEqualToString:LOADING_STRING]) {
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)cell.accessoryView;
         if(nil != spinner) {

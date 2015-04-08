@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RKGDetailsViewController.h"
+#import "UINavigationItem+RKGeonames.h"
+#import "UINavigationItem+iOSSpacing.h"
 
-@interface RKCountryDetailsViewController : RKGDetailsViewController
+@class CountryGeonames;
 
-@property (nonatomic, strong) IBOutlet UIButton *buttonAdministration;
-@property (nonatomic, strong) IBOutlet UIButton *buttonDemographics;
-@property (nonatomic, strong) IBOutlet UIButton *buttonEconomics;
+@interface RKCountryDetailsViewController : UIViewController
+
+@property (nonatomic, strong) CountryGeonames *country;
 
 @end

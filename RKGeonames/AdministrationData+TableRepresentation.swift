@@ -12,7 +12,7 @@ extension AdministrationData {
     
     func tr_tableRepresentation() -> NSDictionary {
         
-        return ["titles" : ["Capital", "Surface", "CurrentTime", "TimeZone", "Sunrise", "Sunset"],
+        return ["titles" : ["CAPITAL", "SURFACE", "TIME", "TIMEZONE", "SUNRISE", "SUNSET"],
                 "values" : [self.capitalCity, self.surface, self.currentTime, self.timeZone, self.sunrise, self.sunset]];
     }
 }

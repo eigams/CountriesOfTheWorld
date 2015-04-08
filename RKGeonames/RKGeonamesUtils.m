@@ -138,6 +138,40 @@
     return operation;
 }
 
++ (void) getDataWithOperation:(RKObjectRequestOperation *)operation completion:(void (^)(NSArray *, NSError *))completion {
+    
+    [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+        
+        if((nil == mappingResult) || (nil == mappingResult.array) || ([mappingResult.array count] < 1)) {
+            
+            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: NSLocalizedString(@"No data received !", nil),
+                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The server has reponded with empy data", nil),
+                                        NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Is the Internet connection running ?", nil) };
+            
+            completion(nil, [NSError errorWithDomain:@"RKGeonamesErrors" code:-101 userInfo:userInfo]);
+            
+            return ;
+        }
+
+        if(nil != completion) {
+            completion(mappingResult.array, nil);
+        }
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        
+        if(nil != completion) {
+            
+            if(nil == error) {
+                completion(nil, error);
+            }
+        }
+        
+    }];
+    
+    [operation start];
+    
+}
+
 // |+|=======================================================================|+|
 // |+|                                                                       |+|
 // |+|    FUNCTION NAME: fetchWorldBankIndicator                             |+|
@@ -164,8 +198,7 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
                             year:(NSString *)year
                             type:(int)type
                             text:(NSString *)text
-                         success:(void (^)(NSString *Sink))handler
-                         failure:(void (^)(void))failure {
+                      completion:(void (^)(NSString *sink, NSError *error))completion {
     
     NSString *urlString = [NSString stringWithFormat:WORLD_BANK_INDICATOR_URL, countryCode, indicator, year, year];
     
@@ -193,10 +226,10 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
             NSString *additionalText = [NSString stringWithFormat:@"%@%@",
                                         [NSNumberFormatter localizedStringFromNumber:((type == 1) ? [NSNumber numberWithFloat:[wbi.value floatValue]] : [NSNumber numberWithInt:[wbi.value intValue]]) numberStyle:NSNumberFormatterDecimalStyle], text];
             
-            handler(additionalText);
+            completion(additionalText, nil);
         }
         else {
-            handler(@"N/A");
+            completion(@"N/A", nil);
         }
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -204,7 +237,9 @@ static NSString * const WORLD_BANK_INDICATOR_URL = @"http://api.worldbank.org/co
         NSLog(@"ERROR: %@", error);
         NSLog(@"Response: %@", operation.HTTPRequestOperation.responseString);
         
-        failure();
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: @"Cannot map an entity mapping that contains connection mappings with a data source whose managed object cache is nil." };
+        
+        completion(@"N/A", [NSError errorWithDomain:@"RKGeonamesError" code:-102 userInfo:userInfo]);
     }];
     
     [operation start];

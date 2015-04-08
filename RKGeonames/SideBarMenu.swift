@@ -101,11 +101,7 @@ class SideBarMenu: NSObject, SideBarMenuViewControllerDelegate {
             if let lastIndexPath = self.sideBarViewController.lastSelectedCellIndexPath {
                 self.sideBarViewController.tableView.deselectRowAtIndexPath(self.sideBarViewController.lastSelectedCellIndexPath!, animated: false)
             }
-        }
-        
-        if gestureRecognizer.state == UIGestureRecognizerState.Ended {
-            self.sideBarContainerView.hidden = !self.isOpen
-        }
+        }        
     }
     
     func show(shouldOpen: Bool) {
@@ -136,8 +132,19 @@ class SideBarMenu: NSObject, SideBarMenuViewControllerDelegate {
         self.animator.addBehavior(dynamicItem)
     }
     
+    func hide() {
+        self.sideBarContainerView.hidden = true
+    }
+    
     func didSelectItem(indexPath: NSIndexPath) {
         self.delegate?.didSelectItemAtIndex(indexPath.row)
+        
+        show(false)
+        self.delegate?.menuWillClose?()
+        
+        if let lastIndexPath = self.sideBarViewController.lastSelectedCellIndexPath {
+            self.sideBarViewController.tableView.deselectRowAtIndexPath(self.sideBarViewController.lastSelectedCellIndexPath!, animated: false)
+        }
     }
     
 }

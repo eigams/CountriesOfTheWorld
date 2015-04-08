@@ -14,6 +14,8 @@
 #import "RKGeonamesTableViewCell.h"
 #import "RKGSplashScreenViewController.h"
 #import "RKCountryDetailsViewController.h"
+#import "UINavigationItem+RKGeonames.h"
+
 #import "RKGeonamesUtils.h"
 
 #import "ManagedObjectStore.h"
@@ -402,7 +404,7 @@ static const NSUInteger CELL_HEIGHT = 90;
     
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CountryDetails"];
     [vc performSelector:@selector(setTransitioningDelegate:) withObject:self];
-    [vc performSelector:@selector(setDetails:) withObject:self.selectedCountry];
+    [vc performSelector:@selector(setCountry:) withObject:self.selectedCountry];
     
     [self.navigationController pushViewController:vc animated:YES];
     
@@ -441,6 +443,17 @@ static const NSUInteger CELL_HEIGHT = 90;
                                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                               target:self
                                               action:@selector(getGeonamesCountries:)];
+    
+    [super viewDidLoad];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont fontWithName:@"Arial-BoldMT" size:14];
+    label.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    label.textAlignment = UITextAlignmentCenter;
+    label.textColor = [UIColor colorWithRed:0.22 green:0.33 blue:0.53 alpha:1];
+    self.navigationItem.titleView = label;
+    label.text = @"COUNTRIES OF THE WORLD";
+    [label sizeToFit];
     
     [self setupSearchBar];
     

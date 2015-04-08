@@ -20,8 +20,7 @@
 
 static NSString * YEAR_TEXT = @"";
 
-@interface RKGDemographicsViewController ()
-{
+@interface RKGDemographicsViewController () {
     NSString *totalPopulation;
     NSString *populationGrowth;
     NSString *deathRate;
@@ -85,16 +84,18 @@ static const UniChar perThousand = 0x2031;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void) getData
-{
+- (void) getData {
     //
     //try to load the data from local storage
     //
     
     RKGDemographicDataClient *client = [RKGDemographicDataClient sharedInstance];
-    client.delegate = self;
     
-    [client getDataForCountry:self.country.name];
+    __weak RKGDemographicsViewController *weakSelf = self;
+    
+    [client getDataForCountry:self.country.name completion:^(){
+        [weakSelf updateView];
+    }];
 }
 
 static const int START_YEAR = 1970;
@@ -116,8 +117,8 @@ static const int START_YEAR = 1970;
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (void)setupPicker
-{
+- (void)setupPicker {
+    
     self.yearPicker.delegate = self;
     self.yearPicker.dataSource = self;
     
@@ -137,8 +138,7 @@ static const int START_YEAR = 1970;
     NSNumber * number = [f numberFromString:yearString];
     
     NSMutableArray *sink = [NSMutableArray array];
-    for(int i = [number intValue] - 1; i >= START_YEAR; --i)
-    {
+    for(int i = [number intValue] - 1; i >= START_YEAR; --i) {
         [sink addObject:[NSString stringWithFormat:@"%d",i]];
     }
     
@@ -171,7 +171,7 @@ static const UniChar per_mille = 0x2030;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    [self addBarButtons:@selector(getData)];
+    [self addBarButtons:@selector(updateView)];
     
     totalPopulation  = LOADING_STRING;
     populationGrowth = LOADING_STRING;
@@ -180,7 +180,7 @@ static const UniChar per_mille = 0x2030;
     
     [self setupPicker];
     
-    [self getData];
+    [self updateView];
 }
 
 // |+|=======================================================================|+|
@@ -304,7 +304,7 @@ static const UniChar per_mille = 0x2030;
     
     [self.tableView reloadData];
     
-    [self getData];
+    [self updateView];
 }
 
 #pragma mark - DemographicDataDelegates
@@ -330,8 +330,9 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
 // |+|                                                                       |+|
 // |+|                                                                       |+|
 // |+|=======================================================================|+|
-- (BOOL)updateView:(RKGDemographicDataClient *)client
-{
+- (BOOL)updateView {
+    
+    __weak RKGDemographicsViewController *weakSelf = self;
     void (^LoadDataBlock)() = ^{
         
         DemographicData *demoData = [[DemographicData alloc] initWithTotalPopulation:totalPopulation
@@ -339,7 +340,7 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                                                            birthRate:birthRate
                                                                            deathRate:deathRate];
         
-        currentData = [demoData tr_tableRepresentation];
+        weakSelf.currentData = [demoData tr_tableRepresentation];
         
         [self.tableView reloadData];        
     };
@@ -360,20 +361,20 @@ static NSString *const DEATH_RATE_INDICATOR_STRING = @"SP.DYN.CDRT.IN";
                                             year:_selectedYear
                                             type:TYPE_FLOAT
                                             text:[array objectAtIndex:2]
-                                         success:^(NSString *Data){
+                                         completion:^(NSString *data, NSError *error){
                                       
-                                      NSLog(@"Data: %@", Data);
-                                      
-                                      //KVC
-                                      [self setValue:Data forKey:[array firstObject]];
-                                      
-                                      LoadDataBlock();
-                                  }
-                                         failure:^(){
-                                             [self setValue:@"N/A" forKey:[array firstObject]];
+                                             if(nil != error) {
+                                                 [self setValue:@"N/A" forKey:[array firstObject]];
+                                             }
+                                             else {
+                                                 NSLog(@"Data: %@", data);
+                                                 
+                                                 //KVC
+                                                 [self setValue:data forKey:[array firstObject]];
+                                             }
                                              
                                              LoadDataBlock();
-                                         }];
+                                  }];
         
     }];
     
