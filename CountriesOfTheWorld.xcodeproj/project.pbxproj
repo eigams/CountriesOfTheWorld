@@ -1,0 +1,775 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0C515DE01ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C515DDF1ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.m */; };
+		0C515DE31ADE7C70008D11B5 /* M13ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C515DE21ADE7C70008D11B5 /* M13ProgressView.m */; };
+		0C7B06CC1AFB9FF0008043EA /* NavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7B06CB1AFB9FF0008043EA /* NavigationControllerDelegate.swift */; };
+		0C7B06CE1AFBA083008043EA /* BounceTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7B06CD1AFBA083008043EA /* BounceTransitionAnimator.swift */; };
+		0CBF2BA11AE79FD900BCCD25 /* UIButton+RKGeonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBF2BA01AE79FD900BCCD25 /* UIButton+RKGeonames.swift */; };
+		0CFE39671ADBC714000B641C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39661ADBC714000B641C /* main.m */; };
+		0CFE396A1ADBC714000B641C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39691ADBC714000B641C /* AppDelegate.m */; };
+		0CFE396D1ADBC714000B641C /* EntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE396C1ADBC714000B641C /* EntryViewController.m */; };
+		0CFE39721ADBC714000B641C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39711ADBC714000B641C /* Images.xcassets */; };
+		0CFE39811ADBC715000B641C /* CountriesOfTheWorldTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39801ADBC715000B641C /* CountriesOfTheWorldTests.m */; };
+		0CFE39911ADBC788000B641C /* AboutCountry.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39901ADBC788000B641C /* AboutCountry.plist */; };
+		0CFE39961ADBC79C000B641C /* AdministrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39941ADBC79C000B641C /* AdministrationData.swift */; };
+		0CFE39971ADBC79C000B641C /* AdministrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39941ADBC79C000B641C /* AdministrationData.swift */; };
+		0CFE39981ADBC79C000B641C /* AdministrationData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39951ADBC79C000B641C /* AdministrationData+TableRepresentation.swift */; };
+		0CFE39991ADBC79C000B641C /* AdministrationData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39951ADBC79C000B641C /* AdministrationData+TableRepresentation.swift */; };
+		0CFE399B1ADBC7BE000B641C /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399A1ADBC7BE000B641C /* City.swift */; };
+		0CFE399C1ADBC7BE000B641C /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399A1ADBC7BE000B641C /* City.swift */; };
+		0CFE399F1ADBC7D1000B641C /* DemographicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399D1ADBC7D1000B641C /* DemographicData.swift */; };
+		0CFE39A01ADBC7D1000B641C /* DemographicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399D1ADBC7D1000B641C /* DemographicData.swift */; };
+		0CFE39A11ADBC7D1000B641C /* DemographicData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399E1ADBC7D1000B641C /* DemographicData+TableRepresentation.swift */; };
+		0CFE39A21ADBC7D1000B641C /* DemographicData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE399E1ADBC7D1000B641C /* DemographicData+TableRepresentation.swift */; };
+		0CFE39A51ADBCA2B000B641C /* EconomyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39A31ADBCA2B000B641C /* EconomyData.swift */; };
+		0CFE39A61ADBCA2B000B641C /* EconomyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39A31ADBCA2B000B641C /* EconomyData.swift */; };
+		0CFE39A71ADBCA2B000B641C /* EconomyData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39A41ADBCA2B000B641C /* EconomyData+TableRepresentation.swift */; };
+		0CFE39A81ADBCA2B000B641C /* EconomyData+TableRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39A41ADBCA2B000B641C /* EconomyData+TableRepresentation.swift */; };
+		0CFE39AA1ADBCA43000B641C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39A91ADBCA43000B641C /* Launch Screen.xib */; };
+		0CFE39AB1ADBCA43000B641C /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39A91ADBCA43000B641C /* Launch Screen.xib */; };
+		0CFE39AE1ADBCA55000B641C /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39AD1ADBCA55000B641C /* MappingProvider.m */; };
+		0CFE39AF1ADBCA55000B641C /* MappingProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39AD1ADBCA55000B641C /* MappingProvider.m */; };
+		0CFE39B31ADBCA6A000B641C /* NSDate+RKGeonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B11ADBCA6A000B641C /* NSDate+RKGeonames.swift */; };
+		0CFE39B41ADBCA6A000B641C /* NSDate+RKGeonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B11ADBCA6A000B641C /* NSDate+RKGeonames.swift */; };
+		0CFE39B51ADBCA6A000B641C /* NSNumber+RKGeonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B21ADBCA6A000B641C /* NSNumber+RKGeonames.swift */; };
+		0CFE39B61ADBCA6A000B641C /* NSNumber+RKGeonames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B21ADBCA6A000B641C /* NSNumber+RKGeonames.swift */; };
+		0CFE39B81ADBCAE4000B641C /* RKCountryDetailsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B71ADBCAE4000B641C /* RKCountryDetailsDataController.swift */; };
+		0CFE39B91ADBCAE4000B641C /* RKCountryDetailsDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39B71ADBCAE4000B641C /* RKCountryDetailsDataController.swift */; };
+		0CFE39BF1ADBCB1D000B641C /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BB1ADBCB1D000B641C /* RKCountryDetailsViewController.m */; };
+		0CFE39C01ADBCB1D000B641C /* RKCountryDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BB1ADBCB1D000B641C /* RKCountryDetailsViewController.m */; };
+		0CFE39C11ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BC1ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift */; };
+		0CFE39C21ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BC1ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift */; };
+		0CFE39C31ADBCB1D000B641C /* RKGeonamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BE1ADBCB1D000B641C /* RKGeonamesViewController.m */; };
+		0CFE39C41ADBCB1D000B641C /* RKGeonamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39BE1ADBCB1D000B641C /* RKGeonamesViewController.m */; };
+		0CFE39C61ADBCB37000B641C /* RKGeonamesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39C51ADBCB37000B641C /* RKGeonamesDataController.swift */; };
+		0CFE39C71ADBCB37000B641C /* RKGeonamesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39C51ADBCB37000B641C /* RKGeonamesDataController.swift */; };
+		0CFE39CA1ADBCD0D000B641C /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39C91ADBCD0D000B641C /* RKGeonamesUtils.m */; };
+		0CFE39CB1ADBCD0D000B641C /* RKGeonamesUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39C91ADBCD0D000B641C /* RKGeonamesUtils.m */; };
+		0CFE39CD1ADBCD1F000B641C /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39CC1ADBCD1F000B641C /* Timezone.swift */; };
+		0CFE39CE1ADBCD1F000B641C /* Timezone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39CC1ADBCD1F000B641C /* Timezone.swift */; };
+		0CFE39D01ADBCD27000B641C /* WorlBankIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39CF1ADBCD27000B641C /* WorlBankIndicator.swift */; };
+		0CFE39D11ADBCD27000B641C /* WorlBankIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39CF1ADBCD27000B641C /* WorlBankIndicator.swift */; };
+		0CFE39D41ADBCD31000B641C /* UINavigationItem+iOSSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39D31ADBCD31000B641C /* UINavigationItem+iOSSpacing.m */; };
+		0CFE39D51ADBCD31000B641C /* UINavigationItem+iOSSpacing.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39D31ADBCD31000B641C /* UINavigationItem+iOSSpacing.m */; };
+		0CFE39DE1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39DD1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m */; };
+		0CFE39DF1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39DD1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m */; };
+		0CFE39E11ADBCE50000B641C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39E01ADBCE50000B641C /* MainStoryboard.storyboard */; };
+		0CFE39E21ADBCE50000B641C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39E01ADBCE50000B641C /* MainStoryboard.storyboard */; };
+		0CFE39E51ADBCE98000B641C /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39E41ADBCE98000B641C /* Country.m */; };
+		0CFE39E61ADBCE98000B641C /* Country.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39E41ADBCE98000B641C /* Country.m */; };
+		0CFE39E91ADBD492000B641C /* RKGeonamesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39E81ADBD492000B641C /* RKGeonamesTableViewCell.m */; };
+		0CFE39EB1ADBD4F0000B641C /* RKDemographicDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39EA1ADBD4F0000B641C /* RKDemographicDataManager.swift */; };
+		0CFE39EC1ADBD4F0000B641C /* RKDemographicDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39EA1ADBD4F0000B641C /* RKDemographicDataManager.swift */; };
+		0CFE39EE1ADBD51F000B641C /* RKEconomicsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39ED1ADBD51F000B641C /* RKEconomicsDataManager.swift */; };
+		0CFE39EF1ADBD51F000B641C /* RKEconomicsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39ED1ADBD51F000B641C /* RKEconomicsDataManager.swift */; };
+		0CFE39FB1ADBDD8E000B641C /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39FA1ADBDD8E000B641C /* world-map.png */; };
+		0CFE39FC1ADBDD8E000B641C /* world-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 0CFE39FA1ADBDD8E000B641C /* world-map.png */; };
+		0CFE39FF1ADBDED3000B641C /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39FD1ADBDED3000B641C /* SideBarMenu.swift */; };
+		0CFE3A001ADBDED3000B641C /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39FD1ADBDED3000B641C /* SideBarMenu.swift */; };
+		0CFE3A011ADBDED3000B641C /* SideBarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39FE1ADBDED3000B641C /* SideBarMenuTableViewController.swift */; };
+		0CFE3A021ADBDED3000B641C /* SideBarMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE39FE1ADBDED3000B641C /* SideBarMenuTableViewController.swift */; };
+		0CFE3A381ADBF6B5000B641C /* CountryMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE3A371ADBF6B5000B641C /* CountryMoreInfo.swift */; };
+		0CFE3A391ADBF6B5000B641C /* CountryMoreInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFE3A371ADBF6B5000B641C /* CountryMoreInfo.swift */; };
+		E40C8CC6959C5A7982E6FA18 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F7F801B3757C83824044FD5 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0CFE397B1ADBC715000B641C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0CFE39591ADBC714000B641C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0CFE39601ADBC714000B641C;
+			remoteInfo = CountriesOfTheWorld;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0C515DDE1ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressViewSegmentedBar.h; sourceTree = "<group>"; };
+		0C515DDF1ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressViewSegmentedBar.m; sourceTree = "<group>"; };
+		0C515DE11ADE7C70008D11B5 /* M13ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = M13ProgressView.h; sourceTree = "<group>"; };
+		0C515DE21ADE7C70008D11B5 /* M13ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = M13ProgressView.m; sourceTree = "<group>"; };
+		0C7B06CB1AFB9FF0008043EA /* NavigationControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationControllerDelegate.swift; sourceTree = "<group>"; };
+		0C7B06CD1AFBA083008043EA /* BounceTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceTransitionAnimator.swift; sourceTree = "<group>"; };
+		0CBF2BA01AE79FD900BCCD25 /* UIButton+RKGeonames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+RKGeonames.swift"; sourceTree = "<group>"; };
+		0CFE39611ADBC714000B641C /* CountriesOfTheWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CountriesOfTheWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CFE39651ADBC714000B641C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CFE39661ADBC714000B641C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0CFE39681ADBC714000B641C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0CFE39691ADBC714000B641C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0CFE396B1ADBC714000B641C /* EntryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EntryViewController.h; sourceTree = "<group>"; };
+		0CFE396C1ADBC714000B641C /* EntryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EntryViewController.m; sourceTree = "<group>"; };
+		0CFE39711ADBC714000B641C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0CFE397A1ADBC714000B641C /* CountriesOfTheWorldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CountriesOfTheWorldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0CFE397F1ADBC715000B641C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CFE39801ADBC715000B641C /* CountriesOfTheWorldTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CountriesOfTheWorldTests.m; sourceTree = "<group>"; };
+		0CFE39901ADBC788000B641C /* AboutCountry.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AboutCountry.plist; sourceTree = "<group>"; };
+		0CFE39921ADBC79B000B641C /* CountriesOfTheWorld-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CountriesOfTheWorld-Bridging-Header.h"; sourceTree = "<group>"; };
+		0CFE39931ADBC79B000B641C /* CountriesOfTheWorldTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CountriesOfTheWorldTests-Bridging-Header.h"; path = "../CountriesOfTheWorld/CountriesOfTheWorldTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		0CFE39941ADBC79C000B641C /* AdministrationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdministrationData.swift; sourceTree = "<group>"; };
+		0CFE39951ADBC79C000B641C /* AdministrationData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AdministrationData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0CFE399A1ADBC7BE000B641C /* City.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		0CFE399D1ADBC7D1000B641C /* DemographicData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemographicData.swift; sourceTree = "<group>"; };
+		0CFE399E1ADBC7D1000B641C /* DemographicData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DemographicData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0CFE39A31ADBCA2B000B641C /* EconomyData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EconomyData.swift; sourceTree = "<group>"; };
+		0CFE39A41ADBCA2B000B641C /* EconomyData+TableRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EconomyData+TableRepresentation.swift"; sourceTree = "<group>"; };
+		0CFE39A91ADBCA43000B641C /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		0CFE39AC1ADBCA55000B641C /* MappingProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MappingProvider.h; sourceTree = "<group>"; };
+		0CFE39AD1ADBCA55000B641C /* MappingProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MappingProvider.m; sourceTree = "<group>"; };
+		0CFE39B11ADBCA6A000B641C /* NSDate+RKGeonames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RKGeonames.swift"; sourceTree = "<group>"; };
+		0CFE39B21ADBCA6A000B641C /* NSNumber+RKGeonames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSNumber+RKGeonames.swift"; sourceTree = "<group>"; };
+		0CFE39B71ADBCAE4000B641C /* RKCountryDetailsDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKCountryDetailsDataController.swift; sourceTree = "<group>"; };
+		0CFE39BA1ADBCB1D000B641C /* RKCountryDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKCountryDetailsViewController.h; sourceTree = "<group>"; };
+		0CFE39BB1ADBCB1D000B641C /* RKCountryDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKCountryDetailsViewController.m; sourceTree = "<group>"; };
+		0CFE39BC1ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKGCountryMoreInfoViewController.swift; sourceTree = "<group>"; };
+		0CFE39BD1ADBCB1D000B641C /* RKGeonamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesViewController.h; sourceTree = "<group>"; };
+		0CFE39BE1ADBCB1D000B641C /* RKGeonamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesViewController.m; sourceTree = "<group>"; };
+		0CFE39C51ADBCB37000B641C /* RKGeonamesDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKGeonamesDataController.swift; sourceTree = "<group>"; };
+		0CFE39C81ADBCD0D000B641C /* RKGeonamesUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesUtils.h; sourceTree = "<group>"; };
+		0CFE39C91ADBCD0D000B641C /* RKGeonamesUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesUtils.m; sourceTree = "<group>"; };
+		0CFE39CC1ADBCD1F000B641C /* Timezone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timezone.swift; sourceTree = "<group>"; };
+		0CFE39CF1ADBCD27000B641C /* WorlBankIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorlBankIndicator.swift; sourceTree = "<group>"; };
+		0CFE39D21ADBCD31000B641C /* UINavigationItem+iOSSpacing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+iOSSpacing.h"; sourceTree = "<group>"; };
+		0CFE39D31ADBCD31000B641C /* UINavigationItem+iOSSpacing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+iOSSpacing.m"; sourceTree = "<group>"; };
+		0CFE39DC1ADBCD4C000B641C /* UINavigationItem+RKGeonames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+RKGeonames.h"; sourceTree = "<group>"; };
+		0CFE39DD1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+RKGeonames.m"; sourceTree = "<group>"; };
+		0CFE39E01ADBCE50000B641C /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		0CFE39E31ADBCE98000B641C /* Country.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Country.h; sourceTree = "<group>"; };
+		0CFE39E41ADBCE98000B641C /* Country.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Country.m; sourceTree = "<group>"; };
+		0CFE39E71ADBD492000B641C /* RKGeonamesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKGeonamesTableViewCell.h; sourceTree = "<group>"; };
+		0CFE39E81ADBD492000B641C /* RKGeonamesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKGeonamesTableViewCell.m; sourceTree = "<group>"; };
+		0CFE39EA1ADBD4F0000B641C /* RKDemographicDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKDemographicDataManager.swift; sourceTree = "<group>"; };
+		0CFE39ED1ADBD51F000B641C /* RKEconomicsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RKEconomicsDataManager.swift; sourceTree = "<group>"; };
+		0CFE39FA1ADBDD8E000B641C /* world-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "world-map.png"; sourceTree = "<group>"; };
+		0CFE39FD1ADBDED3000B641C /* SideBarMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
+		0CFE39FE1ADBDED3000B641C /* SideBarMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideBarMenuTableViewController.swift; sourceTree = "<group>"; };
+		0CFE3A371ADBF6B5000B641C /* CountryMoreInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountryMoreInfo.swift; sourceTree = "<group>"; };
+		2F7F801B3757C83824044FD5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		57FCE731CF5FE87551444D87 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		F9339FE5A51790DF43A20708 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0CFE395E1ADBC714000B641C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E40C8CC6959C5A7982E6FA18 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFE39771ADBC714000B641C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C6F17D41ADE69220069FDA0 /* ProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				0C515DE11ADE7C70008D11B5 /* M13ProgressView.h */,
+				0C515DE21ADE7C70008D11B5 /* M13ProgressView.m */,
+				0C515DDE1ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.h */,
+				0C515DDF1ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.m */,
+			);
+			name = ProgressView;
+			sourceTree = "<group>";
+		};
+		0C7B06CA1AFB9FB3008043EA /* TransitionAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				0C7B06CB1AFB9FF0008043EA /* NavigationControllerDelegate.swift */,
+				0C7B06CD1AFBA083008043EA /* BounceTransitionAnimator.swift */,
+			);
+			name = TransitionAnimator;
+			sourceTree = "<group>";
+		};
+		0CFE39581ADBC714000B641C = {
+			isa = PBXGroup;
+			children = (
+				0CFE39631ADBC714000B641C /* CountriesOfTheWorld */,
+				0CFE397D1ADBC715000B641C /* CountriesOfTheWorldTests */,
+				0CFE39621ADBC714000B641C /* Products */,
+				89D926A29C70B8B4B677AD9D /* Pods */,
+				F858B82AF22089DFC9F8DB06 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		0CFE39621ADBC714000B641C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39611ADBC714000B641C /* CountriesOfTheWorld.app */,
+				0CFE397A1ADBC714000B641C /* CountriesOfTheWorldTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0CFE39631ADBC714000B641C /* CountriesOfTheWorld */ = {
+			isa = PBXGroup;
+			children = (
+				0C7B06CA1AFB9FB3008043EA /* TransitionAnimator */,
+				0C6F17D41ADE69220069FDA0 /* ProgressView */,
+				0CFE39921ADBC79B000B641C /* CountriesOfTheWorld-Bridging-Header.h */,
+				0CFE39B01ADBCA5E000B641C /* Categories */,
+				0CFE39A91ADBCA43000B641C /* Launch Screen.xib */,
+				0CFE398D1ADBC748000B641C /* Utils */,
+				0CFE398C1ADBC73E000B641C /* Models */,
+				0CFE398B1ADBC735000B641C /* DataControllers */,
+				0CFE398A1ADBC722000B641C /* ViewControllers */,
+				0CFE39681ADBC714000B641C /* AppDelegate.h */,
+				0CFE39691ADBC714000B641C /* AppDelegate.m */,
+				0CFE396B1ADBC714000B641C /* EntryViewController.h */,
+				0CFE396C1ADBC714000B641C /* EntryViewController.m */,
+				0CFE39E01ADBCE50000B641C /* MainStoryboard.storyboard */,
+				0CFE39711ADBC714000B641C /* Images.xcassets */,
+				0CFE39641ADBC714000B641C /* Supporting Files */,
+			);
+			path = CountriesOfTheWorld;
+			sourceTree = "<group>";
+		};
+		0CFE39641ADBC714000B641C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39FA1ADBDD8E000B641C /* world-map.png */,
+				0CFE39651ADBC714000B641C /* Info.plist */,
+				0CFE39661ADBC714000B641C /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0CFE397D1ADBC715000B641C /* CountriesOfTheWorldTests */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39931ADBC79B000B641C /* CountriesOfTheWorldTests-Bridging-Header.h */,
+				0CFE39801ADBC715000B641C /* CountriesOfTheWorldTests.m */,
+				0CFE397E1ADBC715000B641C /* Supporting Files */,
+			);
+			path = CountriesOfTheWorldTests;
+			sourceTree = "<group>";
+		};
+		0CFE397E1ADBC715000B641C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE397F1ADBC715000B641C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0CFE398A1ADBC722000B641C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39BA1ADBCB1D000B641C /* RKCountryDetailsViewController.h */,
+				0CFE39BB1ADBCB1D000B641C /* RKCountryDetailsViewController.m */,
+				0CFE39BC1ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift */,
+				0CFE39BD1ADBCB1D000B641C /* RKGeonamesViewController.h */,
+				0CFE39BE1ADBCB1D000B641C /* RKGeonamesViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		0CFE398B1ADBC735000B641C /* DataControllers */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39C51ADBCB37000B641C /* RKGeonamesDataController.swift */,
+				0CFE39B71ADBCAE4000B641C /* RKCountryDetailsDataController.swift */,
+			);
+			name = DataControllers;
+			sourceTree = "<group>";
+		};
+		0CFE398C1ADBC73E000B641C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39ED1ADBD51F000B641C /* RKEconomicsDataManager.swift */,
+				0CFE39EA1ADBD4F0000B641C /* RKDemographicDataManager.swift */,
+				0CFE39E71ADBD492000B641C /* RKGeonamesTableViewCell.h */,
+				0CFE39E81ADBD492000B641C /* RKGeonamesTableViewCell.m */,
+				0CFE39E31ADBCE98000B641C /* Country.h */,
+				0CFE39E41ADBCE98000B641C /* Country.m */,
+				0CFE39CF1ADBCD27000B641C /* WorlBankIndicator.swift */,
+				0CFE39CC1ADBCD1F000B641C /* Timezone.swift */,
+				0CFE39A31ADBCA2B000B641C /* EconomyData.swift */,
+				0CFE39A41ADBCA2B000B641C /* EconomyData+TableRepresentation.swift */,
+				0CFE399D1ADBC7D1000B641C /* DemographicData.swift */,
+				0CFE399E1ADBC7D1000B641C /* DemographicData+TableRepresentation.swift */,
+				0CFE399A1ADBC7BE000B641C /* City.swift */,
+				0CFE39941ADBC79C000B641C /* AdministrationData.swift */,
+				0CFE39951ADBC79C000B641C /* AdministrationData+TableRepresentation.swift */,
+				0CFE3A371ADBF6B5000B641C /* CountryMoreInfo.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		0CFE398D1ADBC748000B641C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39C81ADBCD0D000B641C /* RKGeonamesUtils.h */,
+				0CFE39FD1ADBDED3000B641C /* SideBarMenu.swift */,
+				0CFE39FE1ADBDED3000B641C /* SideBarMenuTableViewController.swift */,
+				0CFE39C91ADBCD0D000B641C /* RKGeonamesUtils.m */,
+				0CFE39AC1ADBCA55000B641C /* MappingProvider.h */,
+				0CFE39AD1ADBCA55000B641C /* MappingProvider.m */,
+				0CFE39901ADBC788000B641C /* AboutCountry.plist */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		0CFE39B01ADBCA5E000B641C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				0CFE39DC1ADBCD4C000B641C /* UINavigationItem+RKGeonames.h */,
+				0CFE39DD1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m */,
+				0CFE39D21ADBCD31000B641C /* UINavigationItem+iOSSpacing.h */,
+				0CFE39D31ADBCD31000B641C /* UINavigationItem+iOSSpacing.m */,
+				0CFE39B11ADBCA6A000B641C /* NSDate+RKGeonames.swift */,
+				0CFE39B21ADBCA6A000B641C /* NSNumber+RKGeonames.swift */,
+				0CBF2BA01AE79FD900BCCD25 /* UIButton+RKGeonames.swift */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		89D926A29C70B8B4B677AD9D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				57FCE731CF5FE87551444D87 /* Pods.debug.xcconfig */,
+				F9339FE5A51790DF43A20708 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F858B82AF22089DFC9F8DB06 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F7F801B3757C83824044FD5 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0CFE39601ADBC714000B641C /* CountriesOfTheWorld */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CFE39841ADBC715000B641C /* Build configuration list for PBXNativeTarget "CountriesOfTheWorld" */;
+			buildPhases = (
+				E440776EDAEFF26099531A28 /* Check Pods Manifest.lock */,
+				0CFE395D1ADBC714000B641C /* Sources */,
+				0CFE395E1ADBC714000B641C /* Frameworks */,
+				0CFE395F1ADBC714000B641C /* Resources */,
+				BDE84E86FDBC31BE28FAD53E /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CountriesOfTheWorld;
+			productName = CountriesOfTheWorld;
+			productReference = 0CFE39611ADBC714000B641C /* CountriesOfTheWorld.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0CFE39791ADBC714000B641C /* CountriesOfTheWorldTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CFE39871ADBC715000B641C /* Build configuration list for PBXNativeTarget "CountriesOfTheWorldTests" */;
+			buildPhases = (
+				0CFE39761ADBC714000B641C /* Sources */,
+				0CFE39771ADBC714000B641C /* Frameworks */,
+				0CFE39781ADBC714000B641C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0CFE397C1ADBC715000B641C /* PBXTargetDependency */,
+			);
+			name = CountriesOfTheWorldTests;
+			productName = CountriesOfTheWorldTests;
+			productReference = 0CFE397A1ADBC714000B641C /* CountriesOfTheWorldTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0CFE39591ADBC714000B641C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Stefan Buretea";
+				TargetAttributes = {
+					0CFE39601ADBC714000B641C = {
+						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 75X9J9R987;
+					};
+					0CFE39791ADBC714000B641C = {
+						CreatedOnToolsVersion = 6.3;
+						TestTargetID = 0CFE39601ADBC714000B641C;
+					};
+				};
+			};
+			buildConfigurationList = 0CFE395C1ADBC714000B641C /* Build configuration list for PBXProject "CountriesOfTheWorld" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0CFE39581ADBC714000B641C;
+			productRefGroup = 0CFE39621ADBC714000B641C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0CFE39601ADBC714000B641C /* CountriesOfTheWorld */,
+				0CFE39791ADBC714000B641C /* CountriesOfTheWorldTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0CFE395F1ADBC714000B641C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFE39911ADBC788000B641C /* AboutCountry.plist in Resources */,
+				0CFE39E11ADBCE50000B641C /* MainStoryboard.storyboard in Resources */,
+				0CFE39721ADBC714000B641C /* Images.xcassets in Resources */,
+				0CFE39AA1ADBCA43000B641C /* Launch Screen.xib in Resources */,
+				0CFE39FB1ADBDD8E000B641C /* world-map.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFE39781ADBC714000B641C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFE39E21ADBCE50000B641C /* MainStoryboard.storyboard in Resources */,
+				0CFE39AB1ADBCA43000B641C /* Launch Screen.xib in Resources */,
+				0CFE39FC1ADBDD8E000B641C /* world-map.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BDE84E86FDBC31BE28FAD53E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E440776EDAEFF26099531A28 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0CFE395D1ADBC714000B641C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0C7B06CE1AFBA083008043EA /* BounceTransitionAnimator.swift in Sources */,
+				0CFE39CD1ADBCD1F000B641C /* Timezone.swift in Sources */,
+				0CFE39AE1ADBCA55000B641C /* MappingProvider.m in Sources */,
+				0CFE39981ADBC79C000B641C /* AdministrationData+TableRepresentation.swift in Sources */,
+				0CFE396D1ADBC714000B641C /* EntryViewController.m in Sources */,
+				0CFE3A011ADBDED3000B641C /* SideBarMenuTableViewController.swift in Sources */,
+				0CFE39A51ADBCA2B000B641C /* EconomyData.swift in Sources */,
+				0CFE39B31ADBCA6A000B641C /* NSDate+RKGeonames.swift in Sources */,
+				0CFE39BF1ADBCB1D000B641C /* RKCountryDetailsViewController.m in Sources */,
+				0CFE39FF1ADBDED3000B641C /* SideBarMenu.swift in Sources */,
+				0CFE39E91ADBD492000B641C /* RKGeonamesTableViewCell.m in Sources */,
+				0C515DE01ADE7C63008D11B5 /* M13ProgressViewSegmentedBar.m in Sources */,
+				0CFE399F1ADBC7D1000B641C /* DemographicData.swift in Sources */,
+				0CFE39EB1ADBD4F0000B641C /* RKDemographicDataManager.swift in Sources */,
+				0CFE39C11ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift in Sources */,
+				0C7B06CC1AFB9FF0008043EA /* NavigationControllerDelegate.swift in Sources */,
+				0CFE39A71ADBCA2B000B641C /* EconomyData+TableRepresentation.swift in Sources */,
+				0CFE39C61ADBCB37000B641C /* RKGeonamesDataController.swift in Sources */,
+				0CFE39EE1ADBD51F000B641C /* RKEconomicsDataManager.swift in Sources */,
+				0CFE39B51ADBCA6A000B641C /* NSNumber+RKGeonames.swift in Sources */,
+				0CFE399B1ADBC7BE000B641C /* City.swift in Sources */,
+				0CFE396A1ADBC714000B641C /* AppDelegate.m in Sources */,
+				0CFE39C31ADBCB1D000B641C /* RKGeonamesViewController.m in Sources */,
+				0CBF2BA11AE79FD900BCCD25 /* UIButton+RKGeonames.swift in Sources */,
+				0CFE39E51ADBCE98000B641C /* Country.m in Sources */,
+				0CFE39B81ADBCAE4000B641C /* RKCountryDetailsDataController.swift in Sources */,
+				0CFE39D41ADBCD31000B641C /* UINavigationItem+iOSSpacing.m in Sources */,
+				0CFE39DE1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m in Sources */,
+				0C515DE31ADE7C70008D11B5 /* M13ProgressView.m in Sources */,
+				0CFE39D01ADBCD27000B641C /* WorlBankIndicator.swift in Sources */,
+				0CFE39CA1ADBCD0D000B641C /* RKGeonamesUtils.m in Sources */,
+				0CFE39671ADBC714000B641C /* main.m in Sources */,
+				0CFE3A381ADBF6B5000B641C /* CountryMoreInfo.swift in Sources */,
+				0CFE39961ADBC79C000B641C /* AdministrationData.swift in Sources */,
+				0CFE39A11ADBC7D1000B641C /* DemographicData+TableRepresentation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0CFE39761ADBC714000B641C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0CFE39B91ADBCAE4000B641C /* RKCountryDetailsDataController.swift in Sources */,
+				0CFE39EF1ADBD51F000B641C /* RKEconomicsDataManager.swift in Sources */,
+				0CFE39A01ADBC7D1000B641C /* DemographicData.swift in Sources */,
+				0CFE39CE1ADBCD1F000B641C /* Timezone.swift in Sources */,
+				0CFE39EC1ADBD4F0000B641C /* RKDemographicDataManager.swift in Sources */,
+				0CFE39811ADBC715000B641C /* CountriesOfTheWorldTests.m in Sources */,
+				0CFE39C71ADBCB37000B641C /* RKGeonamesDataController.swift in Sources */,
+				0CFE39A81ADBCA2B000B641C /* EconomyData+TableRepresentation.swift in Sources */,
+				0CFE3A001ADBDED3000B641C /* SideBarMenu.swift in Sources */,
+				0CFE39AF1ADBCA55000B641C /* MappingProvider.m in Sources */,
+				0CFE39991ADBC79C000B641C /* AdministrationData+TableRepresentation.swift in Sources */,
+				0CFE39DF1ADBCD4C000B641C /* UINavigationItem+RKGeonames.m in Sources */,
+				0CFE39A21ADBC7D1000B641C /* DemographicData+TableRepresentation.swift in Sources */,
+				0CFE39B41ADBCA6A000B641C /* NSDate+RKGeonames.swift in Sources */,
+				0CFE39D11ADBCD27000B641C /* WorlBankIndicator.swift in Sources */,
+				0CFE39C01ADBCB1D000B641C /* RKCountryDetailsViewController.m in Sources */,
+				0CFE39D51ADBCD31000B641C /* UINavigationItem+iOSSpacing.m in Sources */,
+				0CFE399C1ADBC7BE000B641C /* City.swift in Sources */,
+				0CFE39E61ADBCE98000B641C /* Country.m in Sources */,
+				0CFE39B61ADBCA6A000B641C /* NSNumber+RKGeonames.swift in Sources */,
+				0CFE39CB1ADBCD0D000B641C /* RKGeonamesUtils.m in Sources */,
+				0CFE3A021ADBDED3000B641C /* SideBarMenuTableViewController.swift in Sources */,
+				0CFE39C21ADBCB1D000B641C /* RKGCountryMoreInfoViewController.swift in Sources */,
+				0CFE39C41ADBCB1D000B641C /* RKGeonamesViewController.m in Sources */,
+				0CFE3A391ADBF6B5000B641C /* CountryMoreInfo.swift in Sources */,
+				0CFE39971ADBC79C000B641C /* AdministrationData.swift in Sources */,
+				0CFE39A61ADBCA2B000B641C /* EconomyData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0CFE397C1ADBC715000B641C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0CFE39601ADBC714000B641C /* CountriesOfTheWorld */;
+			targetProxy = 0CFE397B1ADBC715000B641C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0CFE39821ADBC715000B641C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Stefan Buretea (PWC6Q34SVR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0CFE39831ADBC715000B641C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0CFE39851ADBC715000B641C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57FCE731CF5FE87551444D87 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = CountriesOfTheWorld/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesOfTheWorld/CountriesOfTheWorld-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0CFE39861ADBC715000B641C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9339FE5A51790DF43A20708 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = CountriesOfTheWorld/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesOfTheWorld/CountriesOfTheWorld-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		0CFE39881ADBC715000B641C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57FCE731CF5FE87551444D87 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CountriesOfTheWorldTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesOfTheWorld/CountriesOfTheWorldTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountriesOfTheWorld.app/CountriesOfTheWorld";
+			};
+			name = Debug;
+		};
+		0CFE39891ADBC715000B641C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9339FE5A51790DF43A20708 /* Pods.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = CountriesOfTheWorldTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesOfTheWorld/CountriesOfTheWorldTests-Bridging-Header.h";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CountriesOfTheWorld.app/CountriesOfTheWorld";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0CFE395C1ADBC714000B641C /* Build configuration list for PBXProject "CountriesOfTheWorld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFE39821ADBC715000B641C /* Debug */,
+				0CFE39831ADBC715000B641C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CFE39841ADBC715000B641C /* Build configuration list for PBXNativeTarget "CountriesOfTheWorld" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFE39851ADBC715000B641C /* Debug */,
+				0CFE39861ADBC715000B641C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0CFE39871ADBC715000B641C /* Build configuration list for PBXNativeTarget "CountriesOfTheWorldTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0CFE39881ADBC715000B641C /* Debug */,
+				0CFE39891ADBC715000B641C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0CFE39591ADBC714000B641C /* Project object */;
+}
