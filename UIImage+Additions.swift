@@ -7,3 +7,25 @@
 //
 
 import Foundation
+
+
+extension UIImage {
+    func persist(_ name: String) {
+        //convert to base64
+        
+        //save to disk
+    }
+    
+    func encodeBase64() -> String {
+        
+        //get the nsdata
+        
+        //convert to base64
+        
+        return ""
+    }
+
+    class func from(_ base64: String) -> UIImage? {
+        return nil
+    }
+}

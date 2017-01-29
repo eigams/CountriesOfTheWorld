@@ -10,31 +10,25 @@ import Foundation
 import ObjectMapper
 
 struct GEOCountry: Mappable {
-    struct Coordinates {
-        var south: Double
-        var north: Double
-        var west: Double
-        var east: Double
-    }
     
     var continent: String?
-    var capitalCity: String
-    var languages: String
-    var geonameId: Int
-    var south: Double
-    var isoAlpha3: String
-    var north: Double
-    var fipsCode: String
-    var population: String
-    var east: Double
-    var isoNumeric: String
-    var areaInSqKm: String
-    var countryCode: String
-    var west: Double
-    var countryName: String
-    var continentName: String
-    var currencyCode: String
-    var coordinates: Coordinates
+    var capitalCity: String?
+    var languages: String?
+    var geonameId: Int?
+    var isoAlpha3: String?
+    var fipsCode: String?
+    var population: String?
+    var isoNumeric: String?
+    var areaInSqKm: String?
+    var countryCode: String?
+    var countryName: String?
+    var continentName: String?
+    var currencyCode: String?
+    var south: Double?
+    var north: Double?
+    var west: Double?
+    var east: Double?
+
     
     init?(map: Map) {}
 
@@ -43,18 +37,34 @@ struct GEOCountry: Mappable {
         capitalCity         <- map["capital"]
         languages           <- map["languages"]
         geonameId           <- map["geonameId"]
-        coordinates.south   <- map["south"]
+        south               <- map["south"]
         isoAlpha3           <- map["isoAlpha3"]
-        coordinates.north   <- map["north"]
+        north               <- map["north"]
         fipsCode            <- map["fipsCode"]
         population          <- map["population"]
-        coordinates.east    <- map["east"]
+        east                <- map["east"]
         isoNumeric          <- map["isoNumeric"]
         areaInSqKm          <- map["areaInSqKm"]
         countryCode         <- map["countryCode"]
-        coordinates.west    <- map["west"]
+        west                <- map["west"]
         countryName         <- map["countryName"]
         continentName       <- map["continentName"]
         currencyCode        <- map["currencyCode"]
+    }
+    
+    var surfaceArea: String {
+        guard let areaInSqKm = areaInSqKm, let floatAreaInSqKm = Float(areaInSqKm) else { return "" }
+        
+        return NumberFormatter.localizedString(from: NSNumber(value: floatAreaInSqKm), number: .decimal)
+    }
+}
+
+struct GEOCountryHTTPResponse: Mappable {
+    var geonames: [GEOCountry]?
+    
+    init?(map: Map) {}
+    
+    mutating func mapping(map: Map) {
+        geonames <- map["geonames"]
     }
 }

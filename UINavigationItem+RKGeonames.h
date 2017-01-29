@@ -10,7 +10,7 @@
 
 @interface UINavigationItem(RKGeonames)
 
-@property (nonatomic, strong)IBOutletCollection(UIBarButtonItem) NSArray * rightBarButtonItemsCollection;
-@property (nonatomic, strong)IBOutletCollection(UIBarButtonItem) NSArray * leftBarButtonItemsCollection;
+@property (nonatomic, copy) IBOutletCollection(UIBarButtonItem) NSArray * rightBarButtonItemsCollection;
+@property (nonatomic, copy) IBOutletCollection(UIBarButtonItem) NSArray * leftBarButtonItemsCollection;
 
 @end

@@ -10,6 +10,12 @@ import UIKit
 
 class RKGCountryMoreInfoViewController: UIViewController {
 
+    fileprivate var country: CountryGeonames!
+    
+    func setCountry(_ country: CountryGeonames) {
+        self.country = country
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +28,10 @@ class RKGCountryMoreInfoViewController: UIViewController {
     }
     
 
+    @IBAction func backButtonPressed(_ sender: AnyObject) {
+        
+        self.navigationController?.popViewController(animated: true)
+    }
     /*
     // MARK: - Navigation
 

@@ -25,7 +25,7 @@
     
     [self performSelector:@selector(dismiss:)
                withObject:[NSNumber numberWithBool:YES]
-               afterDelay:3.0];
+               afterDelay:4.0];
 }
 
 @end

@@ -10,29 +10,30 @@ import UIKit
 
 @objc protocol SideBarMenuDelegate {
     
-    func didSelectItemAtIndex(index: Int)
+    func sideBarMenu(_ menu: SideBarMenu, didSelectItemAtIndex index: Int)
     
-    optional func menuWillClose()
-    optional func menuWillOpen()
+    @objc optional func sideBarMenuWillClose(_ menu: SideBarMenu)
+    @objc optional func sideBarMenuWillOpen(_ menu: SideBarMenu)
 }
 
 class SideBarMenu: NSObject, SideBarMenuViewControllerDelegate {
    
-    private let barWidth: CGFloat = 160
-    private let sideBarTableViewInset: CGFloat = 89.0
-    private let sideBarContainerView: UIView = UIView()
-    private let sideBarViewController: SideBarMenuTableViewController = SideBarMenuTableViewController()
-    private var originView: UIView!
-    private var glassView: UIView = UIView()
+    fileprivate let barWidth: CGFloat = 160
+    fileprivate let sideBarTableViewInset: CGFloat = 89.0
+    fileprivate let sideBarContainerView: UIView = UIView()
+    fileprivate let sideBarViewController: SideBarMenuTableViewController = SideBarMenuTableViewController()
+    fileprivate var originView: UIView!
+    fileprivate var glassView: UIView = UIView()
     
-    var animator: UIDynamicAnimator!
+    fileprivate var animator: SideBarMenuAnimator!
     var delegate: SideBarMenuDelegate?
-    var isOpen: Bool = false
+    fileprivate var isOpen: Bool = false
     
     override init() {
         super.init()
     }
     
+    @available(iOS 8.0, *)
     init(sourceView: UIView, menuItems: Array<String>, menuImages: Array<String>) {
         super.init()
         
@@ -42,42 +43,43 @@ class SideBarMenu: NSObject, SideBarMenuViewControllerDelegate {
         
         setup()
         
-        self.animator = UIDynamicAnimator(referenceView: self.originView)
+        self.animator = SideBarMenuAnimator(originView: self.originView)
         
-        let showGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "handleSwipe:")
-        showGestureRecognizer.direction = UISwipeGestureRecognizerDirection.Right
+        let showGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(SideBarMenu.handleSwipe(_:)))
+        showGestureRecognizer.direction = UISwipeGestureRecognizerDirection.right
         self.originView.addGestureRecognizer(showGestureRecognizer)
         
-        let hideGestureRecognizer = UISwipeGestureRecognizer(target: self, action: "handleSwipe:")
-        hideGestureRecognizer.direction = UISwipeGestureRecognizerDirection.Left
+        let hideGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(SideBarMenu.handleSwipe(_:)))
+        hideGestureRecognizer.direction = UISwipeGestureRecognizerDirection.left
         self.originView.addGestureRecognizer(hideGestureRecognizer)
         
     }
     
-    func setup() {
+    @available(iOS 8.0, *)
+    fileprivate func setup() {
         
         self.glassView.frame = self.originView.bounds
-        self.glassView.backgroundColor = UIColor.clearColor()
-        self.glassView.hidden = true
+        self.glassView.backgroundColor = UIColor.clear
+        self.glassView.isHidden = true
         self.originView.addSubview(self.glassView)
         
-        self.sideBarContainerView.frame = CGRectMake(-self.barWidth - 1, self.originView.frame.origin.y, self.barWidth, self.originView.frame.size.height)
+        self.sideBarContainerView.frame = CGRect(x: -self.barWidth - 1, y: self.originView.frame.origin.y, width: self.barWidth, height: self.originView.frame.size.height)
 //        self.sideBarContainerView.backgroundColor = UIColor(red: 0.4, green: 0.5, blue: 0.15, alpha: 1.0).colorWithAlphaComponent(0.1)
 //        self.sideBarContainerView.backgroundColor = UIColor(red: 0.0, green: 0.47, blue: 0.53, alpha: 1.0)
-        self.sideBarContainerView.backgroundColor = UIColor.clearColor()
+        self.sideBarContainerView.backgroundColor = UIColor.clear
         self.sideBarContainerView.clipsToBounds = false
         
         self.originView.addSubview(self.sideBarContainerView)
         
-        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.Light))
+        let blurView:UIVisualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
         blurView.frame = self.sideBarContainerView.bounds
         self.sideBarContainerView.addSubview(blurView)
         
         self.sideBarViewController.delegate = self
         self.sideBarViewController.tableView.frame = self.sideBarContainerView.bounds
         self.sideBarViewController.tableView.clipsToBounds = false
-        self.sideBarViewController.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
-        self.sideBarViewController.tableView.backgroundColor = UIColor.clearColor()
+        self.sideBarViewController.tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        self.sideBarViewController.tableView.backgroundColor = UIColor.clear
         self.sideBarViewController.tableView.scrollsToTop = false
         self.sideBarViewController.tableView.alwaysBounceVertical = false
         self.sideBarViewController.tableView.contentInset = UIEdgeInsetsMake(self.sideBarTableViewInset, 0, 0, 0)
@@ -85,65 +87,45 @@ class SideBarMenu: NSObject, SideBarMenuViewControllerDelegate {
         self.sideBarViewController.tableView.reloadData()
         
         self.sideBarContainerView.addSubview(self.sideBarViewController.tableView)
-        
     }
     
-    func handleSwipe(gestureRecognizer: UISwipeGestureRecognizer) {
-        
-        if gestureRecognizer.direction == UISwipeGestureRecognizerDirection.Right {
-            show(true)
-            self.delegate?.menuWillOpen?()
+    @objc fileprivate func handleSwipe(_ gestureRecognizer: UISwipeGestureRecognizer) {
+        show(gestureRecognizer.direction == UISwipeGestureRecognizerDirection.right)
+        if gestureRecognizer.direction == UISwipeGestureRecognizerDirection.right {
+            self.delegate?.sideBarMenuWillOpen?(self)
         }
         else {
-            show(false)
-            self.delegate?.menuWillClose?()
+            self.delegate?.sideBarMenuWillClose?(self)
             
             if let lastIndexPath = self.sideBarViewController.lastSelectedCellIndexPath {
-                self.sideBarViewController.tableView.deselectRowAtIndexPath(self.sideBarViewController.lastSelectedCellIndexPath!, animated: false)
+                self.sideBarViewController.tableView.deselectRow(at: lastIndexPath as IndexPath, animated: false)
             }
         }        
     }
     
-    func show(shouldOpen: Bool) {
-        
-        self.animator.removeAllBehaviors()
+    fileprivate func show(_ shouldOpen: Bool) {
+        self.animator.play(shouldOpen, containerView: self.sideBarContainerView)
         self.isOpen = shouldOpen
         
-        self.glassView.hidden = !shouldOpen
-        
-        let gravityX:CGFloat = shouldOpen ? 0.8 : -0.8
-        let magnitude:CGFloat = shouldOpen ? 40: -40
-        let boundaryX:CGFloat = shouldOpen ? barWidth : -barWidth - 1
-        
-        let gravityBehaviour = UIGravityBehavior(items: [self.sideBarContainerView])
-        gravityBehaviour.gravityDirection = CGVectorMake(gravityX, 0)
-        self.animator.addBehavior(gravityBehaviour)
-        
-        let collisionBehaviour = UICollisionBehavior(items: [self.sideBarContainerView])
-        collisionBehaviour.addBoundaryWithIdentifier("sideBarBoundary", fromPoint: CGPointMake(boundaryX, 20), toPoint: CGPointMake(boundaryX, originView.frame.size.height))
-        self.animator.addBehavior(collisionBehaviour)
-        
-        let pushBehaviour = UIPushBehavior(items: [self.sideBarContainerView], mode: UIPushBehaviorMode.Instantaneous)
-        pushBehaviour.magnitude = magnitude
-        self.animator.addBehavior(pushBehaviour)
-        
-        let dynamicItem = UIDynamicItemBehavior(items: [self.sideBarContainerView])
-        dynamicItem.elasticity = 0.3
-        self.animator.addBehavior(dynamicItem)
+        self.glassView.isHidden = !shouldOpen        
+    }
+    
+    func show() {
+        self.show(true)
     }
     
     func hide() {
-        self.sideBarContainerView.hidden = true
+        self.sideBarContainerView.isHidden = true
     }
     
-    func didSelectItem(indexPath: NSIndexPath) {
-        self.delegate?.didSelectItemAtIndex(indexPath.row)
+    func didSelectItem(_ indexPath: IndexPath) {
+        self.delegate?.sideBarMenu(self, didSelectItemAtIndex: indexPath.row)
         
         show(false)
-        self.delegate?.menuWillClose?()
+        self.delegate?.sideBarMenuWillClose?(self)
         
         if let lastIndexPath = self.sideBarViewController.lastSelectedCellIndexPath {
-            self.sideBarViewController.tableView.deselectRowAtIndexPath(self.sideBarViewController.lastSelectedCellIndexPath!, animated: false)
+            self.sideBarViewController.tableView.deselectRow(at: lastIndexPath as IndexPath, animated: false)
         }
     }
     

@@ -19,7 +19,12 @@ struct GEOWorldBankIndicatorRequest {
         return "http://api.worldbank.org/countries/\(countryCode)/indicators/\(indicator)?format=json&date=\(startYear):\(endYear)"
     }
     
-    init(countryCode: String, indicator: String: startYear: String, endYear: String) {
+    init?(countryCode: String?, indicator: String?, startYear: String?, endYear: String?) {
+        guard let countryCode = countryCode,
+              let indicator = indicator,
+              let startYear = startYear,
+              let endYear = endYear else { return nil }
+        
         self.countryCode = countryCode
         self.indicator = indicator
         self.startYear = startYear

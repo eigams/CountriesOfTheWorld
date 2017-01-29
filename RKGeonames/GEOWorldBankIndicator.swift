@@ -51,3 +51,13 @@ struct GEOWorldBankIndicator: Mappable {
         date       <- map["date"]
     }
 }
+
+struct GEOWorldBankIndicatorHTTPResponse: Mappable {
+    var indicators: [Any]?
+    
+    init?(map: Map) {}
+    
+    mutating func mapping(map: Map) {
+        indicators <- map["indicators"]
+    }
+}

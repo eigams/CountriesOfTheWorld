@@ -1,14 +1,335 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-   Currencies.plist
-   RKGeonames
-
-   Created by Stefan Buretea on 10/18/16.
-   Copyright (c) 2016 Stefan Burettea. All rights reserved.
--->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-    
-    </dict>
+<dict>
+	<key>AWG</key>
+	<string>Aruba Guilder</string>
+	<key>AED</key>
+	<string>United Arab Emirates Dirham</string>
+	<key>AFN</key>
+	<string>Afghanistan Afghani</string>
+	<key>ALL</key>
+	<string>Albania Lek</string>
+	<key>AMD</key>
+	<string>Armenia Dram</string>
+	<key>ANG</key>
+	<string>Netherlands Antilles Guilder</string>
+	<key>AOA</key>
+	<string>Angola Kwanza</string>
+	<key>ARS</key>
+	<string>Argentina Pes</string>
+	<key>AUD</key>
+	<string>Australia Dollar</string>
+    <key>AZN</key>
+    <string>Azerbaijan New Manat</string>
+    <key>BAM</key>
+    <string>Bosnia and Herzegovina Convertible Marka</string>
+    <key>BBD</key>
+    <string>Barbados Dollar</string>
+    <key>BDT</key>
+    <string>Bangladesh Taka</string>
+    <key>BGN</key>
+    <string>Bulgaria Lev</string>
+    <key>BHD</key>
+    <string>Bahrain Dinar</string>
+    <key>BIF</key>
+    <string>Burundi Franc</string>
+    <key>BMD</key>
+    <string>Bermuda Dollar</string>
+    <key>BND</key>
+    <string>Brunei Darussalam Dollar</string>
+    <key>BOB</key>
+    <string>Bolivia Boliviano</string>
+    <key>BRL</key>
+    <string>Brazil Real</string>
+    <key>BSD</key>
+    <string>Bahamas Dollar</string>
+    <key>BTN</key>
+    <string>Bhutan Ngultrum</string>
+    <key>BWP</key>
+    <string>Botswana Pula</string>
+    <key>BYR</key>
+    <string>Belarus Ruble</string>
+    <key>BZD</key>
+    <string>Belize Dollar</string>
+    <key>CAD</key>
+    <string>Canada Dollar</string>
+    <key>CDF</key>
+    <string>Congo/Kinshasa Franc</string>
+    <key>CHF</key>
+    <string>Switzerland Franc</string>
+    <key>CLP</key>
+    <string>Chile Peso</string>
+    <key>CNY</key>
+    <string>China Yuan Renminbi</string>
+    <key>COP</key>
+    <string>Colombia Peso</string>
+    <key>CRC</key>
+    <string>Costa Rica Colon</string>
+    <key>CUC</key>
+    <string>Cuba Convertible Peso</string>
+    <key>CUP</key>
+    <string>Cuba Peso</string>
+    <key>CVE</key>
+    <string>Cape Verde Escudo</string>
+    <key>CZK</key>
+    <string>Czech Republic Koruna</string>
+    <key>DJF</key>
+    <string>Djibouti Franc</string>
+    <key>DKK</key>
+    <string>Denmark Krone</string>
+    <key>DOP</key>
+    <string>Dominican Republic Peso</string>
+    <key>DZD</key>
+    <string>Algeria Dinar</string>
+    <key>EGP</key>
+    <string>Egypt Pound</string>
+    <key>ERN</key>
+    <string>Eritrea Nakfa</string>
+    <key>ETB</key>
+    <string>Ethiopia Birr</string>
+    <key>EUR</key>
+    <string>Euro Member Countries</string>
+    <key>FJD</key>
+    <string>Fiji Dollar</string>
+    <key>FKP</key>
+    <string>Falkland Islands (Malvinas) Pound</string>
+    <key>GBP</key>
+    <string>United Kingdom Pound</string>
+    <key>GEL</key>
+    <string>Georgia Lari</string>
+    <key>GGP</key>
+    <string>Guernsey Pound</string>
+    <key>GHS</key>
+    <string>Ghana Cedi</string>
+    <key>GIP</key>
+    <string>Gibraltar Pound</string>
+    <key>GMD</key>
+    <string>Gambia Dalasi</string>
+    <key>GNF</key>
+    <string>Guinea Franc</string>
+    <key>GTQ</key>
+    <string>Guatemala Quetzal</string>
+    <key>GYD</key>
+    <string>Guyana Dollar</string>
+    <key>HKD</key>
+    <string>Hong Kong Dollar</string>
+    <key>HNL</key>
+    <string>Honduras Lempira</string>
+    <key>HRK</key>
+    <string>Croatia Kuna</string>
+    <key>HTG</key>
+    <string>Haiti Gourde</string>
+    <key>HUF</key>
+    <string>Hungary Forint</string>
+    <key>IDR</key>
+    <string>Indonesia Rupiah</string>
+    <key>ILS</key>
+    <string>Israel Shekel</string>
+    <key>IMP</key>
+    <string>Isle of Man Pound</string>
+    <key>INR</key>
+    <string>India Rupee</string>
+    <key>IQD</key>
+    <string>Iraq Dinar</string>
+    <key>IRR</key>
+    <string>Iran Rial</string>
+    <key>ISK</key>
+    <string>Iceland Krona</string>
+    <key>JEP</key>
+    <string>Jersey Pound</string>
+    <key>JMD</key>
+    <string>Jamaica Dollar</string>
+    <key>JOD</key>
+    <string>Jordan Dinar</string>
+    <key>JPY</key>
+    <string>Japan Yen</string>
+    <key>KES</key>
+    <string>Kenya Shilling</string>
+    <key>KGS</key>
+    <string>Kyrgyzstan Som</string>
+    <key>KHR</key>
+    <string>Cambodia Riel</string>
+    <key>KMF</key>
+    <string>Comoros Franc</string>
+    <key>KPW</key>
+    <string>Korea (North) Won</string>
+    <key>KRW</key>
+    <string>Korea (South) Won</string>
+    <key>KWD</key>
+    <string>Kuwait Dinar</string>
+    <key>KYD</key>
+    <string>Cayman Islands Dollar</string>
+    <key>KZT</key>
+    <string>Kazakhstan Tenge</string>
+    <key>LAK</key>
+    <string>Laos Kip</string>
+    <key>LBP</key>
+    <string>Lebanon Pound</string>
+    <key>LKR</key>
+    <string>Sri Lanka Rupee</string>
+    <key>LRD</key>
+    <string>Liberia Dollar</string>
+    <key>LSL</key>
+    <string>"Lesotho Loti</string>
+    <key>LTL</key>
+    <string>Lithuania Litas</string>
+    <key>LVL</key>
+    <string>Latvia Lat</string>
+    <key>LYD</key>
+    <string>Libya Dinar</string>
+    <key>MAD</key>
+    <string>Morocco Dirham</string>
+    <key>MDL</key>
+    <string>Moldova Leu</string>
+    <key>MGA</key>
+    <string>Madagascar Ariary</string>
+    <key>MKD</key>
+    <string>Macedonia Denar</string>
+    <key>MMK</key>
+    <string>Myanmar (Burma) Kyat</string>
+    <key>MNT</key>
+    <string>Mongolia Tughrik</string>
+    <key>MOP</key>
+    <string>Macau Pataca</string>
+    <key>MRO</key>
+    <string>Mauritania Ouguiya</string>
+    <key>MUR</key>
+    <string>Mauritius Rupee</string>
+    <key>MVR</key>
+    <string>Maldives (Maldive Islands) Rufiyaa</string>
+    <key>MWK</key>
+    <string>Malawi Kwacha</string>
+    <key>MXN</key>
+    <string>Mexico Peso</string>
+    <key>MYR</key>
+    <string>Malaysia Ringgit</string>
+    <key>MZN</key>
+    <string>Mozambique Metical</string>
+    <key>NAD</key>
+    <string>Namibia Dollar</string>
+    <key>NGN</key>
+    <string>Nigeria Naira</string>
+    <key>NIO</key>
+    <string>Nicaragua Cordoba</string>
+    <key>NOK</key>
+    <string>Norway Krone</string>
+    <key>NPR</key>
+    <string>Nepal Rupee</string>
+    <key>NZD</key>
+    <string>New Zealand Dollar</string>
+    <key>OMR</key>
+    <string>Oman Rial</string>
+    <key>PAB</key>
+    <string>Panama Balboa</string>
+    <key>PEN</key>
+    <string>Peru Nuevo Sol</string>
+    <key>PGK</key>
+    <string>Papua New Guinea Kina</string>
+    <key>PHP</key>
+    <string>Philippines Peso</string>
+    <key>PKR</key>
+    <string>Pakistan Rupee</string>
+    <key>PLN</key>
+    <string>Poland Zloty</string>
+    <key>PYG</key>
+    <string>Paraguay Guarani</string>
+    <key>QAR</key>
+    <string>Qatar Riyal</string>
+    <key>RON</key>
+    <string>Romania New Leu</string>
+    <key>RSD</key>
+    <string>Serbia Dinar</string>
+    <key>RUB</key>
+    <string>Russia Ruble</string>
+    <key>RWF</key>
+    <string>Rwanda Franc</string>
+    <key>SAR</key>
+    <string>Saudi Arabia Riyal</string>
+    <key>SBD</key>
+    <string>Solomon Islands Dollar</string>
+    <key>SCR</key>
+    <string>Seychelles Rupee</string>
+    <key>SDG</key>
+    <string>Sudan Pound</string>
+    <key>SEK</key>
+    <string>Sweden Krona</string>
+    <key>SGD</key>
+    <string>Singapore Dollar</string>
+    <key>SHP</key>
+    <string>Saint Helena Pound</string>
+    <key>SLL</key>
+    <string>ierra Leone Leone</string>
+    <key>SOS</key>
+    <string>Somalia Shilling</string>
+    <key>SPL</key>
+    <string>Seborga Luigino</string>
+    <key>SRD</key>
+    <string>Suriname Dollar</string>
+    <key>STD</key>
+    <string>São Tomé and Príncipe Dobra</string>
+    <key>SVC</key>
+    <string>El Salvador Colon</string>
+    <key>SYP</key>
+    <string>Syria Pound</string>
+    <key>SZL</key>
+    <string>Swaziland Lilangeni</string>
+    <key>THB</key>
+    <string>Thailand Baht</string>
+    <key>TJS</key>
+    <string>Tajikistan Somoni</string>
+    <key>TMT</key>
+    <string>Turkmenistan Manat</string>
+    <key>TND</key>
+    <string>Tunisia Dinar</string>
+    <key>TOP</key>
+    <string>Tonga Pa'anga</string>
+    <key>TRY</key>
+    <string>Turkey Lira</string>
+    <key>TTD</key>
+    <string>Trinidad and Tobago Dollar</string>
+    <key>TVD</key>
+    <string>Tuvalu Dollar</string>
+    <key>TWD</key>
+    <string>Taiwan New Dollar</string>
+    <key>TZS</key>
+    <string>Tanzania Shilling</string>
+    <key>UAH</key>
+    <string>Ukraine Hryvna</string>
+    <key>UGX</key>
+    <string>Uganda Shilling</string>
+    <key>USD</key>
+    <string>United States Dollar</string>
+    <key>UYU</key>
+    <string>Uruguay Peso</string>
+    <key>UZS</key>
+    <string>Uzbekistan Som</string>
+    <key>VEF</key>
+    <string>Venezuela Bolivar</string>
+    <key>VND</key>
+    <string>Viet Nam Dong</string>
+    <key>VUV</key>
+    <string>Vanuatu Vatu</string>
+    <key>WST</key>
+    <string>Samoa Tala</string>
+    <key>XAF</key>
+    <string>Communauté Financière Africaine (BEAC) CFA Franc BEAC</string>
+    <key>XCD</key>
+    <string>East Caribbean Dollar</string>
+    <key>XDR</key>
+    <string>International Monetary Fund (IMF) Special Drawing Rights</string>
+    <key>XOF</key>
+    <string>Communauté Financière Africaine (BCEAO) Franc</string>
+    <key>XPF</key>
+    <string>Comptoirs Français du Pacifique (CFP) Franc</string>
+    <key>YER</key>
+    <string>Yemen Rial</string>
+    <key>ZAR</key>
+    <string>South Africa Rand</string>
+    <key>ZMW</key>
+    <string>Zambia Kwacha</string>
+    <key>ZWL</key>
+    <string>Zimbabwe Dollar</string>
+</dict>
 </plist>
+

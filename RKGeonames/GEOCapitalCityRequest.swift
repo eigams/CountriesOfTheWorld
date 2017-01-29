@@ -7,3 +7,17 @@
 //
 
 import Foundation
+
+
+struct GEOCapitalCityRequest {
+    let country: GEOCountry
+    
+    var url: String {
+        guard let north = country.north, let south = country.south, let west = country.west, let east = country.east else { return "" }
+        return "http://api.geonames.org/citiesJSON?north=\(north)&south=\(south)&east=\(east)&west=\(west)&username=sbpuser".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+    }
+    
+    init(country: GEOCountry) {
+        self.country = country
+    }
+}

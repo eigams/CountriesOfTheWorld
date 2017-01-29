@@ -10,11 +10,11 @@ import Foundation
 
 extension NSNumber {
 
-    private var numberFormatter: NSNumberFormatter {
+    fileprivate var numberFormatter: NumberFormatter {
         
         struct Static {
-            static let instance: NSNumberFormatter = {
-                let formatter = NSNumberFormatter()
+            static let instance: NumberFormatter = {
+                let formatter = NumberFormatter()
                 
                 return formatter
                 }()
@@ -23,11 +23,10 @@ extension NSNumber {
         return Static.instance
     }
     
-    func numberFromStringWithStyle(source: String, style: NSNumberFormatterStyle) -> NSNumber {
-        
+    func numberFromStringWithStyle(_ source: String, style: NumberFormatter.Style) -> NSNumber {
         self.numberFormatter.numberStyle = style
         
-        return self.numberFormatter.numberFromString(source)!
+        return self.numberFormatter.number(from: source) ?? NSNumber()
     }
     
 }
