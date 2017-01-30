@@ -10,9 +10,9 @@ import UIKit
 
 class RKGCountryMoreInfoViewController: UIViewController {
 
-    fileprivate var country: CountryGeonames!
+    fileprivate var country: GEOCountry!
     
-    func setCountry(_ country: CountryGeonames) {
+    func setCountry(_ country: GEOCountry) {
         self.country = country
     }
 

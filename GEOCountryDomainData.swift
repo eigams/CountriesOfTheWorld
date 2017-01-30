@@ -9,7 +9,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import RxDataSources
+//import RxDataSources
 
 
 struct GEOCountryDomainDataItem {
@@ -17,19 +17,19 @@ struct GEOCountryDomainDataItem {
     var value: String
 }
 
-struct GEOSectionOfCountryDomainDataItem {
-    var header: String
-    var items: [Item]
-}
-
-extension GEOSectionOfCountryDomainDataItem: SectionModelType {
-    typealias Item = GEOCountryDomainDataItem
-    
-    init(original: GEOSectionOfCountryDomainDataItem, items: [Item]) {
-        self = original
-        self.items = items
-    }
-}
+//struct GEOSectionOfCountryDomainDataItem {
+//    var header: String
+//    var items: [Item]
+//}
+//
+//extension GEOSectionOfCountryDomainDataItem: SectionModelType {
+//    typealias Item = GEOCountryDomainDataItem
+//    
+//    init(original: GEOSectionOfCountryDomainDataItem, items: [Item]) {
+//        self = original
+//        self.items = items
+//    }
+//}
 
 
 protocol GEOCountryDomainData {

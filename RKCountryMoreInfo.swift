@@ -19,7 +19,7 @@ class RKCountryMoreInfo: NSObject {
         return FileManager.default.fileExists(atPath: path.absoluteString ?? "") ? (path.absoluteString ?? "") : ""
     }()
     
-    func detailsForCountry(_ country: CountryGeonames) -> [String: String] {
+    func detailsForCountry(_ country: GEOCountry) -> [String: String] {
         guard self.plistPath.isEmpty else { return [:] }
         
         guard let infos = NSDictionary(contentsOfFile: self.plistPath) as? [String: String] else { return [:] }

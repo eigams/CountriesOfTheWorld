@@ -9,7 +9,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import RxDataSources
+//import RxDataSources
 
 
 class GEOCountryDetailsViewController: UIViewController {
@@ -19,10 +19,27 @@ class GEOCountryDetailsViewController: UIViewController {
     @IBOutlet var sideBarMenu: SideBarMenu!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
+    fileprivate enum MenuItems:Int {
+        case administration
+        case demographic
+        case economic
+        
+        var displayText: String {
+            switch self {
+                case .administration:
+                    return "ADMINISTRATION"
+                case .economic:
+                    return "ECONOMICS"
+                case .demographic:
+                    return "DEMOGRAPHICS"
+            }
+        }
+        
+        static let allValues:[MenuItems] = [.administration, .demographic, .economic]
+    }
+    
     fileprivate enum Constants {
         static let StartYear:Int = 1970
-        
-        static let MenuItems = ["ADMINISTRATION", "DEMOGRAPHICS", "ECONOMICS"]
         static let DefaultMapViewZoomFactor:UInt = 7
     }
     
@@ -58,30 +75,30 @@ class GEOCountryDetailsViewController: UIViewController {
     }
     
     fileprivate func setupSideBarMenu() {
-        sideBarMenu = SideBarMenu(sourceView:view, menuItems: Constants.MenuItems, menuImages: Constants.MenuItems.map{ $0.lowercased() })
+        sideBarMenu = SideBarMenu(sourceView:view, menuItems: MenuItems.allValues.map{ $0.displayText }, menuImages: MenuItems.allValues.map{ $0.displayText.lowercased() })
         sideBarMenu.delegate = self;
         sideBarMenu(sideBarMenu, didSelectItemAtIndex: 0)
     }
 
     fileprivate func setupTableView() {
-        let dataSource = RxTableViewSectionedReloadDataSource<GEOSectionOfCountryDomainDataItem>()
-        dataSource.configureCell = { dataSource, tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryDetailsTableViewCell") ?? UITableViewCell(style: .value2, reuseIdentifier: "Cell")
-            cell.textLabel?.text = item.title
-            cell.detailTextLabel?.text = item.value
-            
-            return cell
-        }
-
-        countryDataObserver.observeOn(MainScheduler.instance)
-                            .flatMapLatest({ items -> Observable<[GEOSectionOfCountryDomainDataItem]> in
-                                .just([GEOSectionOfCountryDomainDataItem(header: "", items: items)])
-                            })
-                            .bindTo(tableView.rx.items(dataSource: dataSource))
-                            .addDisposableTo(disposeBag)
-        
-        tableView.rx.setDelegate(self)
-                    .addDisposableTo(disposeBag)
+//        let dataSource = RxTableViewSectionedReloadDataSource<GEOSectionOfCountryDomainDataItem>()
+//        dataSource.configureCell = { dataSource, tableView, indexPath, item in
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryDetailsTableViewCell") ?? UITableViewCell(style: .value2, reuseIdentifier: "Cell")
+//            cell.textLabel?.text = item.title
+//            cell.detailTextLabel?.text = item.value
+//            
+//            return cell
+//        }
+//
+//        countryDataObserver.observeOn(MainScheduler.instance)
+//                            .flatMapLatest({ items -> Observable<[GEOSectionOfCountryDomainDataItem]> in
+//                                .just([GEOSectionOfCountryDomainDataItem(header: "", items: items)])
+//                            })
+//                            .bindTo(tableView.rx.items(dataSource: dataSource))
+//                            .addDisposableTo(disposeBag)
+//        
+//        tableView.rx.setDelegate(self)
+//                    .addDisposableTo(disposeBag)
     }
     
     fileprivate func setupPickerView() {
@@ -174,10 +191,12 @@ extension GEOCountryDetailsViewController: SideBarMenuDelegate {
         
         pickerView.isHidden = false
         
-        switch index {
-            case 1:
+        let a = MenuItems.allValues.index(where: { $0.rawValue as Int == index }).map { MenuItems.allValues[$0] }
+        
+        switch a! {
+            case .demographic:
                 countryDomainDataType = .demographic(country, selectedPickerYear)
-            case 2:
+            case .economic:
                 countryDomainDataType = .economic(country, selectedPickerYear)
             default:
                 countryDomainDataType = .administration(country, selectedPickerYear)
