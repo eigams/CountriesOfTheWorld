@@ -19,23 +19,23 @@ class GEOCountryDetailsViewController: UIViewController {
     @IBOutlet var sideBarMenu: SideBarMenu!
     @IBOutlet var activityIndicator: UIActivityIndicatorView!
     
-    fileprivate enum MenuItems:Int {
+    fileprivate enum SidebarMenuItem:Int {
         case administration
-        case demographic
-        case economic
+        case demographics
+        case economics
         
         var displayText: String {
             switch self {
                 case .administration:
                     return "ADMINISTRATION"
-                case .economic:
+                case .economics:
                     return "ECONOMICS"
-                case .demographic:
+                case .demographics:
                     return "DEMOGRAPHICS"
             }
         }
         
-        static let allValues:[MenuItems] = [.administration, .demographic, .economic]
+        static let allValues:[SidebarMenuItem] = [.administration, .demographics, .economics]
     }
     
     fileprivate enum Constants {
@@ -75,7 +75,7 @@ class GEOCountryDetailsViewController: UIViewController {
     }
     
     fileprivate func setupSideBarMenu() {
-        sideBarMenu = SideBarMenu(sourceView:view, menuItems: MenuItems.allValues.map{ $0.displayText }, menuImages: MenuItems.allValues.map{ $0.displayText.lowercased() })
+        sideBarMenu = SideBarMenu(sourceView:view, menuItems: SidebarMenuItem.allValues.map{ $0.displayText }, menuImages: SidebarMenuItem.allValues.map{ $0.displayText.lowercased() })
         sideBarMenu.delegate = self;
         sideBarMenu(sideBarMenu, didSelectItemAtIndex: 0)
     }
@@ -191,14 +191,13 @@ extension GEOCountryDetailsViewController: SideBarMenuDelegate {
         
         pickerView.isHidden = false
         
-        let a = MenuItems.allValues.index(where: { $0.rawValue as Int == index }).map { MenuItems.allValues[$0] }
-        
-        switch a! {
-            case .demographic:
+        guard let menuItem = SidebarMenuItem(rawValue: index) else { return }
+        switch menuItem {
+            case .demographics:
                 countryDomainDataType = .demographic(country, selectedPickerYear)
-            case .economic:
+            case .economics:
                 countryDomainDataType = .economic(country, selectedPickerYear)
-            default:
+            case .administration:
                 countryDomainDataType = .administration(country, selectedPickerYear)
                 pickerView.isHidden = true
         }

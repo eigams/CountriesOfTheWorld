@@ -15,16 +15,18 @@ class GEOCountryAdministrationData: GEOCountryDomainData {
     let country: GEOCountry
     let year: String
     
-    fileprivate struct Constants {        
-        struct Sections {
-            static let CapitalCity = "CAPITAL CITY"
-            static let Surface = "SURFACE"
-            static let CurrentTime = "CURRENT TIME"
-            static let TimeZone = "TIMEZONE"
-            static let Sunrise = "SUNRISE"
-            static let Sunset = "SUNSET"
-        }
+    fileprivate enum Sections: String {
+        case capitalCity = "CAPITAL CITY"
+        case surface = "SURFACE"
+        case currentTime = "CURRENT TIME"
+        case timeZone = "TIMEZONE"
+        case sunrise = "SUNRISE"
+        case sunset = "SUNSET"
         
+        static let allValues:[Sections] = [.capitalCity,.surface,.currentTime,.timeZone,.sunrise,.sunset]
+    }
+    
+    fileprivate struct Constants {
         static let square = 0x00B2;
     }
     
@@ -35,8 +37,8 @@ class GEOCountryAdministrationData: GEOCountryDomainData {
     
     func retrieve() -> Observable<[GEOCountryDomainDataItem]> {
         var result:[GEOCountryDomainDataItem] = []
-        result.append(GEOCountryDomainDataItem(title: Constants.Sections.CapitalCity, value: country.capitalCity ?? ""))
-        result.append(GEOCountryDomainDataItem(title: Constants.Sections.Surface, value: String(format:"%@ km%C", country.surfaceArea, Constants.square)))
+        result.append(GEOCountryDomainDataItem(title: Sections.capitalCity.rawValue, value: country.capitalCity ?? ""))
+        result.append(GEOCountryDomainDataItem(title: Sections.surface.rawValue, value: String(format:"%@ km%C", country.surfaceArea, Constants.square)))
         
         let cityRequest = GEOCapitalCityRequest(country: country)
         return GEOHTTPClient.requestCityData(with: cityRequest)
@@ -56,10 +58,10 @@ class GEOCountryAdministrationData: GEOCountryDomainData {
                 return GEOHTTPClient.requestTimezone(with: timezoneRequest)
             }
             .flatMapLatest { timezone -> Observable<[GEOCountryDomainDataItem]> in
-                result.append(GEOCountryDomainDataItem(title: Constants.Sections.CurrentTime, value: timezone.time ?? ""))
-                result.append(GEOCountryDomainDataItem(title: Constants.Sections.TimeZone, value: timezone.asString))
-                result.append(GEOCountryDomainDataItem(title: Constants.Sections.Sunset, value: timezone.sunset ?? ""))
-                result.append(GEOCountryDomainDataItem(title: Constants.Sections.Sunrise, value: timezone.sunrise ?? ""))
+                result.append(GEOCountryDomainDataItem(title: Sections.currentTime.rawValue, value: timezone.time ?? ""))
+                result.append(GEOCountryDomainDataItem(title: Sections.timeZone.rawValue, value: timezone.asString))
+                result.append(GEOCountryDomainDataItem(title: Sections.sunset.rawValue, value: timezone.sunset ?? ""))
+                result.append(GEOCountryDomainDataItem(title: Sections.sunrise.rawValue, value: timezone.sunrise ?? ""))
                 
                 return Observable.just(result)
             }

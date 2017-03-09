@@ -32,6 +32,8 @@ class GEOCountryEconomicData: GEOCountryDomainData {
                 return (section: "GNI per Capita", additionalText: "$", initialText: "N/A")
             }
         }
+        
+        static let allValues:[Indicator] = [.gdp, .gdpPerCapita, .gniPerCapita]
     }
     
     
@@ -48,7 +50,7 @@ class GEOCountryEconomicData: GEOCountryDomainData {
     }
     
     func retrieve() -> Observable<[GEOCountryDomainDataItem]> {
-        var result = Constants.Indicators.map { [unowned self] indicator -> Observable<GEOCountryDomainDataItem> in
+        var result = Indicator.allValues.map { [unowned self] indicator -> Observable<GEOCountryDomainDataItem> in
             guard let request = GEOWorldBankIndicatorRequest(countryCode: self.country.countryCode ?? "", indicator: indicator.rawValue, startYear: self.year, endYear: self.year) else { return Observable.empty() }
             
             let section = indicator.config.section

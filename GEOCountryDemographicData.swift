@@ -35,10 +35,11 @@ class GEOCountryDemographicData: GEOCountryDomainData {
                     return (section: "TOTAL POPULATION", additionalText: String(format:"%C", Constants.PerMilleCharCode), initialText: "N/A")
             }
         }
+        
+        static let allValues:[Indicator] = [.totalPopulation, .populationGrowth, .birthRate, .deathRate]
     }
     
     fileprivate struct Constants {
-        static let Indicators:[Indicator] = [.totalPopulation, .populationGrowth, .birthRate, .deathRate]
         static let PerMilleCharCode:UniChar = 0x2030
     }
     
@@ -48,7 +49,7 @@ class GEOCountryDemographicData: GEOCountryDomainData {
     }
     
     func retrieve() -> Observable<[GEOCountryDomainDataItem]> {
-        let result = Constants.Indicators.map { [unowned self] indicator -> Observable<GEOCountryDomainDataItem> in
+        let result = Indicator.allValues.map { [unowned self] indicator -> Observable<GEOCountryDomainDataItem> in
             guard let request = GEOWorldBankIndicatorRequest(countryCode: self.country.countryCode ?? "", indicator: indicator.rawValue, startYear: self.year, endYear: self.year) else { return Observable.empty() }
             
             let section = indicator.config.section
