@@ -9,7 +9,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-//import RxDataSources
+import RxDataSources
 
 
 class GEOCountryDetailsViewController: UIViewController {
@@ -39,12 +39,13 @@ class GEOCountryDetailsViewController: UIViewController {
     }
     
     fileprivate enum Constants {
-        static let StartYear:Int = 1970
         static let DefaultMapViewZoomFactor:UInt = 7
+        static let CountryDetailsTableViewCell = "CountryDetailsTableViewCell"
     }
     
     fileprivate let disposeBag = DisposeBag()
     
+    fileprivate var viewModel: GEOCountryDetailsViewModel!
     var country: GEOCountry?
     
     fileprivate var pickerViewData: [String]!
@@ -69,6 +70,10 @@ class GEOCountryDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let country = country {
+            viewModel = GEOCountryDetailsViewModel(country: country)
+        }
+        
         setupPickerView()
         setupSideBarMenu()
         setupMapView()        
@@ -81,31 +86,31 @@ class GEOCountryDetailsViewController: UIViewController {
     }
 
     fileprivate func setupTableView() {
-//        let dataSource = RxTableViewSectionedReloadDataSource<GEOSectionOfCountryDomainDataItem>()
-//        dataSource.configureCell = { dataSource, tableView, indexPath, item in
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "CountryDetailsTableViewCell") ?? UITableViewCell(style: .value2, reuseIdentifier: "Cell")
-//            cell.textLabel?.text = item.title
-//            cell.detailTextLabel?.text = item.value
-//            
-//            return cell
-//        }
-//
-//        countryDataObserver.observeOn(MainScheduler.instance)
-//                            .flatMapLatest({ items -> Observable<[GEOSectionOfCountryDomainDataItem]> in
-//                                .just([GEOSectionOfCountryDomainDataItem(header: "", items: items)])
-//                            })
-//                            .bindTo(tableView.rx.items(dataSource: dataSource))
-//                            .addDisposableTo(disposeBag)
-//        
-//        tableView.rx.setDelegate(self)
-//                    .addDisposableTo(disposeBag)
+        let dataSource = RxTableViewSectionedReloadDataSource<GEOSectionOfCountryDomainDataItem>()
+        dataSource.configureCell = { dataSource, tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CountryDetailsTableViewCell) ?? UITableViewCell(style: .value2, reuseIdentifier: "Cell")
+            cell.textLabel?.text = item.title
+            cell.detailTextLabel?.text = item.value
+            
+            return cell
+        }
+
+        countryDataObserver.observeOn(MainScheduler.instance)
+                            .flatMapLatest({ items -> Observable<[GEOSectionOfCountryDomainDataItem]> in
+                                .just([GEOSectionOfCountryDomainDataItem(header: "", items: items)])
+                            })
+                            .bindTo(tableView.rx.items(dataSource: dataSource))
+                            .addDisposableTo(disposeBag)
+        
+        tableView.rx.setDelegate(self)
+                    .addDisposableTo(disposeBag)
     }
     
     fileprivate func setupPickerView() {
-        pickerViewData = (Constants.StartYear...NSCalendar.current.component(.year, from: NSDate() as Date)).reversed().map { "\($0)" }
-        selectedPickerYear = "\(NSCalendar.current.component(.year, from: NSDate() as Date) - 3)"
+        pickerViewData = viewModel.pickerViewData
+        selectedPickerYear = viewModel.initiallySelectedPickerViewYear
         pickerView.reloadAllComponents()
-        pickerView.selectRow(3, inComponent: 0, animated: true)
+        pickerView.selectRow(viewModel.initiallySelectedPickerViewRow, inComponent: 0, animated: true)
     }
     
     fileprivate func setupMapView() {
@@ -159,7 +164,7 @@ extension GEOCountryDetailsViewController: UIPickerViewDelegate, UIPickerViewDat
             pickerRowLabelView?.font = UIFont.arialBoldMTFont(size: 16)
             pickerRowLabelView?.textAlignment = .center
             pickerRowLabelView?.numberOfLines = 1
-            pickerRowLabelView?.textColor = UIColor.white
+            pickerRowLabelView?.textColor = .white
         }
         
         pickerRowLabelView?.text = pickerViewData[row]

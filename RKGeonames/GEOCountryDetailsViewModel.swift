@@ -14,6 +14,10 @@ import RxSwift
 class GEOCountryDetailsViewModel {
     let country: GEOCountry
     
+    fileprivate enum Constants {
+        static let StartYear:Int = 1970
+    }
+    
     init(country: GEOCountry) {
         self.country = country
     }
@@ -28,5 +32,17 @@ class GEOCountryDetailsViewModel {
                                     
                                     return Observable.from(result)
                                 })
+    }
+    
+    var pickerViewData: [String] {
+        return (Constants.StartYear...NSCalendar.current.component(.year, from: NSDate() as Date)).reversed().map { "\($0)" }
+    }
+    
+    var initiallySelectedPickerViewYear: String {
+        return "\(NSCalendar.current.component(.year, from: NSDate() as Date) - 3)"
+    }
+    
+    var initiallySelectedPickerViewRow: Int {
+        return 3
     }
 }
