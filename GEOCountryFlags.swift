@@ -10,14 +10,16 @@ import Foundation
 import RxCocoa
 import RxSwift
 
-class GEOCountryFlags {
-    fileprivate var cache = NSCache<NSString, UIImage>()
+struct GEOCountryFlags {
+    private var cache = NSCache<NSString, UIImage>()
     
-    func flag(for countryCode: String) -> UIImage? {
-        return cache.object(forKey: (countryCode as NSString))
+    subscript(countryCode: String) -> UIImage? {
+        get {
+            return cache.object(forKey: (countryCode as NSString))
+        }
+        
+        set {
+            cache.setObject(newValue ?? UIImage(), forKey: countryCode as NSString)
+        }
     }
-    
-    func addFlag(_ flagImage: UIImage, for countryCode: String) {
-        cache.setObject(flagImage, forKey: countryCode as NSString)
-    }    
 }

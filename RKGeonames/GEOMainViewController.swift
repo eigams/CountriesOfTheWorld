@@ -34,7 +34,7 @@ class GEOMainViewController: UITableViewController {
             countries.forEach {
                 GEOHTTPClient.requestCountryFlag(with: GEOCountryFlagRequest(country: $0))
                     .subscribe(onNext: { [unowned self] (image: (String, UIImage)) in
-                        self.countryFlagsCache.addFlag(image.1, for: image.0)
+                        self.countryFlagsCache[image.0] = image.1
                         if let index = self.countries.index(where: { $0.countryCode == image.0 }) {
                             self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
                         } else {
@@ -102,10 +102,10 @@ extension GEOMainViewController {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "GEOMainTableViewCell",for: indexPath) as? GEOMainTableViewCell {
             if let isActive = searchController?.isActive, isActive == true {
                 if let filteredTableData = filteredTableData {
-                    cell.configure(with: filteredTableData[indexPath.row], flag: countryFlagsCache.flag(for: filteredTableData[indexPath.row].countryCode ?? "") ?? UIImage())
+                    cell.configure(with: filteredTableData[indexPath.row], flag: countryFlagsCache[filteredTableData[indexPath.row].countryCode ?? ""] ?? UIImage())
                 }
             } else {
-                cell.configure(with: countries[indexPath.row], flag: countryFlagsCache.flag(for: countries[indexPath.row].countryCode ?? "") ?? UIImage())
+                cell.configure(with: countries[indexPath.row], flag: countryFlagsCache[countries[indexPath.row].countryCode ?? ""] ?? UIImage())
             }
             
             cell.backgroundColor = UIColor.colorForIndex(UInt(indexPath.row), of: UInt(self.countries.count))
@@ -143,7 +143,7 @@ extension GEOMainViewController: UISearchResultsUpdating {
     }
 }
 
-extension UIColor {
+private extension UIColor {
     static func colorForIndex(_ index: UInt, of totalItems: UInt) -> UIColor {
         var indexDiv = index % 10
         if indexDiv > 5 {
